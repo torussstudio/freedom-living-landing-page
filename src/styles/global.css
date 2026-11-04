@@ -60,7 +60,7 @@ p{margin:0}
 .count{display:inline-flex;align-items:center;justify-content:center;min-width:76px;padding:.5em 1em;border-radius:999px;background:var(--sand);border:1px solid var(--sand-line);color:var(--ink);letter-spacing:.08em;font-variant-numeric:tabular-nums}
 .on-grad .kicker{color:rgba(255,248,230,.85)}
 .on-grad .count{background:transparent;border-color:rgba(255,248,230,.6);color:#FFF8E6}
-.dash{display:block;width:64px;height:3px;border-radius:3px;background:var(--crimson);margin-top:26px}
+.dash{display:none;width:64px;height:3px;border-radius:3px;background:var(--crimson);margin-top:26px}
 .on-grad .dash{background:#FFF8E6}
 .h2{font-size:var(--t-h2);font-weight:400;margin-top:26px}
 .h2 em{font-style:normal;color:var(--crimson)}
@@ -71,7 +71,7 @@ p{margin:0}
   background-image:radial-gradient(rgba(255,240,200,.35) 1.2px,transparent 1.6px);background-size:44px 44px}
 .btn{display:inline-flex;align-items:center;gap:.7em;font:700 1rem/1 var(--body);letter-spacing:.02em;padding:1.05em 1.7em;border-radius:999px;border:1.5px solid var(--crimson);background:var(--crimson);color:#FFF8E6;text-decoration:none;cursor:pointer;transition:transform .6s var(--ease),background .4s,color .4s,border-color .4s;white-space:nowrap}
 .btn:hover{transform:translateY(-2px);background:var(--crimson-deep);border-color:var(--crimson-deep)}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent; width:max-content; color:var(--ink);border-color:var(--ink)}
 .btn.ghost:hover{background:var(--ink);color:var(--cream)}
 .btn.cream{background:#FFF8E6;color:var(--crimson-deep);border-color:#FFF8E6}
 .btn.cream:hover{background:var(--sun);border-color:var(--sun);color:var(--plum)}
@@ -146,7 +146,7 @@ p{margin:0}
 .statement em{font-style:normal;color:var(--crimson)}
 .pic{display:inline-block;width:2.3em;height:1em;border-radius:999px;overflow:hidden;vertical-align:-.12em;margin:0 .08em;transition:width 1s var(--ease)}
 .pic img{width:100%;height:100%;object-fit:cover}
-.statement .row{display:flex;flex-wrap:wrap;gap:24px 56px;align-items:center;margin-top:56px}
+.statement .row{display:flex; flex-direction:column; flex-wrap:wrap;gap:24px 56px;align-items:left;margin-top:56px}
 
 /* ───────── THE IDEA ───────── */
 .idea-grid{display:grid;gap:56px}
@@ -156,7 +156,7 @@ p{margin:0}
 .pillar svg{width:64px;height:64px;color:var(--ink);grid-row:span 2}
 .pillar h3{font-size:var(--t-h3);color:var(--ink)}
 .pillar p{color:var(--ink-soft);max-width:32em}
-.idea-photo{margin-top:44px;border-radius:28px 28px 28px 200px;overflow:hidden;aspect-ratio:5/4}
+.idea-photo{margin-top:44px;border-radius:28px 28px 28px 200px;overflow:hidden;aspect-ratio:2/1}
 .idea-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 
 /* ───────── AT A GLANCE (deck slide 08) ───────── */
@@ -167,22 +167,38 @@ p{margin:0}
 .glance-grid{display:grid;gap:40px;margin-top:64px;align-items:center}
 @media (min-width:1000px){.glance-grid{grid-template-columns:1fr minmax(320px,440px) 1fr;gap:0}}
 .glance-img{position:relative;justify-self:center;width:min(100%,440px)}
-.gstats{display:grid;gap:clamp(48px,8vw,140px)}
+/* the render has a slightly lighter backdrop than the section — feather its edges so no box shows */
+.glance-img img{display:block;width:100%;height:auto;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(to bottom,transparent,#000 7%,#000 88%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(to bottom,transparent,#000 7%,#000 88%,transparent);
+  mask-composite:intersect}
+.gstats{--num:clamp(3rem,5.4vw,5.2rem);position:relative;z-index:2;display:grid;gap:clamp(48px,8vw,140px)}
 .gstat{position:relative;display:grid;gap:6px}
-.gstat b{font:400 clamp(3rem,5.4vw,5.2rem)/1 var(--display);color:var(--crimson);letter-spacing:-.03em}
+.gstat b{font:400 var(--num)/1 var(--display);color:var(--crimson);letter-spacing:-.03em}
 .gstat b small{font:500 .36em var(--display);letter-spacing:0;margin-left:.2em}
 .gstat span{font-weight:700;font-size:1.06rem}
 .gstat i{font-style:normal;color:var(--ink-soft);font-size:.96rem}
 .gstat .conn{display:none}
 @media (min-width:1000px){
+  /* both columns are mirror images: text hugs the render, a ringed connector links it to the building */
+  .gstats{--gap:24px;--reach:46px}
+  .gstats.l .gstat{padding-right:44px;text-align:right;justify-items:end}
   .gstats.r .gstat{padding-left:44px}
-  .gstat .conn{display:block;position:absolute;top:.85em;height:1.5px;background:var(--crimson);transform-origin:var(--o,left);transform:scaleX(0);transition:transform 1.4s var(--ease)}
-  .gstats.l .gstat .conn{left:calc(100% - 20px);width:min(8vw,110px);--o:left}
-  .gstats.r .gstat .conn{right:calc(100% - 24px);width:min(8vw,110px);--o:right}
+  .gstat .conn{display:block;position:absolute;top:calc(var(--num) * .5);height:1.5px;background:var(--crimson);
+    width:calc(var(--gap) + var(--reach));transform:scaleX(0);transition:transform 1.2s var(--ease)}
+  .gstats.l .gstat .conn{left:calc(100% - var(--gap));transform-origin:left}
+  .gstats.r .gstat .conn{right:calc(100% - var(--gap));transform-origin:right}
+  /* ring at the text end */
   .gstat .conn::before{content:"";position:absolute;top:-6px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--crimson);background:#FBF4E4}
   .gstats.l .conn::before{left:-12px}
   .gstats.r .conn::before{right:-12px}
+  /* solid pin on the building end */
+  .gstat .conn::after{content:"";position:absolute;top:-2.75px;width:7px;height:7px;border-radius:50%;background:var(--crimson);opacity:0;transition:opacity .4s ease 1s}
+  .gstats.l .conn::after{right:-3px}
+  .gstats.r .conn::after{left:-3px}
   .glance-grid.in .conn{transform:scaleX(1)}
+  .glance-grid.in .conn::after{opacity:1}
 }
 @media (max-width:999px){.gstats{grid-template-columns:1fr 1fr;gap:36px 24px}}
 
