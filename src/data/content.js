@@ -90,12 +90,6 @@ export const FAQ = [
   ['What about pricing and ownership?', "We share pricing, ownership terms and current availability one to one, so the details are accurate for the home you're interested in. Book a visit or send an enquiry and our team will call you."],
 ]
 
-export const JOURNEY = [
-  ['Palakkad', 'Under construction. The first Freedom Living community.'],
-  ['Thrissur', 'Being explored as the next location.'],
-  ['Across Kerala', 'More communities in other districts in time.'],
-]
-
 /* Floor plans. `box` = hotspot on the architect's plan image, in % [left, top, width, height] (placed by eye). */
 export const PLANS = {
   F: { src: planTypical, alt: "Architect's floor plan of a typical floor with twelve studio homes", cap: 'Typical floor plan (floors 1, 2 and 3)' },

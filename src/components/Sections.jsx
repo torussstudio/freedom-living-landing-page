@@ -1,5 +1,5 @@
 import { Dash, Kicker, Logo } from './Brand.jsx'
-import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ, JOURNEY, STEPS } from '../data/content.js'
+import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ, STEPS } from '../data/content.js'
 import mapImg from '../assets/img/map.webp'
 import sketch from '../assets/img/sketch.webp'
 import md from '../assets/img/md.webp'
@@ -137,13 +137,7 @@ export function Footer() {
   const go = (e, h) => { e.preventDefault(); scrollTo(h) }
   return (
     <footer>
-      <div className="foot-band" aria-hidden="true" />
       <div className="wrap">
-        <div className="journey">
-          {JOURNEY.map(([h, p], i) => (
-            <div className="jn rv" style={{ '--d': `${i * 0.1}s` }} key={h}><span className="c">{pad(i + 1)}</span><h4>{h}</h4><p>{p}</p></div>
-          ))}
-        </div>
         <div className="foot">
           <div className="foot-top">
             <div><Logo /><p className="m">Live free. Age gracefully.</p></div>
