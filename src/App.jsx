@@ -29,18 +29,17 @@ function Page() {
       <Nav />
       <main id="top">
         <Hero />
-        <Statement />
-        <Idea />
         <Glance />
         <Gallery />
         <Levels />
         <FloorPlans onAskAbout={askAbout} />
-        <Care />
-        <Day />
         <LocationProgress />
+        <Statement />
+        <Idea />
+        <Care />
         <Vision />
         <FamiliesFaq />
-        <Visit mode={mode} setMode={setMode} prefill={prefill} />
+
       </main>
       <Footer />
     </>

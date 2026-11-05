@@ -1,4 +1,6 @@
-
+/* Layout concept: the investor deck turned into a scroll — sunset-gradient
+   "cover" panels alternate with calm cream "slides"; arches, hairlines with
+   circle terminals and pill counters carry the deck's language onto the web. */
 @font-face{font-family:"Recife Display";src:local("Recife Display"),local("RecifeDisplay-Regular"),local("Recife Display Regular"),url("/fonts/RecifeDisplay-400.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Recife Display";src:local("Recife Display Light"),local("RecifeDisplay-Light"),url("/fonts/RecifeDisplay-300.woff2") format("woff2");font-weight:300;font-display:swap}
 @font-face{font-family:"Recife Display";src:local("Recife Display Medium"),local("RecifeDisplay-Medium"),url("/fonts/RecifeDisplay-500.woff2") format("woff2");font-weight:500;font-display:swap}
@@ -133,12 +135,13 @@ p{margin:0}
 .hero-head{margin:auto 0}
 .hero-head .kicker{margin-bottom:clamp(14px,3svh,32px)}
 
-/* One composition on every screen: the headline is a 9em-wide block that scales with the content width
-   (100cqw / 9), so "Live [film] free." sits left and "Age gracefully." hangs right in the same proportions
-   from phone to 4K. On short, wide windows it's capped by height and the whole block just shrinks. */
-.hero h1{margin:0;width:9em;max-width:100%;font-size:min(calc(100cqw / 9),21svh);font-weight:300;line-height:.9;letter-spacing:-.04em}
+/* One composition on every screen: line 1 "Live [film] free." starts flush left, line 2 "Age gracefully."
+   is indented 1.55em under it (a gentle stagger, not pushed to the far right). The block is 7.2em wide and
+   scales with the content width (100cqw / 7.2), so the stagger holds from phone to 4K; on short windows the
+   height cap (19svh) wins and the whole block just shrinks. Tweak the stagger with --l2-indent. */
+.hero h1{--l2-indent:1.55em;margin:0;width:7.2em;max-width:100%;font-size:min(calc(100cqw / 7.2),19svh);font-weight:300;line-height:1.04;letter-spacing:-.04em}
 .hl{display:block}
-.hl.l2{text-align:right;color:var(--sun)}
+.hl.l2{padding-left:var(--l2-indent);color:var(--sun)}
 .hw{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .08em .18em 0;margin:-.06em -.08em -.18em 0}
 .hw>span{display:block;transform:translateY(112%) rotate(5deg);transform-origin:0 100%}
 .hero.go .hw>span{animation:hrise 1.35s var(--ease) both;animation-delay:var(--d,0s)}
@@ -238,21 +241,34 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
   mask-image:linear-gradient(to right,transparent,#000 14%,#000 86%,transparent),linear-gradient(to bottom,transparent,#000 7%,#000 88%,transparent);
   mask-composite:intersect}
 .gstats{--num:clamp(3rem,5.4vw,5.2rem);position:relative;z-index:2;display:grid;gap:clamp(48px,8vw,140px)}
-.gstat{position:relative;display:grid;gap:6px}
+.gstat{position:relative;display:grid}
+.gtext{display:grid;gap:6px}
 .gstat b{font:400 var(--num)/1 var(--display);color:var(--crimson);letter-spacing:-.03em}
 .gstat b small{font:500 .36em var(--display);letter-spacing:0;margin-left:.2em}
 .gstat span{font-weight:700;font-size:1.06rem}
 .gstat i{font-style:normal;color:var(--ink-soft);font-size:.96rem}
 .gstat .conn{display:none}
 @media (min-width:1000px){
-  /* both columns are mirror images: text hugs the render, a ringed connector links it to the building */
-  .gstats{--gap:24px;--reach:46px}
-  .gstats.l .gstat{padding-right:44px;text-align:right;justify-items:end}
-  .gstats.r .gstat{padding-left:44px}
-  .gstat .conn{display:block;position:absolute;top:calc(var(--num) * .5);height:1.5px;background:var(--crimson);
-    width:calc(var(--gap) + var(--reach));transform:scaleX(0);transition:transform 1.2s var(--ease)}
-  .gstats.l .gstat .conn{left:calc(100% - var(--gap));transform-origin:left}
-  .gstats.r .gstat .conn{right:calc(100% - var(--gap));transform-origin:right}
+  /* both columns are mirror images: the stats sit at the outer edges of the page and a ringed
+     connector stretches across the leftover space to the building, so the lines grow with the
+     screen instead of leaving blank space on the sides.
+     Each column is a 2-track grid (text | line); the stats share it via subgrid, so the two numbers
+     in a column stay aligned and their lines are the same length. */
+  /* --bal (set by Glance.jsx): the left stats are narrower than the right ones, which leaves more blank
+     space on the left. Slide the whole grid left by half the difference so both outer margins match. */
+  .glance-grid{transform:translateX(calc(-1 * var(--bal, 0px)))}
+  .gstats{--gap:20px;--reach:46px;--min-line:44px;column-gap:0}
+  .gstats.l{grid-template-columns:var(--tw,max-content) minmax(var(--min-line),1fr)}
+  .gstats.r{grid-template-columns:minmax(var(--min-line),1fr) var(--tw,max-content)}
+  .gstat{grid-column:1/-1;grid-template-columns:subgrid}
+  .gtext{width:max-content}
+  .gstat b{white-space:nowrap}
+  .gstats.l .gtext{grid-column:1;justify-self:end;text-align:right;justify-items:end}
+  .gstats.r .gtext{grid-column:2;justify-self:start}
+  .gstat .conn{display:block;position:relative;grid-row:1;align-self:start;margin-top:calc(var(--num) * .5);height:1.5px;background:var(--crimson);
+    transform:scaleX(0);transition:transform 1.2s var(--ease)}
+  .gstats.l .gstat .conn{grid-column:2;margin-left:var(--gap);margin-right:calc(-1 * var(--reach));transform-origin:left}
+  .gstats.r .gstat .conn{grid-column:1;margin-right:var(--gap);margin-left:calc(-1 * var(--reach));transform-origin:right}
   /* ring at the text end */
   .gstat .conn::before{content:"";position:absolute;top:-6px;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--crimson);background:#FBF4E4}
   .gstats.l .conn::before{left:-12px}
@@ -320,16 +336,21 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 .lift b{color:#FFF8E6}
 .lv-right{padding:clamp(72px,10vw,150px) var(--gutr) clamp(72px,10vw,150px) var(--gut)}
 @media (min-width:1000px){.lv-right{padding-left:80px;padding-right:max(56px,env(safe-area-inset-right,0px))}}
-.tl{position:relative;list-style:none;margin:0;padding:0}
-.tl::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:1.5px;background:var(--line)}
-.tl::after{content:"";position:absolute;left:11px;top:14px;width:1.5px;background:var(--crimson);height:var(--h,0%);max-height:calc(100% - 28px);transition:height .2s linear}
+.tl{--ico:clamp(50px,4.4vw,62px);position:relative;list-style:none;margin:0;padding:0}
+/* rail + fill run between the first and last dot centres (--t0 / --len / --fill set by Levels.jsx) */
+.tl::before{content:"";position:absolute;left:11px;top:var(--t0,18px);height:var(--len,0px);width:1.5px;background:var(--line)}
+.tl::after{content:"";position:absolute;left:11px;top:var(--t0,18px);width:1.5px;background:var(--crimson);height:var(--fill,0px);transition:height .2s linear}
 .tl>li{position:relative;padding:0 0 56px 64px}
 .tl>li:last-child{padding-bottom:0}
-.tl .node{position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--crimson);background:var(--cream);transition:background .5s}
+.tl .node{position:absolute;left:0;top:calc(var(--ico) / 2 - 12px);width:24px;height:24px;border-radius:50%;border:1.5px solid var(--crimson);background:var(--cream);transition:background .5s}
 .tl .node::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--crimson);transform:scale(0);transition:transform .6s var(--ease)}
 .tl li.on .node::after{transform:scale(1)}
-.tl .lvl{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
-.tl .lvl b{font:300 clamp(2.4rem,4vw,3.4rem)/1 var(--display);color:var(--crimson);letter-spacing:-.02em;min-width:1.4em}
+.tl .lvl{display:flex;align-items:center;gap:clamp(14px,1.6vw,22px);flex-wrap:wrap}
+/* level icon badge (icons in Levels.jsx); fills red as its level becomes active, in step with the dot */
+.lv-ico{flex:none;display:grid;place-items:center;width:var(--ico);aspect-ratio:1;border-radius:50%;
+  background:var(--cream-2);border:1px solid var(--line);color:var(--crimson);transition:background .5s,color .5s,border-color .5s}
+.lv-ico svg{width:54%;height:54%}
+.tl li.on .lv-ico{background:var(--crimson);border-color:var(--crimson);color:#FFF8E6}
 .tl .lvl h3{font-size:var(--t-h3)}
 .tl p{color:var(--ink-soft);margin-top:10px;max-width:34em}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
