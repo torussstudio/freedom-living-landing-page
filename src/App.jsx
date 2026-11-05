@@ -30,10 +30,10 @@ function Page() {
       <main id="top">
         <Hero />
         <Glance />
-        <Gallery />
         <Levels />
         <FloorPlans onAskAbout={askAbout} />
         <LocationProgress />
+        <Gallery />
         <Statement />
         <Idea />
         <Care />

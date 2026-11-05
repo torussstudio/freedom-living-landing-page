@@ -14,10 +14,6 @@ const Stat = ({ big, unit, label, note, d }) => (
 )
 
 export default function Glance() {
-  /* Give both side columns the width of the widest stat (--tw), so the left and right
-     connector lines come out the same length and the layout stays mirrored.
-     --bal = half the difference between the widest right stat and the widest left stat: the grid
-     slides left by that much so the blank space on the far left and far right comes out equal. */
   const grid = useRef(null)
   useEffect(() => {
     const g = grid.current

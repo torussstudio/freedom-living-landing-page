@@ -3,14 +3,6 @@ import seniors from '../assets/img/seniors.webp'
 import heroBg from '../assets/img/hero-bg.webp'
 import { prefersReducedMotion, useLenis, useScrollFrame, useScrollTo } from '../hooks/SmoothScroll.jsx'
 
-/* ───────────────────────────── YOUR FILM ─────────────────────────────
-   Drop the video into /public/videos/ and it plays automatically.
-     hero.mp4   (H.264, required)      hero.webm (optional, smaller on Chrome/Firefox)
-   Tips: 16:9, 1920×1080, 8–20 seconds, loops seamlessly, no audio needed
-   (it autoplays muted; visitors can switch sound on), under ~8 MB.
-   Until the file exists the poster image below is shown instead.            */
-/* hero-video.mp4 is picked up from either place, whichever you used:
-     src/assets/videos/hero-video.mp4  (bundled + cache-busted by Vite)  or  public/videos/hero-video.mp4 */
 const bundled = import.meta.glob('../assets/videos/hero-video.mp4', { eager: true, query: '?url', import: 'default' })
 const FILM = {
   mp4: Object.values(bundled)[0] || '/videos/hero-video.mp4',
