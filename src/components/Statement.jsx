@@ -28,7 +28,7 @@ export default function Statement() {
   return (
     <section className="statement sec">
       <div className="wrap">
-        <Kicker count="02 / 11" className="rv">Why Freedom Living</Kicker>
+        <Kicker className="rv">Why Freedom Living</Kicker>
         <p id="stmt" ref={ref} style={{ marginTop: 44 }}>
           {TOKENS.map((t, i) => {
             const cls = `w${i < lit ? ' on' : ''}`

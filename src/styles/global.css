@@ -1,6 +1,4 @@
-/* Layout concept: the investor deck turned into a scroll — sunset-gradient
-   "cover" panels alternate with calm cream "slides"; arches, hairlines with
-   circle terminals and pill counters carry the deck's language onto the web. */
+
 @font-face{font-family:"Recife Display";src:local("Recife Display"),local("RecifeDisplay-Regular"),local("Recife Display Regular"),url("/fonts/RecifeDisplay-400.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Recife Display";src:local("Recife Display Light"),local("RecifeDisplay-Light"),url("/fonts/RecifeDisplay-300.woff2") format("woff2");font-weight:300;font-display:swap}
 @font-face{font-family:"Recife Display";src:local("Recife Display Medium"),local("RecifeDisplay-Medium"),url("/fonts/RecifeDisplay-500.woff2") format("woff2");font-weight:500;font-display:swap}
@@ -57,9 +55,7 @@ p{margin:0}
 
 /* deck vocabulary */
 .kicker{display:flex;align-items:center;gap:14px;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
-.count{display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;min-width:76px;padding:.5em 1em;border-radius:999px;background:var(--sand);border:1px solid var(--sand-line);color:var(--ink);letter-spacing:.08em;font-variant-numeric:tabular-nums}
 .on-grad .kicker{color:rgba(255,248,230,.85)}
-.on-grad .count{background:transparent;border-color:rgba(255,248,230,.6);color:#FFF8E6}
 .dash{display:block;width:64px;height:3px;border-radius:3px;background:var(--crimson);margin-top:26px}
 .on-grad .dash{background:#FFF8E6}
 .h2{font-size:var(--t-h2);font-weight:400;margin-top:26px}
@@ -116,17 +112,31 @@ p{margin:0}
 .hero-pin{position:relative;height:calc(100vh + var(--runway));height:calc(100svh + var(--runway))}
 .hero-stage{--t:1;--ui:0;--p:0;position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
   padding:calc(clamp(78px,11svh,104px) + env(safe-area-inset-top,0px)) max(var(--gutr),min(64px,4.4vw)) calc(clamp(20px,4svh,40px) + env(safe-area-inset-bottom,0px)) max(var(--gut),min(64px,4.4vw))}
-.hero .wm{position:absolute;left:-8vw;bottom:-10vw;width:min(70vw,980px);color:var(--plum);opacity:.38;pointer-events:none}
-.hero .wm .bird{width:100%}
-.hero-copy{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;opacity:var(--t)}
+/* background image (src/assets/img/hero-bg.webp) replaces the gradient + bird watermark */
+.hero-stage{background:var(--plum)}
+/* dot pattern over the photo; Hero.jsx moves it with the scroll (--dy) */
+.hero-dots{position:absolute;left:0;right:0;top:0;bottom:-44px;z-index:0;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(rgba(255,240,200,.35) 1.2px,transparent 1.6px);background-size:44px 44px;
+  transform:translate3d(0,var(--dy,0px),0);will-change:transform}
+.hero.rm .hero-dots{transform:none}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+  transform:scale(1.08);transition:transform 2.6s var(--ease)}
+.hero.go .hero-bg img{transform:scale(1)}
+.hero-bg::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(40,8,24,.5) 0%,rgba(40,8,24,0) 26%,rgba(40,8,24,0) 52%,rgba(40,8,24,.6) 100%),
+    linear-gradient(90deg,rgba(40,8,24,.35) 0%,rgba(40,8,24,0) 55%)}
+@media (max-width:700px){.hero-bg::after{background:linear-gradient(180deg,rgba(40,8,24,.5) 0%,rgba(40,8,24,.15) 35%,rgba(40,8,24,.65) 100%)}}
+.hero-copy{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;opacity:var(--t);container-type:inline-size}
 
-.hero-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 16px}
-.h-status{display:inline-flex;align-items:center;gap:.6em;padding:.55em 1.1em;border:1px solid rgba(255,248,230,.55);border-radius:999px;background:rgba(94,26,62,.2);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font-size:.88rem;font-weight:600}
-.h-status b{color:var(--sun);font-weight:700}
-.h-status i{width:8px;height:8px;border-radius:50%;background:var(--sun);animation:hpulse 2.2s ease-out infinite}
-@keyframes hpulse{0%{box-shadow:0 0 0 0 rgba(246,222,62,.65)}70%,100%{box-shadow:0 0 0 11px rgba(246,222,62,0)}}
+.hero-head{margin:auto 0}
+.hero-head .kicker{margin-bottom:clamp(14px,3svh,32px)}
 
-.hero h1{margin:auto 0;font-size:clamp(3.4rem,min(11.8vw,21svh),14rem);font-weight:300;line-height:.9;letter-spacing:-.04em}
+/* One composition on every screen: the headline is a 9em-wide block that scales with the content width
+   (100cqw / 9), so "Live [film] free." sits left and "Age gracefully." hangs right in the same proportions
+   from phone to 4K. On short, wide windows it's capped by height and the whole block just shrinks. */
+.hero h1{margin:0;width:9em;max-width:100%;font-size:min(calc(100cqw / 9),21svh);font-weight:300;line-height:.9;letter-spacing:-.04em}
 .hl{display:block}
 .hl.l2{text-align:right;color:var(--sun)}
 .hw{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .08em .18em 0;margin:-.06em -.08em -.18em 0}
@@ -134,7 +144,11 @@ p{margin:0}
 .hero.go .hw>span{animation:hrise 1.35s var(--ease) both;animation-delay:var(--d,0s)}
 @keyframes hrise{from{transform:translateY(112%) rotate(5deg)}to{transform:none}}
 /* the pill the film sits in */
-.slot{display:inline-block;width:1.9em;height:.7em;vertical-align:.02em;border:1.5px solid rgba(255,248,230,.4);border-radius:999px}
+/* --slot-nudge evens out the gaps: the "e" of "Live" sits tight to its edge while the "f" of "free."
+   has a wide left bearing, so the pill gets a touch of extra space on its left. Raise/lower to taste. */
+/* --slot-drop: optical vertical centring. Measured cap-height centre looks high because the words are
+   mostly lowercase ("ive", "ree"), so the pill sits a little lower, between the cap and x-height centres. */
+.slot{--slot-nudge:.035em;--slot-drop:.07em;display:inline-block;width:1.9em;height:.7em;vertical-align:calc(.02em - var(--slot-drop));margin-left:var(--slot-nudge);border:1.5px solid rgba(255,248,230,.4);border-radius:999px}
 
 .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:clamp(18px,3.5svh,36px)}
 .hero .lead{margin:0;max-width:30em;font-size:clamp(1rem,1.2vw,1.2rem);color:rgba(255,248,230,.9)}
@@ -169,17 +183,11 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 
 /* short laptop windows: lose the paragraph, keep the headline + film big */
 @media (min-width:900px) and (max-height:640px){.hero .lead{display:none}}
-/* portrait tablets: more height than width, so let the headline grow */
-@media (min-width:701px) and (max-width:1100px) and (orientation:portrait){.hero h1{font-size:clamp(4rem,min(13.5vw,15svh),10rem)}}
 /* phones */
 @media (max-width:700px){
   .hero{--runway:80vh;--runway:80svh}
-  .hero h1{font-size:clamp(3.2rem,min(16.5vw,14svh),6.4rem)}
-  .slot{width:1.45em}
-  .hl.l2{text-align:left}
   .hero-bottom{display:block}
   .cue{display:none}
-  .h-status{font-size:.8rem}
 }
 /* reduced motion: no pin, no autoplay. Headline, then the film as a normal framed video */
 .hero.rm .hero-pin{height:auto}
@@ -189,7 +197,8 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 .hero.rm .slot{display:none}
 .hero.rm .film{position:relative;width:100%;height:auto;aspect-ratio:16/9;border-radius:28px;margin-top:40px}
 .hero.rm .film::after{display:none}
-@media (prefers-reduced-motion:reduce){.cue-ring,.cue-arr,.h-status i{animation:none}}
+.hero.rm .hero-bg img{transform:none;transition:none}
+@media (prefers-reduced-motion:reduce){.cue-ring,.cue-arr{animation:none}}
 
 /* ───────── STATEMENT (words + image pills) ───────── */
 .statement{text-align:center}
@@ -271,7 +280,6 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 .hgal{--ph:clamp(220px,calc(100svh - 360px),680px);--endpad:max(56px,env(safe-area-inset-right,0px));position:relative;background:var(--ink);color:var(--cream)}
 .hgal-sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3.4vh,44px);padding-top:calc(clamp(72px,9vh,92px) + env(safe-area-inset-top,0px));padding-bottom:max(clamp(20px,3.6vh,38px),env(safe-area-inset-bottom,0px))}
 .hgal .kicker{color:rgba(250,247,238,.7)}
-.hgal .count{background:transparent;color:var(--cream);border-color:rgba(250,247,238,.4)}
 .hgal-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px}
 .hgal-head .h2{color:var(--cream);margin-top:clamp(10px,2vh,18px)}
 .hgal-head .h2 em{color:var(--sun)}
@@ -387,11 +395,10 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 
 /* ───────── A DAY (deck slide 14 timeline) ───────── */
 .day{position:relative;overflow:hidden}
-.day .bg{position:absolute;left:0;right:0;bottom:0;height:clamp(140px,18vw,300px);background:url('../assets/img/backwaters.webp') center bottom/cover no-repeat;opacity:.9;pointer-events:none}
-.day-row{position:relative;display:grid;gap:0;margin-top:72px;padding-bottom:clamp(140px,16vw,280px)}
+.day-row{position:relative;display:grid;gap:0;margin-top:72px}
 @media (min-width:1000px){.day-row{grid-template-columns:repeat(6,1fr)}}
 .day-row::before{content:"";position:absolute;left:0;right:0;top:38px;height:1.5px;background:linear-gradient(90deg,var(--crimson),rgba(213,47,58,.25))}
-@media (max-width:999px){.day-row::before{left:37px;right:auto;top:0;bottom:clamp(140px,16vw,280px);width:1.5px;height:auto}}
+@media (max-width:999px){.day-row::before{left:37px;right:auto;top:0;bottom:0;width:1.5px;height:auto}}
 .moment{position:relative;padding:0 18px 0 0}
 .moment .dot{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:var(--sand);border:1px solid var(--crimson);box-shadow:0 0 0 8px var(--cream),0 0 30px 10px rgba(240,140,90,.25);font:400 1.05rem/1 var(--display);color:var(--crimson);position:relative}
 .moment h3{font-size:1.45rem;margin:26px 0 10px}

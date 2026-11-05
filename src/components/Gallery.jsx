@@ -59,7 +59,7 @@ export default function Gallery() {
       <div className="hgal-sticky">
         <div className="wrap hgal-head">
           <div>
-            <div className="kicker"><span className="count">05 / 11</span><span>The building</span></div>
+            <div className="kicker"><span>The building</span></div>
             <h2 className="h2">Warm walls, <em>wide balconies.</em></h2>
           </div>
           <p>Architect's renders of Freedom Living from every side. Scroll to walk around the building.</p>

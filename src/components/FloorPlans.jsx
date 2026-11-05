@@ -17,7 +17,7 @@ export default function FloorPlans({ onAskAbout }) {
   return (
     <section className="plans sec" id="plans">
       <div className="wrap">
-        <Kicker count="07 / 11" className="rv">Floor plans</Kicker>
+        <Kicker className="rv">Floor plans</Kicker>
         <h2 className="h2 rv">Eighteen ways <em>to be at home.</em></h2>
         <Dash />
         <p className="lead rv" style={{ marginTop: 30 }}>

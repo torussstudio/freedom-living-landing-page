@@ -23,7 +23,7 @@ export default function Levels() {
     <section className="levels" aria-labelledby="lvh">
       <div className="lv-left grad on-grad">
         <div className="in-stick">
-          <div className="kicker"><span className="count">06 / 11</span><span>Level by level</span></div>
+          <div className="kicker"><span>Level by level</span></div>
           <h2 className="h2" id="lvh">One address. A whole life, stacked gently.</h2>
           <Dash />
           <p className="lead">Homes in the middle, food and friends above, care at the front door, and the sky on the roof.</p>

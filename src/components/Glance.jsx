@@ -16,7 +16,7 @@ export default function Glance() {
       <div className="wrap">
         <div className="glance-head">
           <div>
-            <Kicker count="04 / 11" className="rv">Freedom Living at a glance</Kicker>
+            <Kicker className="rv">Freedom Living at a glance</Kicker>
             <h2 className="h2 rv">The first <em>Freedom Living</em> community.</h2>
             <Dash />
           </div>

@@ -11,7 +11,7 @@ export function Care() {
   return (
     <section className="sec" id="care">
       <div className="wrap">
-        <Kicker count="08 / 11" className="rv">Designed for senior living</Kicker>
+        <Kicker className="rv">Designed for senior living</Kicker>
         <h2 className="h2 rv">A home that considers <em>the years ahead.</em></h2>
         <Dash />
         <div className="care-grid rv">
@@ -30,7 +30,7 @@ export function Day() {
   return (
     <section className="day sec" style={{ paddingTop: 0 }}>
       <div className="wrap">
-        <Kicker count="09 / 11" className="rv">A day, your way</Kicker>
+        <Kicker className="rv">A day, your way</Kicker>
         <h2 className="h2 rv">Fill it. <em>Or don't.</em></h2>
         <Dash />
         <div className="day-row">
@@ -41,7 +41,6 @@ export function Day() {
           ))}
         </div>
       </div>
-      <div className="bg" aria-hidden="true" />
     </section>
   )
 }
@@ -51,7 +50,7 @@ export function LocationProgress() {
     <section className="sec loc" style={{ paddingTop: 'clamp(40px,6vw,80px)' }}>
       <div className="wrap loc-grid">
         <div>
-          <Kicker count="10 / 11" className="rv">Where we are</Kicker>
+          <Kicker className="rv">Where we are</Kicker>
           <p className="loc-big rv">And importantly, all of this <em>without having to move far from Palakkad</em> and the life you already know.</p>
           <address className="rv">
             <b>Mattumantha Junction,</b><span>Malampuzha Road, Palakkad, Kerala</span>
@@ -69,7 +68,7 @@ export function LocationProgress() {
       <div className="wrap" style={{ marginTop: 'clamp(96px,12vw,170px)' }}>
         <div className="prog-grid">
           <div>
-            <Kicker count="Oct 2026" className="rv">Construction update</Kicker>
+            <Kicker className="rv">Construction update</Kicker>
             <h2 className="h2 rv">Already <em>taking shape.</em></h2>
             <Dash />
             <p className="lead rv" style={{ marginTop: 30 }}>Freedom Living has moved beyond the planning stage. The basement, ground floor and first floor are complete.</p>
@@ -94,7 +93,7 @@ export function Vision() {
     <section className="vision sec" style={{ paddingBottom: 0 }}>
       <div className="wrap vision-grid">
         <div style={{ paddingBottom: 'clamp(64px,8vw,120px)' }}>
-          <Kicker count="The vision" className="rv">Led by experience and community trust</Kicker>
+          <Kicker className="rv">Led by experience and community trust</Kicker>
           <p className="vq rv">In a society where people enjoy very little freedom, and even that fades as we grow older, this is my attempt to create a place where elders feel free, cared for, connected, and completely at home.</p>
           <div className="who rv">
             <b>Er. K. M. Rahamadulla</b>
@@ -115,7 +114,7 @@ export function FamiliesFaq() {
     <section className="sec" id="faq">
       <div className="wrap fam-grid">
         <div>
-          <Kicker count="11 / 11" className="rv">For sons and daughters, near and far</Kicker>
+          <Kicker className="rv">For sons and daughters, near and far</Kicker>
           <h2 className="h2 rv">In Bengaluru, Dubai or Boston? <em>Your parents can still be home.</em></h2>
           <Dash />
           <ol className="steps rv">

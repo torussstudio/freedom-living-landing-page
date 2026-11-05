@@ -14,7 +14,7 @@ export default function Idea() {
     <section className="sec" id="idea" style={{ paddingTop: 0 }}>
       <div className="wrap idea-grid">
         <div className="stick">
-          <Kicker count="03 / 11" className="rv">The Freedom Living idea</Kicker>
+          <Kicker className="rv">The Freedom Living idea</Kicker>
           <h2 className="h2 rv">Independence when you want it. <em>Support when you need it.</em></h2>
           <Dash />
           <p className="lead rv" style={{ marginTop: 30 }}>

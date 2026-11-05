@@ -59,7 +59,7 @@ export default function Visit({ mode, setMode, prefill }) {
       <div className="wm" aria-hidden="true"><Bird /></div>
       <div className="wrap visit-grid">
         <div>
-          <div className="kicker rv"><span className="count">Visit</span><span>Come feel. Come belong.</span></div>
+          <div className="kicker rv"><span>Come feel. Come belong.</span></div>
           <h2 className="rv">See it <span>for yourself.</span></h2>
           <p className="lead rv">Walk the site, meet the team, and picture your mornings here. Tell us a little about yourself and we'll call to fix a time.</p>
           <div className="contact rv">

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Bird } from './Brand.jsx'
 import seniors from '../assets/img/seniors.webp'
+import heroBg from '../assets/img/hero-bg.webp'
 import { prefersReducedMotion, useLenis, useScrollFrame, useScrollTo } from '../hooks/SmoothScroll.jsx'
 
 /* ───────────────────────────── YOUR FILM ─────────────────────────────
@@ -9,9 +9,11 @@ import { prefersReducedMotion, useLenis, useScrollFrame, useScrollTo } from '../
    Tips: 16:9, 1920×1080, 8–20 seconds, loops seamlessly, no audio needed
    (it autoplays muted; visitors can switch sound on), under ~8 MB.
    Until the file exists the poster image below is shown instead.            */
+/* hero-video.mp4 is picked up from either place, whichever you used:
+     src/assets/videos/hero-video.mp4  (bundled + cache-busted by Vite)  or  public/videos/hero-video.mp4 */
+const bundled = import.meta.glob('../assets/videos/hero-video.mp4', { eager: true, query: '?url', import: 'default' })
 const FILM = {
-  mp4: '/videos/hero.mp4',
-  webm: '/videos/hero.webm',
+  mp4: Object.values(bundled)[0] || '/videos/hero-video.mp4',
   poster: seniors,
 }
 
@@ -55,6 +57,8 @@ export default function Hero() {
     S.style.setProperty('--t', String(1 - clamp((p - 0.03) / 0.3)))
     S.style.setProperty('--ui', String(clamp((p - 0.82) / 0.18)))
     S.style.setProperty('--p', p.toFixed(3))
+    // dot pattern drifts up with the page while the stage is pinned (44px = one dot tile)
+    S.style.setProperty('--dy', `${(((pb.top % 44) + 44) % 44) - 44}px`)
     const ui = p > 0.82 ? '1' : '0'
     if (S.dataset.ui !== ui) S.dataset.ui = ui
     const pinned = pb.top <= 0 && pb.bottom > H ? 'on' : 'off'
@@ -83,9 +87,28 @@ export default function Hero() {
 
   useScrollFrame(update)
 
+  /* Autoplay: browsers only autoplay muted video, and React doesn't write the `muted` attribute
+     to the DOM, so set it by hand (iOS Safari checks the attribute) and nudge play() once the
+     video can actually play. */
   useEffect(() => {
     const v = vid.current
-    if (v) v.muted = true
+    if (!v) return
+    v.muted = true
+    v.defaultMuted = true
+    v.setAttribute('muted', '')
+    v.setAttribute('playsinline', '')
+    if (reduced.current) return
+    const kick = () => { if (!userPaused.current) v.play().catch(() => {}) }
+    kick()
+    v.addEventListener('loadeddata', kick)
+    v.addEventListener('canplay', kick)
+    return () => {
+      v.removeEventListener('loadeddata', kick)
+      v.removeEventListener('canplay', kick)
+    }
+  }, [])
+
+  useEffect(() => {
     const t = setTimeout(() => setGo(true), 80)
     let raf
     if (reduced.current) {
@@ -109,6 +132,25 @@ export default function Hero() {
     }
   }, [update])
 
+  /* Keep the film locked to the pill outline. The pill can move without any scroll/resize event
+     (web fonts swapping in, the headline re-scaling, the paragraph re-wrapping, scrollbar appearing),
+     so watch the headline pieces themselves and re-measure whenever any of them changes size. */
+  useEffect(() => {
+    const S = stage.current
+    if (!S || typeof ResizeObserver === 'undefined') return
+    let raf = 0
+    const again = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update) }
+    const ro = new ResizeObserver(again)
+    S.querySelectorAll('.hero-copy, .hero-copy > *, .hero-head > *, .slot').forEach((el) => ro.observe(el))
+    ro.observe(S)
+    document.fonts?.addEventListener?.('loadingdone', again)
+    return () => {
+      cancelAnimationFrame(raf)
+      ro.disconnect()
+      document.fonts?.removeEventListener?.('loadingdone', again)
+    }
+  }, [update])
+
   const go2 = (e, href) => { e.preventDefault(); scrollTo(href) }
 
   // the round "scroll to watch" button: glide to the point where the film is full screen
@@ -126,7 +168,16 @@ export default function Hero() {
     if (v.paused) { userPaused.current = false; v.play().catch(() => {}) }
     else { userPaused.current = true; v.pause() }
   }
-  const toggleSound = () => { const v = vid.current; if (v) v.muted = !v.muted }
+  const toggleSound = () => {
+    const v = vid.current
+    if (!v) return
+    v.muted = !v.muted
+    if (!v.muted) {
+      if (v.volume === 0) v.volume = 1
+      // turning sound on is also a "play" request
+      if (v.paused) { userPaused.current = false; v.play().catch(() => {}) }
+    }
+  }
 
   const rm = reduced.current
 
@@ -134,25 +185,29 @@ export default function Hero() {
     <section className={`hero grad on-grad${rm ? ' rm' : ''}${go ? ' go' : ''}`} aria-labelledby="h1">
       <div className="hero-pin" ref={pin}>
         <div className="hero-stage" ref={stage} data-ui="0">
-          <div className="wm" aria-hidden="true"><Bird /></div>
+          {/* background photo + a soft scrim so the white/yellow type stays readable */}
+          <div className="hero-bg" aria-hidden="true">
+            <img src={heroBg} alt="" fetchpriority="high" decoding="async" />
+          </div>
+          <div className="hero-dots" aria-hidden="true" />
 
           <div className="hero-copy">
-            <div className="hero-top">
-              <div className="kicker rv"><span className="count">Palakkad</span><span>Senior living apartments</span></div>
-              <div className="h-status rv" style={{ '--d': '.15s' }}><i aria-hidden="true" />Status: <b>Under construction</b></div>
-            </div>
+            {/* kicker + headline travel together, so the kicker always sits just above "Live free." */}
+            <div className="hero-head">
+              <div className="kicker rv"><span>Senior living apartments</span></div>
 
-            <h1 id="h1" aria-label="Live free. Age gracefully.">
-              <span className="hl" aria-hidden="true">
-                <span className="hw"><span style={{ '--d': '.05s' }}>Live</span></span>{' '}
-                <span className="slot" ref={slot} />{' '}
-                <span className="hw"><span style={{ '--d': '.2s' }}>free.</span></span>
-              </span>
-              <span className="hl l2" aria-hidden="true">
-                <span className="hw"><span style={{ '--d': '.34s' }}>Age</span></span>{' '}
-                <span className="hw"><span style={{ '--d': '.46s' }}>gracefully.</span></span>
-              </span>
-            </h1>
+              <h1 id="h1" aria-label="Live free. Age gracefully.">
+                <span className="hl" aria-hidden="true">
+                  <span className="hw"><span style={{ '--d': '.05s' }}>Live</span></span>{' '}
+                  <span className="slot" ref={slot} />{' '}
+                  <span className="hw"><span style={{ '--d': '.2s' }}>free.</span></span>
+                </span>
+                <span className="hl l2" aria-hidden="true">
+                  <span className="hw"><span style={{ '--d': '.34s' }}>Age</span></span>{' '}
+                  <span className="hw"><span style={{ '--d': '.46s' }}>gracefully.</span></span>
+                </span>
+              </h1>
+            </div>
 
             <div className="hero-bottom">
               <div>
@@ -193,11 +248,11 @@ export default function Hero() {
               disablePictureInPicture
               aria-label="Film: life at Freedom Living"
               onPlay={() => setPlaying(true)}
+              onPlaying={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
               onVolumeChange={(e) => setMuted(e.currentTarget.muted)}
             >
               <source src={FILM.mp4} type="video/mp4" />
-              <source src={FILM.webm} type="video/webm" />
             </video>
             {!rm && (
               <div className="film-ui">

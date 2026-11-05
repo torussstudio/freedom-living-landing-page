@@ -2,9 +2,9 @@
 export const Logo = (props) => <span className="logo" role="img" aria-label="Freedom Living" {...props} />
 export const Bird = (props) => <span className="bird" aria-hidden="true" {...props} />
 
-export const Kicker = ({ count, children, className = '', style }) => (
+export const Kicker = ({ children, className = '', style }) => (
   <div className={`kicker ${className}`} style={style}>
-    <span className="count">{count}</span><span>{children}</span>
+    <span>{children}</span>
   </div>
 )
 
