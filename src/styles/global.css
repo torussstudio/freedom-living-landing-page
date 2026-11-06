@@ -56,7 +56,8 @@ p{margin:0}
 .sec{padding-block:clamp(96px,12vw,170px)}
 
 /* deck vocabulary */
-.kicker{display:flex;align-items:center;gap:14px;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
+.hero-head .kicker{font-size:1.2rem!important;}
+.kicker{display:flex;align-items:center;gap:14px;font-size:0.75rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
 .on-grad .kicker{color:rgba(255,248,230,.85)}
 .dash{display:block;width:64px;height:3px;border-radius:3px;background:var(--crimson);margin-top:26px}
 .on-grad .dash{background:#FFF8E6}
@@ -362,11 +363,28 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 .cg{position:relative;padding:44px clamp(4px,3vw,48px) 52px;display:grid;gap:16px;align-content:start}
 .cg h3{font-size:clamp(1.7rem,2.6vw,2.3rem);color:var(--crimson)}
 .cg p{color:var(--ink-soft);max-width:28em}
+/* hover glow — rises from the card's inner corner (toward the grid centre) */
+.cg{--glow-at:0% 0%;isolation:isolate}
+.cg::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 120% at var(--glow-at),rgba(232,92,80,.22),transparent 45%);
+  opacity:0;transition:opacity .5s ease}
+/* default: cards 1 & 4 glow; once any card is hovered, only that card glows */
 @media (min-width:800px){
-  .cg:nth-child(1){border-right:1px solid rgba(213,47,58,.5);border-bottom:1px solid rgba(213,47,58,.5);background:radial-gradient(120% 120% at 100% 100%,rgba(232,92,80,.22),transparent 45%)}
+  .cg:nth-child(1)::before,.cg:nth-child(4)::before{opacity:1}
+  .care-grid:has(.cg:hover) .cg::before,.care-grid:has(.cg:focus-within) .cg::before{opacity:0}
+}
+.care-grid:has(.cg:hover) .cg:hover::before,.care-grid:has(.cg:focus-within) .cg:focus-within::before{opacity:1}
+@media (min-width:800px){
+  .cg:nth-child(1){--glow-at:100% 100%}
+  .cg:nth-child(2){--glow-at:0% 100%}
+  .cg:nth-child(3){--glow-at:100% 0%}
+  .cg:nth-child(4){--glow-at:0% 0%}
+}
+@media (prefers-reduced-motion:reduce){.cg::before{transition:none}}
+@media (min-width:800px){
+  .cg:nth-child(1){border-right:1px solid rgba(213,47,58,.5);border-bottom:1px solid rgba(213,47,58,.5)}
   .cg:nth-child(2){border-bottom:1px solid rgba(213,47,58,.5)}
   .cg:nth-child(3){border-right:1px solid rgba(213,47,58,.5)}
-  .cg:nth-child(4){background:radial-gradient(120% 120% at 0% 0%,rgba(232,92,80,.22),transparent 45%)}
   .cg:nth-child(odd){padding-left:0}
 }
 @media (max-width:799px){.cg{border-top:1px solid rgba(213,47,58,.4);padding-inline:0}}
@@ -458,8 +476,9 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 
 /* ───────── VISION ───────── */
 .vision{position:relative;overflow:hidden;background:linear-gradient(115deg,var(--cream) 40%,#FBF1C9 85%,#F8E37A 120%)}
-.vision-grid{display:grid;gap:40px;align-items:end}
-@media (min-width:1000px){.vision-grid{grid-template-columns:6fr 5fr;gap:56px}}
+.vision-grid{display:grid;gap:0 40px;align-items:end}
+.vision-head{grid-column:1/-1}
+@media (min-width:1000px){.vision-grid{grid-template-columns:6fr 5fr;column-gap:56px}}
 .vq{font:300 clamp(1.9rem,3.4vw,3.1rem)/1.2 var(--display);letter-spacing:-.015em;margin-top:34px;text-wrap:pretty}
 .vq::before{content:"“";display:block;font-size:2.6em;line-height:.55;color:var(--crimson)}
 .who{margin-top:34px}
@@ -471,7 +490,7 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 .creds li i{font:300 2.4rem/1 var(--display);font-style:normal;color:#B3AE9F}
 .creds li b{display:block;font-weight:700}
 .creds li span{color:var(--ink-soft);font-size:.95rem}
-.md{position:relative;justify-self:center;width:min(100%,520px)}
+.md{position:relative;justify-self:center;width:min(100%,480px)}
 .md img{width:100%;mix-blend-mode:multiply;filter:grayscale(1) contrast(1.05)}
 
 /* ───────── FAMILIES + FAQ ───────── */

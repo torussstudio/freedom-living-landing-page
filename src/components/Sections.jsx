@@ -1,5 +1,5 @@
 import { Dash, Kicker, Logo } from './Brand.jsx'
-import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ, STEPS } from '../data/content.js'
+import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ } from '../data/content.js'
 import mapImg from '../assets/img/map.webp'
 import sketch from '../assets/img/sketch.webp'
 import md from '../assets/img/md.webp'
@@ -92,9 +92,11 @@ export function Vision() {
   return (
     <section className="vision sec" style={{ paddingBottom: 0 }}>
       <div className="wrap vision-grid">
-        <div style={{ paddingBottom: 'clamp(64px,8vw,120px)' }}>
+        <div className="vision-head">
           <Kicker className="rv">Led by experience and community trust</Kicker>
           <p className="vq rv">In a society where people enjoy very little freedom, and even that fades as we grow older, this is my attempt to create a place where elders feel free, cared for, connected, and completely at home.</p>
+        </div>
+        <div style={{ paddingBottom: 'clamp(64px,8vw,120px)' }}>
           <div className="who rv">
             <b>Er. K. M. Rahamadulla</b>
             <span>Managing Director, Palghat Senior Living Ltd. · NIT Calicut alumnus, builder, chartered engineer and valuer</span>
@@ -117,9 +119,6 @@ export function FamiliesFaq() {
           <Kicker className="rv">For sons and daughters, near and far</Kicker>
           <h2 className="h2 rv">In Bengaluru, Dubai or Boston? <em>Your parents can still be home.</em></h2>
           <Dash />
-          <ol className="steps rv">
-            {STEPS.map(([b, p], i) => <li key={b}><i>{pad(i + 1)}</i><div><b>{b}</b><p>{p}</p></div></li>)}
-          </ol>
         </div>
         <div className="rv">
           {FAQ.map(([q, a]) => (
