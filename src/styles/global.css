@@ -143,7 +143,7 @@ p{margin:0}
 .hl{display:block}
 .hl.l2{padding-left:var(--l2-indent);color:var(--sun)}
 .hw{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .08em .18em 0;margin:-.06em -.08em -.18em 0}
-.hw>span{display:block;transform:translateY(112%) rotate(5deg);transform-origin:0 100%}
+.hw>span{display:block;transform:translateY(112%) rotate(5deg)  ;transform-origin:0 100%}
 .hero.go .hw>span{animation:hrise 1.35s var(--ease) both;animation-delay:var(--d,0s)}
 @keyframes hrise{from{transform:translateY(112%) rotate(5deg)}to{transform:none}}
 /* the pill the film sits in */

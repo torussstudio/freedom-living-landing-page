@@ -38,8 +38,8 @@ function Page() {
         <Idea />
         <Care />
         <Vision />
+        <Visit />
         <FamiliesFaq />
-
       </main>
       <Footer />
     </>
