@@ -20,7 +20,7 @@ function Page() {
 
   const askAbout = (label) => {
     setMode('enquiry')
-    setPrefill(`I'd like to know more about home ${label}.`)
+    setPrefill(`I'd like to know more about ${label}.`)
     scrollTo('#visit')
   }
 

@@ -5,6 +5,9 @@ import render089 from '../assets/img/render-089.webp'
 import render090 from '../assets/img/render-090.webp'
 import planTypical from '../assets/img/plan-typical.webp'
 import planGround from '../assets/img/plan-ground.webp'
+import planFourth from '../assets/img/plan-fourth.webp'
+import planBasement from '../assets/img/plan-basement.webp'
+import planRooftop from '../assets/img/plan-rooftop.webp'
 
 export const CONTACT = {
   phone: '+91 94470 70977',
@@ -90,11 +93,41 @@ export const FAQ = [
   ['What about pricing and ownership?', "We share pricing, ownership terms and current availability one to one, so the details are accurate for the home you're interested in. Book a visit or send an enquiry and our team will call you."],
 ]
 
-/* Floor plans. `box` = hotspot on the architect's plan image, in % [left, top, width, height] (placed by eye). */
+/* Floor plans. Every drawing is 2400 × ~1640 px (ar = width / height).
+   `box` on a home/space = hotspot on that drawing, in % [left, top, width, height] (placed by eye). */
+const AR = 2400 / 1641
 export const PLANS = {
-  F: { src: planTypical, alt: "Architect's floor plan of a typical floor with twelve studio homes", cap: 'Typical floor plan (floors 1, 2 and 3)' },
-  G: { src: planGround, alt: "Architect's ground floor plan with six studio homes, entrance lobby and drop-off", cap: 'Ground floor plan (common-area use may change)' },
+  G: { src: planGround, ar: AR, alt: "Architect's ground floor plan with six studio homes, entrance lobby and drop-off", cap: 'Ground floor plan · common-area use may change' },
+  F: { src: planTypical, ar: AR, alt: "Architect's floor plan of a typical floor with twelve studio homes", cap: 'Typical floor plan · floors 1, 2 and 3' },
+  4: { src: planFourth, ar: AR, alt: "Architect's fourth floor plan with dining, recreation, lounge and games areas", cap: 'Fourth floor plan · layout is indicative' },
+  B: { src: planBasement, ar: AR, alt: "Architect's basement plan with car parking, driveway ramps, lifts, stairs and electro-mechanical room", cap: 'Basement plan · parking as per government norms' },
+  R: { src: planRooftop, ar: AR, alt: "Architect's rooftop plan with shuttle court, table tennis, walking path, exercise area, spa and juice bar", cap: 'Rooftop plan · added in phases' },
 }
+
+/* The five levels shown as tabs. `kind`: homes (pick a studio), spaces (pick a shared space), info (no drawing yet). */
+export const FLOORS = [
+  { k: 'B', icon: 'car', name: 'Basement', sub: 'Parking & services', title: 'Basement', pill: 'Parking & services', kind: 'info',
+    text: 'Where visitors arrive and both lifts begin, with parking as per government norms.', chips: ['Car parking', "Watchman's cabin", "Driver's cabin", 'EV charging', 'Both lifts start here'] },
+  { k: 'G', icon: 'home', name: 'Ground floor', sub: '6 studio homes & care facilities', title: 'Ground floor', pill: '6 studio homes', kind: 'homes',
+    text: "The building's front room: lobby, reception and offices, with six studio homes.", chips: ['Lobby & reception', 'Senior-friendly lounge', 'Palliative care unit', 'Nurse room', 'Offices', 'Drop-off'] },
+  { k: 'F', icon: 'layers', name: 'Floors 1 – 3', sub: '36 studio homes (12 per floor)', title: 'Typical floor — Floors 1, 2 & 3', pill: '12 studio homes per floor', kind: 'homes' },
+  { k: '4', icon: 'dine', name: 'Fourth floor', sub: 'Dining, recreation & reading', title: 'Fourth floor', pill: 'Dining & recreation', kind: 'spaces',
+    text: 'Where residents eat together and spend unhurried afternoons.' },
+  { k: 'R', icon: 'leaf', name: 'Rooftop', sub: 'Walkway, exercise, games & spa', title: 'Rooftop', pill: 'Added in phases', kind: 'info',
+    text: 'Open sky and room to move. Planned for the rooftop and added in phases.', chips: ['Walkway', 'Exercise area', 'Shuttle court', 'Table tennis', 'Juice bar', 'Spa'] },
+]
+
+/* Fourth-floor shared spaces (what the drawing shows; furniture counts are as drawn). */
+export const SPACES = [
+  ['dining', 'Dining area', 'Tables for residents to eat together, with meals from separate veg and non-veg kitchens.', 'North-west wing', '6 tables · 24 seats', [8.6, 11.5, 21.5, 18]],
+  ['hall', 'Recreation hall', 'A wide open hall for gatherings, activities and celebrations, right by the lifts.', 'North side', 'Open floor', [30.5, 14, 34.5, 24]],
+  ['tt', 'Table tennis', 'A friendly game indoors, whatever the weather.', 'East side', '1 table', [64, 43.5, 8.6, 10.5]],
+  ['cards', 'Cards & board games', 'A quiet corner for cards, carrom and long conversations.', 'East side', '2 tables · 8 seats', [61.5, 54, 11, 14.5]],
+  ['billiards', 'Billiards', 'A full billiards table with bar seating alongside.', 'South-east corner', '1 table · bar seats', [59.3, 69.5, 13, 16]],
+  ['lounge', 'Lounge & reading', 'Sofas and easy chairs for the paper, a book or an afternoon nap.', 'South side', 'Sofas & easy chairs', [42.6, 70, 16, 15.5]],
+  ['cafe', 'Café tables', 'Small round tables for tea and a chat between meals.', 'Centre', '4 tables · 16 seats', [42.6, 54, 10.6, 15.5]],
+  ['balcony', 'Balcony seating', 'An open-air balcony with tables along the west side.', 'West side', '3 tables', [37.6, 49.5, 4.7, 36]],
+].map(([id, name, text, where, drawn, box]) => ({ id, name, text, where, drawn, box, floor: '4' }))
 
 export const UNITS = [
   ['G01', 876, 409, '22′9″ × 18′1″', null, [42.5, 54, 13.5, 15]],

@@ -1,3 +1,4 @@
+import { useId, useState } from 'react'
 import { Dash, Kicker, Logo } from './Brand.jsx'
 import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ } from '../data/content.js'
 import mapImg from '../assets/img/map.webp'
@@ -111,6 +112,21 @@ export function Vision() {
   )
 }
 
+function FaqItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  const id = useId()
+  return (
+    <div className={`faq-item${open ? ' is-open' : ''}`}>
+      <button type="button" className="faq-q" aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)}>
+        {q}<span className="pm" aria-hidden="true" />
+      </button>
+      <div className="faq-panel" id={id} role="region" aria-hidden={!open}>
+        <div className="faq-inner"><div className="ans">{a}</div></div>
+      </div>
+    </div>
+  )
+}
+
 export function FamiliesFaq() {
   return (
     <section className="sec" id="faq">
@@ -121,9 +137,7 @@ export function FamiliesFaq() {
           <Dash />
         </div>
         <div className="rv">
-          {FAQ.map(([q, a]) => (
-            <details key={q}><summary>{q}<span className="pm" /></summary><div className="ans">{a}</div></details>
-          ))}
+          {FAQ.map(([q, a]) => <FaqItem key={q} q={q} a={a} />)}
         </div>
       </div>
     </section>
