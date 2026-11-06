@@ -38,8 +38,8 @@ function Page() {
         <Idea />
         <Care />
         <Vision />
-        <Visit />
         <FamiliesFaq />
+        <Visit mode={mode} setMode={setMode} prefill={prefill} />
       </main>
       <Footer />
     </>

@@ -2,7 +2,7 @@ import render086 from '../assets/img/render-086.webp'
 import render087 from '../assets/img/render-087.webp'
 import render088 from '../assets/img/render-088.webp'
 import render089 from '../assets/img/render-089.webp'
-import sketch from '../assets/img/sketch.webp'
+import render090 from '../assets/img/render-090.webp'
 import planTypical from '../assets/img/plan-typical.webp'
 import planGround from '../assets/img/plan-ground.webp'
 
@@ -32,7 +32,7 @@ export const SLIDES = [
   { src: render087, alt: 'Corner render showing private balconies', title: 'Balcony homes', note: 'Floors 1 to 3', tall: true, pos: '70% 50%' },
   { src: render089, alt: 'Rear courtyard render with stacked balconies', title: 'Courtyard side', note: 'Open terrace access on every floor' },
   { src: render088, alt: 'Side elevation render with basement parking entrance', title: 'Side elevation', note: 'Basement parking entry' },
-  { src: sketch, alt: 'Sketch of the building structure under construction', title: 'Taking shape', note: 'October 2026', tall: true },
+  { src: render090, alt: 'Sketch of the building structure under construction', title: 'Taking shape', note: 'October 2026', tall: true },
 ]
 
 export const LEVELS = [

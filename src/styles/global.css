@@ -56,7 +56,7 @@ p{margin:0}
 .sec{padding-block:clamp(96px,12vw,170px)}
 
 /* deck vocabulary */
-.kicker{display:flex;align-items:center;gap:14px;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
+.kicker{display:flex;align-items:center;gap:14px;font-size:1.2rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
 .on-grad .kicker{color:rgba(255,248,230,.85)}
 .dash{display:block;width:64px;height:3px;border-radius:3px;background:var(--crimson);margin-top:26px}
 .on-grad .dash{background:#FFF8E6}
@@ -178,7 +178,7 @@ html[data-hero-pin="on"] .mcta.show{transform:translateY(110%)}
 
 .hero-stats{position:relative;margin-top:0;border-top:1px solid rgba(255,248,230,.35);background:rgba(94,26,62,.18);backdrop-filter:blur(4px)}
 .hero-stats .wrap{display:grid;grid-template-columns:repeat(2,1fr)}
-.hero-stats .s{padding:24px 0;display:grid;gap:2px}
+.hero-stats .s{padding:35px 0;display:grid;gap:2px;text-align:center;}
 .hero-stats b{font:300 clamp(2rem,3.4vw,3rem)/1 var(--display);letter-spacing:-.02em}
 .hero-stats span{font-size:.92rem;color:rgba(255,248,230,.85)}
 @media (min-width:800px){.hero-stats .wrap{grid-template-columns:repeat(4,1fr)}.hero-stats .s+.s{padding-left:30px;border-left:1px solid rgba(255,248,230,.3)}}
