@@ -46,6 +46,10 @@ export function Day() {
   )
 }
 
+const Tick = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" /></svg>
+)
+
 export function LocationProgress() {
   return (
     <section className="sec loc" style={{ paddingTop: 'clamp(40px,6vw,80px)' }}>
@@ -78,9 +82,9 @@ export function LocationProgress() {
           <ul className="checks rv" aria-label="Construction status by level">
             <li className="todo"><span className="c" />Rooftop</li>
             <li className="todo"><span className="c" />Floors 2 to 4</li>
-            <li className="done"><span className="c">✓</span>First floor</li>
-            <li className="done"><span className="c">✓</span>Ground floor</li>
-            <li className="done"><span className="c">✓</span>Basement</li>
+            <li className="done"><span className="c"><Tick /></span>First floor</li>
+            <li className="done"><span className="c"><Tick /></span>Ground floor</li>
+            <li className="done"><span className="c"><Tick /></span>Basement</li>
             <li className="eta"><span><b>December 2027</b>Expected completion</span></li>
           </ul>
         </div>

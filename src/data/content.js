@@ -31,11 +31,11 @@ export const PILLARS = [
 ]
 
 export const SLIDES = [
-  { src: render086, alt: 'Front elevation render of Freedom Living', title: 'Front elevation', note: 'Entrance and drop-off' },
-  { src: render087, alt: 'Corner render showing private balconies', title: 'Balcony homes', note: 'Floors 1 to 3', tall: true, pos: '70% 50%' },
-  { src: render089, alt: 'Rear courtyard render with stacked balconies', title: 'Courtyard side', note: 'Open terrace access on every floor' },
-  { src: render088, alt: 'Side elevation render with basement parking entrance', title: 'Side elevation', note: 'Basement parking entry' },
-  { src: render090, alt: 'Sketch of the building structure under construction', title: 'Taking shape', note: 'October 2026', tall: true },
+  { src: render086, alt: 'Freedom Living apartment exterior in Palakkad', title: 'Front elevation', note: 'Main Enterence' },
+  { src: render087, alt: 'Spacious senior living community lounge', title: 'Community Lounge', note: 'Fourth Floor', tall: true, pos: '70% 50%' },
+  { src: render089, alt: 'Studio home with kitchenette and bathroom', title: 'Studio Apartment Interior', note: 'Residential Floors 1–3' },
+  { src: render088, alt: 'Indoor games and reading lounge', title: 'Community Recreation Area', note: 'Ground Floor' },
+  { src: render090, alt: 'Furnished studio apartment with living space', title: 'Studio Apartment Interior', note: 'Residential Floors 1–3', tall: true },
 ]
 
 export const LEVELS = [
@@ -137,7 +137,7 @@ export const UNITS = [
   ['G05', 589, 269, '13′2″ × 20′7″', null, [49, 18, 8, 19]],
   ['G06', 592, 270, '13′2″ × 20′7″', null, [41, 17, 8, 19]],
   ['01', 1202, 443, '25′4″ × 18′3″', '4′11″ × 18′5″', [41, 69, 15, 16]],
-  ['02', 1030, 403, '22′2″ × 18′3″', null, [59.5, 69, 13.5, 16]],
+  ['02', 1030, 403, '22′2″ × 18′3″', '3′11″ wide', [59.5, 69, 13.5, 16]],
   ['03', 863, 399, '22′2″ × 18′1″', null, [59.5, 54, 13.5, 15]],
   ['04', 1102, 440, '25′4″ × 18′1″', '4′11″ × 12′10″', [41, 54, 15, 15]],
   ['05', 749, 264, '22′9″ × 11′8″', '4′11″ × 9′9″', [42.5, 43, 13.5, 11]],
