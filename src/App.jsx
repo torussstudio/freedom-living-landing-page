@@ -30,7 +30,6 @@ function Page() {
       <main id="top">
         <Hero />
         <Glance />
-        <Levels />
         <FloorPlans onAskAbout={askAbout} />
         <LocationProgress />
         <Gallery />
