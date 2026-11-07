@@ -11,7 +11,7 @@ const ICONS = {
 
 export default function Idea() {
   return (
-    <section className="sec" id="idea" style={{ paddingTop: 0 }}>
+    <section className="sec" id="idea" style={{ paddingTop: 0, paddingBottom: 'clamp(16px,2.5vw,40px)' }}>
       <div className="wrap idea-grid">
         <div className="stick">
           <Kicker className="rv">The Freedom Living idea</Kicker>

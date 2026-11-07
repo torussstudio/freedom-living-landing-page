@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Logo } from './Brand.jsx'
 import { NAV } from '../data/content.js'
+import logoFull from '../assets/img/logo-full.webp'
 import { useScrollFrame, useScrollTo } from '../hooks/SmoothScroll.jsx'
 
 export default function Nav() {
@@ -27,7 +28,11 @@ export default function Nav() {
     <>
       <header className={`nav${solid ? ' solid' : ''}${hide ? ' hide' : ''}`}>
         <div className="wrap">
-          <a href="#top" aria-label="Freedom Living, back to top" onClick={(e) => go(e, '#top')}><Logo /></a>
+          <a className="nav-brand" href="#top" aria-label="Freedom Living, back to top" onClick={(e) => go(e, '#top')}>
+            <Logo />
+            {/* full-colour logo (same as footer) once the bar turns solid */}
+            <img className="nav-logo-full" src={logoFull} alt="" aria-hidden="true" width="900" height="245" decoding="async" />
+          </a>
           <ul>
             {NAV.map(([href, label]) => (
               <li key={href}><a href={href} onClick={(e) => go(e, href)}>{label}</a></li>

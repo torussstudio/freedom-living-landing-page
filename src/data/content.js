@@ -12,7 +12,7 @@ import planRooftop from '../assets/img/plan-rooftop.webp'
 export const CONTACT = {
   phone: '+91 94470 70977',
   email: 'pslfreedomliving@gmail.com',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mattumantha+Junction+Malampuzha+Road+Palakkad',
+  mapsUrl: 'https://www.google.com/maps/place/Freedom+Living/@10.8018096,76.661012,17z/data=!4m6!3m5!1s0x3ba86f14bb995f8f:0xcc15bfbfd4b9abda!8m2!3d10.8005321!4d76.6636966!16s%2Fg%2F11zybm6z25',
 }
 
 export const NAV = [
@@ -107,7 +107,7 @@ export const PLANS = {
 /* The five levels shown as tabs. `kind`: homes (pick a studio), spaces (pick a shared space), info (no drawing yet). */
 export const FLOORS = [
   { k: 'B', icon: 'car', name: 'Basement', sub: 'Parking & services', title: 'Basement', pill: 'Parking & services', kind: 'info',
-    text: 'Where visitors arrive and both lifts begin, with parking as per government norms.', chips: ['Car parking', "Watchman's cabin", "Driver's cabin", 'EV charging', 'Both lifts start here'] },
+    text: 'Where visitors arrive and both lifts begin, with parking as per government norms.', chips: ['Car parking', "Watchman's cabin", "Driver's cabin", 'EV charging', 'Both lifts start here', ['2 lifts: passenger & stretcher', 'Both equipped with Automatic Rescue Devices (ARD).']] },
   { k: 'G', icon: 'home', name: 'Ground floor', sub: '6 studio homes & care facilities', title: 'Ground floor', pill: '6 studio homes', kind: 'homes',
     text: "The building's front room: lobby, reception and offices, with six studio homes.", chips: ['Lobby & reception', 'Senior-friendly lounge', 'Palliative care unit', 'Nurse room', 'Offices', 'Drop-off'] },
   { k: 'F', icon: 'layers', name: 'Floors 1 – 3', sub: '36 studio homes (12 per floor)', title: 'Typical floor — Floors 1, 2 & 3', pill: '12 studio homes per floor', kind: 'homes' },
