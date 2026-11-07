@@ -136,7 +136,7 @@ export function LocationProgress() {
           <div>
             <Kicker className="rv">Construction update</Kicker>
             <h2 className="h2 rv">
-              already
+              Already
               <br />
               <em style={{ whiteSpace: "nowrap" }}>taking Shape</em>
             </h2>
