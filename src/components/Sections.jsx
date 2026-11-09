@@ -127,7 +127,7 @@ export function LocationProgress() {
         </a>
       </div>
 
-      <div className="wrap" style={{ marginTop: "clamp(40px,4.5vw,72px)" }}>
+      <div className="wrap" style={{ marginTop: "clamp(0px,1vw,16px)" }}>
         <div className="prog-grid">
           <div>
             <Kicker className="rv">Construction update</Kicker>
@@ -190,7 +190,7 @@ export function LocationProgress() {
 
 export function Vision() {
   return (
-    <section className="vision sec">
+    <section className="vision sec" style={{ paddingBottom: 0 }}>
       <div className="wrap vision-grid">
         <div className="vision-head">
           <Kicker className="rv">Led by experience and community trust</Kicker>

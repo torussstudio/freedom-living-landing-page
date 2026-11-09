@@ -286,6 +286,23 @@ export default function FloorPlans({ onAskAbout }) {
   const [floorK, setFloorK] = useState("F");
   const [onlyBal, setOnlyBal] = useState(false);
   const [cur, setCur] = useState("01");
+  const tabs = useRef(null);
+  const firstTabScroll = useRef(true);
+
+  // On phones/tablets the level tabs are a swipe strip that starts at "Basement". Bring the
+  // selected tab into view (sideways only, the page itself never moves).
+  useEffect(() => {
+    const strip = tabs.current;
+    const el = strip?.querySelector('[aria-selected="true"]');
+    if (!strip || !el || strip.scrollWidth <= strip.clientWidth) return;
+    const sr = strip.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    strip.scrollTo({
+      left: strip.scrollLeft + (er.left - sr.left) - (sr.width - er.width) / 2,
+      behavior: firstTabScroll.current ? "auto" : "smooth",
+    });
+    firstTabScroll.current = false;
+  }, [floorK]);
 
   const floor = FLOORS.find((f) => f.k === floorK);
   const plan = PLANS[floorK];
@@ -334,7 +351,12 @@ export default function FloorPlans({ onAskAbout }) {
         </p>
 
         {/* level tabs */}
-        <div className="ftabs rv" role="tablist" aria-label="Choose a level">
+        <div
+          className="ftabs rv"
+          role="tablist"
+          aria-label="Choose a level"
+          ref={tabs}
+        >
           {FLOORS.map((f) => (
             <button
               key={f.k}

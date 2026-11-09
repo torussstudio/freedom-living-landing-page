@@ -160,7 +160,11 @@ p {
   }
 }
 .sec {
-  padding-block: clamp(64px, 8vw, 112px);
+  padding-block: clamp(48px, 5.5vw, 80px);
+}
+/* Gallery is pinned and centres its own content, so it supplies the space itself */
+.sec.loc {
+  padding-bottom: 0;
 }
 
 /* deck vocabulary */
@@ -2589,6 +2593,9 @@ html.plan-full-open .mcta {
   .prog-grid {
     grid-template-columns: 4fr 5fr 3fr;
     gap: 48px;
+  }
+  .prog-grid > :first-child {
+    align-self: start;
   }
 }
 .prog-img img {
