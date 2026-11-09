@@ -1,3 +1,4 @@
+import { layoutVars } from "../hooks/layoutVars.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Dash, Kicker } from "./Brand.jsx";
 import { FLOORS, PLANS, SPACES, UNITS, unitLabel } from "../data/content.js";
@@ -185,12 +186,8 @@ function PlanViewer({ plan, items, selId, onPick, labelOf, nameOf }) {
         onPointerCancel={onUp}
       >
         <div
-          className="pv-stage"
-          style={{
-            "--s": z.s,
-            aspectRatio: plan.ar,
-            transform: `translate(${z.x}px,${z.y}px) scale(${z.s})`,
-          }}
+          className="pv-stage ![aspect-ratio:var(--layout-aspect-ratio)] ![transform:var(--layout-transform)]"
+          ref={layoutVars({ "--s": z.s, "--layout-aspect-ratio": plan.ar, "--layout-transform": `translate(${z.x}px,${z.y}px) scale(${z.s})` })}
         >
           <img src={plan.src} alt={plan.alt} draggable="false" />
           {items.map((it) => {
@@ -199,15 +196,10 @@ function PlanViewer({ plan, items, selId, onPick, labelOf, nameOf }) {
               <button
                 key={it.id}
                 type="button"
-                className={`hs${it.id === selId ? " on" : ""}`}
+                className={(`hs${it.id === selId ? " on" : ""}`) + " ![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"}
                 aria-label={nameOf(it)}
                 aria-pressed={it.id === selId}
-                style={{
-                  left: `${l}%`,
-                  top: `${t}%`,
-                  width: `${w}%`,
-                  height: `${h}%`,
-                }}
+                ref={layoutVars({ "--layout-left": `${l}%`, "--layout-top": `${t}%`, "--layout-width": `${w}%`, "--layout-height": `${h}%` })}
                 onClick={() => pick(it.id)}
               >
                 <span>{labelOf(it)}</span>
@@ -259,22 +251,17 @@ function PlanCrop({ plan, box, label }) {
   const rl = clamp(l + w / 2 - rw / 2, 0, Math.max(0, 100 - rw)),
     rt = clamp(t + h / 2 - rh / 2, 0, Math.max(0, 100 - rh));
   const k = 100 / rw; // image width as a multiple of the frame width
-  const style = {
-    width: `${k * 100}%`,
-    left: `${-rl * k}%`,
-    top: `${(-rt * C * 100) / (rw * A)}%`,
+  const cropVars = {
+    "--layout-width": `${k * 100}%`,
+    "--layout-left": `${-rl * k}%`,
+    "--layout-top": `${(-rt * C * 100) / (rw * A)}%`,
   };
   return (
     <figure className="crop">
-      <div className="crop-img" style={style}>
+      <div className="crop-img ![width:var(--layout-width)] ![left:var(--layout-left)] ![top:var(--layout-top)]" ref={layoutVars(cropVars)}>
         <img src={plan.src} alt="" />
-        <i
-          style={{
-            left: `${l}%`,
-            top: `${t}%`,
-            width: `${w}%`,
-            height: `${h}%`,
-          }}
+        <i className="![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"
+          ref={layoutVars({ "--layout-left": `${l}%`, "--layout-top": `${t}%`, "--layout-width": `${w}%`, "--layout-height": `${h}%` })}
         />
       </div>
       <figcaption>{label} · from the architect's plan</figcaption>
@@ -344,7 +331,7 @@ export default function FloorPlans({ onAskAbout }) {
           <span className="hl-red">floor by floor.</span>
         </h2>
         <Dash />
-        <p className="lead rv" style={{ marginTop: 30 }}>
+        <p className="lead rv ![margin-top:30px]" >
           Freedom Living brings together 42 studio apartments, dining,
           recreation, and dedicated care facilities. Select a floor to explore
           its spaces, features, and apartment layouts.

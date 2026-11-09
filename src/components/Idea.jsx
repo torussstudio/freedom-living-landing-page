@@ -53,7 +53,7 @@ export default function Idea() {
     <section
       className="sec"
       id="idea"
-     
+
     >
       <div className="wrap idea-grid">
         <div className="idea-text">
@@ -85,10 +85,10 @@ export default function Idea() {
         </div>
         <div className="stick">
           <div className="idea-photo wipe">
-            <img
+            <img className="![object-position:50%_82%]"
               src={renderFacade}
               alt="Freedom Living building at sunset, architectural render"
-              style={{ objectPosition: "50% 82%" }}
+
             />
           </div>
         </div>

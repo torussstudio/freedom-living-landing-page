@@ -21,3 +21,6 @@ pnpm-debug.log*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Generated single-file review build
+dist-single/

@@ -1,9 +1,10 @@
+import { setLayoutVars } from "../hooks/layoutVars.js";
 import { useEffect, useRef } from 'react'
 import { Dash, Kicker } from './Brand.jsx'
 import archBuilding from '../assets/img/arch-building.webp'
 
 const Stat = ({ big, unit, label, note, d }) => (
-  <div className="gstat rv" style={d ? { '--d': d } : undefined}>
+  <div className={`gstat rv${d ? " [--d:.1s]" : ""}`}>
     <div className="gtext">
       <b>{big}{unit && <small>{unit}</small>}</b>
       <span>{label}</span>
@@ -22,8 +23,8 @@ export default function Glance() {
     const fit = () => {
       const w = (sel) => Math.max(0, ...[...g.querySelectorAll(sel)].map((t) => t.offsetWidth))
       const lw = w('.gstats.l .gtext'), rw = w('.gstats.r .gtext')
-      g.style.setProperty('--tw', `${Math.ceil(Math.max(lw, rw))}px`)
-      g.style.setProperty('--bal', `${Math.round((rw - lw) / 2)}px`)
+      setLayoutVars(g, { '--tw': `${Math.ceil(Math.max(lw, rw))}px` });
+      setLayoutVars(g, { '--bal': `${Math.round((rw - lw) / 2)}px` });
     }
     fit()
     document.fonts?.ready.then(fit)

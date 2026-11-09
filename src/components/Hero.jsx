@@ -1,3 +1,4 @@
+import { setLayoutVars } from "../hooks/layoutVars.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import seniors from "../assets/img/seniors.webp";
 import heroBg from "../assets/img/visit-bg.webp"; // same sunset gradient as the visit section
@@ -76,11 +77,11 @@ export default function Hero() {
     const p = still ? 0 : clamp(-pb.top / (run * 0.8)); // last 20% of the runway holds the full-screen film
     const e = ease(p);
 
-    S.style.setProperty("--t", String(1 - clamp((p - 0.03) / 0.3)));
-    S.style.setProperty("--ui", String(clamp((p - 0.82) / 0.18)));
-    S.style.setProperty("--p", p.toFixed(3));
+    setLayoutVars(S, { "--t": String(1 - clamp((p - 0.03) / 0.3)) });
+    setLayoutVars(S, { "--ui": String(clamp((p - 0.82) / 0.18)) });
+    setLayoutVars(S, { "--p": p.toFixed(3) });
     // dot pattern drifts up with the page while the stage is pinned (44px = one dot tile)
-    S.style.setProperty("--dy", `${(((pb.top % 44) + 44) % 44) - 44}px`);
+    setLayoutVars(S, { "--dy": `${(((pb.top % 44) + 44) % 44) - 44}px` });
     const ui = p > 0.82 ? "1" : "0";
     if (S.dataset.ui !== ui) S.dataset.ui = ui;
     const pinned = pb.top <= 0 && pb.bottom > H ? "on" : "off";
@@ -94,11 +95,11 @@ export default function Hero() {
         bh = pr.height * k;
       const bx = pr.left - sr.left + (pr.width - bw) / 2;
       const by = pr.top - sr.top + (pr.height - bh) / 2;
-      f.style.left = `${lerp(bx, 0, e)}px`;
-      f.style.top = `${lerp(by, 0, e)}px`;
-      f.style.width = `${lerp(bw, W, e)}px`;
-      f.style.height = `${lerp(bh, H, e)}px`;
-      f.style.borderRadius = `${lerp(bh / 2, 0, e)}px`;
+      setLayoutVars(f, { "--film-left": `${lerp(bx, 0, e)}px` });
+      setLayoutVars(f, { "--film-top": `${lerp(by, 0, e)}px` });
+      setLayoutVars(f, { "--film-width": `${lerp(bw, W, e)}px` });
+      setLayoutVars(f, { "--film-height": `${lerp(bh, H, e)}px` });
+      setLayoutVars(f, { "--film-borderRadius": `${lerp(bh / 2, 0, e)}px` });
 
       // save battery: pause the film once the hero is well out of view
       if (v) {
@@ -238,19 +239,19 @@ export default function Hero() {
               <h1 id="h1" aria-label="Live free. Age gracefully.">
                 <span className="hl" aria-hidden="true">
                   <span className="hw">
-                    <span style={{ "--d": ".05s" }}>Live</span>
+                    <span className="![--d:.05s]" >Live</span>
                   </span>{" "}
                   <span className="slot" ref={slot} />{" "}
                   <span className="hw">
-                    <span style={{ "--d": ".2s" }}>free.</span>
+                    <span className="![--d:.2s]" >free.</span>
                   </span>
                 </span>
                 <span className="hl l2" aria-hidden="true">
                   <span className="hw">
-                    <span style={{ "--d": ".34s" }}>Age</span>
+                    <span className="![--d:.34s]" >Age</span>
                   </span>{" "}
                   <span className="hw">
-                    <span style={{ "--d": ".46s" }}>gracefully.</span>
+                    <span className="![--d:.46s]" >gracefully.</span>
                   </span>
                 </span>
               </h1>
@@ -258,7 +259,7 @@ export default function Hero() {
 
             <div className="hero-bottom">
               <div>
-                <p className="lead lead-4 rv" style={{ "--d": ".5s" }}>
+                <p className="lead lead-4 rv ![--d:.5s]" >
                   <span className="ln">
                     Freedom Living is a thoughtfully designed senior living
                     community in the heart
@@ -276,7 +277,7 @@ export default function Hero() {
                     peace of mind.
                   </span>
                 </p>
-                <div className="hero-cta rv" style={{ "--d": ".62s" }}>
+                <div className="hero-cta rv ![--d:.62s]" >
                   <a
                     className="btn cream"
                     href="#visit"
@@ -296,8 +297,8 @@ export default function Hero() {
               {!rm && (
                 <button
                   type="button"
-                  className="cue rv"
-                  style={{ "--d": ".75s" }}
+                  className="cue rv ![--d:.75s]"
+
                   onClick={watch}
                   aria-label="Scroll to watch the film"
                 >
@@ -344,7 +345,7 @@ export default function Hero() {
           </div>
 
           {/* the film: starts as the pill inside the headline, grows to full screen on scroll */}
-          <div className="film" ref={film}>
+          <div className="film [&[data-layout-vars]]:![left:var(--film-left)] [&[data-layout-vars]]:![top:var(--film-top)] [&[data-layout-vars]]:![width:var(--film-width)] [&[data-layout-vars]]:![height:var(--film-height)] [&[data-layout-vars]]:![border-radius:var(--film-borderRadius)]" ref={film}>
             <video
               ref={vid}
               muted

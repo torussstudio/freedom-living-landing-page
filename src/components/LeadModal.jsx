@@ -202,11 +202,11 @@ export default function LeadModal({ open, onClose }) {
     if (!open) return;
     const prev = document.activeElement;
     const html = document.documentElement;
-    const oldOverflow = html.style.overflow;
-    html.style.overflow = "hidden";
+    const wasLocked = html.classList.contains("!overflow-hidden");
+    html.classList.add("!overflow-hidden");
     closeBtn.current?.focus({ preventScroll: true });
     return () => {
-      html.style.overflow = oldOverflow;
+      if (!wasLocked) html.classList.remove("!overflow-hidden");
       prev?.focus?.({ preventScroll: true });
     };
   }, [open]);

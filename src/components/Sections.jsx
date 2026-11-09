@@ -1,3 +1,4 @@
+import { layoutVars } from "../hooks/layoutVars.js";
 import { useId, useState } from "react";
 import InvestorModal from "./InvestorModal.jsx";
 import { Dash, Kicker, Logo } from "./Brand.jsx";
@@ -44,7 +45,7 @@ export function Care() {
 
 export function Day() {
   return (
-    <section className="day sec" style={{ paddingTop: 0 }}>
+    <section className="day sec ![padding-top:0]" >
       <div className="wrap">
         <Kicker className="rv">A day, your way</Kicker>
         <h2 className="h2 rv">
@@ -55,7 +56,7 @@ export function Day() {
           {DAY.map(([t, h, p, w], i) => (
             <div
               className="moment rv"
-              style={{ "--d": `${i * 0.06}s` }}
+              ref={layoutVars({ "--d": `${i * 0.06}s` })}
               key={t}
             >
               <span className="dot">{t}</span>
@@ -103,7 +104,7 @@ export function LocationProgress() {
             <b>Close to the city. Connected to everyday life.</b>
             <span>Mattumantha Junction, Malampuzha Road, Palakkad</span>
           </address>
-          <div className="rv" style={{ marginTop: 28 }}>
+          <div className="rv ![margin-top:28px]" >
             <a
               className="btn ghost"
               href={CONTACT.mapsUrl}
@@ -128,17 +129,17 @@ export function LocationProgress() {
         </a>
       </div>
 
-      <div className="wrap" style={{ marginTop: "clamp(0px,1vw,16px)" }}>
+      <div className="wrap ![margin-top:clamp(0px,1vw,16px)]" >
         <div className="prog-grid">
           <div>
             <Kicker className="rv">Construction update</Kicker>
             <h2 className="h2 rv">
               Already
               <br />
-              <em style={{ whiteSpace: "nowrap" }}>taking Shape</em>
+              <em className="![white-space:nowrap]" >taking Shape</em>
             </h2>
             <Dash />
-            <p className="lead rv" style={{ marginTop: 30 }}>
+            <p className="lead rv ![margin-top:30px]" >
               Construction is underway at Freedom Living, with the basement,
               ground floor, and first floor completed.
             </p>
@@ -191,7 +192,7 @@ export function LocationProgress() {
 
 export function Vision() {
   return (
-    <section className="vision sec" style={{ paddingBottom: 0 }}>
+    <section className="vision sec ![padding-bottom:0]" >
       <div className="wrap vision-grid">
         <div className="vision-head">
           <Kicker className="rv">Led by experience and community trust</Kicker>
@@ -201,7 +202,7 @@ export function Vision() {
             elders feel free, cared for, connected, and completely at home.
           </p>
         </div>
-        <div style={{ paddingBottom: "clamp(64px,8vw,120px)" }}>
+        <div className="![padding-bottom:clamp(64px,8vw,120px)]" >
           <div className="who rv">
             <b>Er. K. M. Rahamadulla</b>
             <span>

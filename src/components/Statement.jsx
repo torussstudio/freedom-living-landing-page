@@ -29,11 +29,11 @@ export default function Statement() {
     <section className="statement sec">
       <div className="wrap">
         <Kicker className="rv">Why Freedom Living</Kicker>
-        <p id="stmt" ref={ref} style={{ marginTop: 44 }}>
+        <p className="![margin-top:44px]" id="stmt" ref={ref} >
           {TOKENS.map((t, i) => {
             const cls = `w${i < lit ? ' on' : ''}`
             const node = t.pic
-              ? <span className={`pic ${cls}`}><img src={t.pic} alt="" style={t.pos ? { objectPosition: t.pos } : undefined} /></span>
+              ? <span className={`pic ${cls}`}><img src={t.pic} alt="" className={t.pos ? "![object-position:40%_40%]" : undefined} /></span>
               : t.em ? <em className={cls}>{t.em}</em>
               : <span className={cls}>{t.w}</span>
             return <Fragment key={i}>{i > 0 && ' '}{node}</Fragment>

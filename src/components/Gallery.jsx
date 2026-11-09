@@ -1,3 +1,4 @@
+import { layoutVars, setLayoutVars } from "../hooks/layoutVars.js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   prefersReducedMotion,
@@ -71,7 +72,7 @@ export default function Gallery() {
       t = track.current;
     if (!s || !t) return;
     const sticky = s.firstElementChild;
-    // keep the 900 / 480 in step with the media query in global.css (.hgal strip fallback)
+    // keep the 900 / 480 in step with the media query in tailwind.css (.hgal strip fallback)
     pinned.current =
       window.innerWidth >= 900 &&
       window.innerHeight >= 480 &&
@@ -112,18 +113,18 @@ export default function Gallery() {
       // shrinking --ph can only make captions taller, so this settles in a pass or two
       let ph = fit();
       for (let i = 0; i < 6; i++) {
-        s.style.setProperty("--ph", `${ph}px`);
+        setLayoutVars(s, { "--ph": `${ph}px` });
         const next = fit();
         if (next >= ph) break;
         ph = next;
       }
-      s.style.setProperty("--ph", `${ph}px`);
+      setLayoutVars(s, { "--ph": `${ph}px` });
       const extra = t.scrollWidth - window.innerWidth;
-      s.style.height = `${stickyH + Math.max(0, extra)}px`;
+      setLayoutVars(s, { "--gallery-height": `${stickyH + Math.max(0, extra)}px` });
     } else {
-      s.style.height = "";
-      s.style.removeProperty("--ph");
-      t.style.transform = "";
+      setLayoutVars(s, { "--gallery-height": null });
+      setLayoutVars(s, { "--ph": null });
+      setLayoutVars(t, { "--gallery-transform": null });
     }
   }, []);
 
@@ -145,12 +146,12 @@ export default function Gallery() {
     const r = s.getBoundingClientRect();
     const total = s.offsetHeight - s.firstElementChild.clientHeight;
     const p = Math.min(1, Math.max(0, -r.top / total));
-    t.style.transform = `translate3d(${-p * (t.scrollWidth - window.innerWidth)}px,0,0)`;
-    bar.current.style.width = `${p * 100}%`;
+    setLayoutVars(t, { "--gallery-transform": `translate3d(${-p * (t.scrollWidth - window.innerWidth)}px,0,0)` });
+    setLayoutVars(bar.current, { "--gallery-progress": `${p * 100}%` });
   });
 
   return (
-    <section className="hgal" ref={section} aria-label="Architectural renders">
+    <section className="hgal ![height:var(--gallery-height,auto)]" ref={section} aria-label="Architectural renders">
       <div className="hgal-sticky">
         <div className="wrap hgal-head">
           <div>
@@ -167,7 +168,7 @@ export default function Gallery() {
             recreation, and companionship.
           </p>
         </div>
-        <div className="track" ref={track}>
+        <div className="track ![transform:var(--gallery-transform,none)]" ref={track}>
           {SLIDES.map((s, i) => (
             <figure
               className={`slide${s.tall ? " tall" : ""}${i === idx ? " is-active" : ""}`}
@@ -178,7 +179,7 @@ export default function Gallery() {
                   src={s.src}
                   alt={s.alt}
                   loading="lazy"
-                  style={s.pos ? { objectPosition: s.pos } : undefined}
+                  className={s.pos ? "![object-position:70%_50%]" : undefined}
                   onLoad={size}
                 />
               </div>
@@ -191,7 +192,7 @@ export default function Gallery() {
         </div>
         <div className="wrap">
           <div className="hgal-progress">
-            <i ref={bar} />
+            <i className="![width:var(--gallery-progress,0px)]" ref={bar} />
           </div>
           {/* phones / small tablets only (shown by CSS): counter, progress line, prev / next */}
           <div className="hgal-ctl">
@@ -200,7 +201,7 @@ export default function Gallery() {
               <small>/ {String(total).padStart(2, "0")}</small>
             </span>
             <div className="hgal-line" aria-hidden="true">
-              <i style={{ width: `${((idx + 1) / total) * 100}%` }} />
+              <i className="![width:var(--layout-width)]" ref={layoutVars({ "--layout-width": `${((idx + 1) / total) * 100}%` })} />
             </div>
             <div className="hgal-nav">
               <button

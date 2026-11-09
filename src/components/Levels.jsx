@@ -1,3 +1,4 @@
+import { setLayoutVars } from "../hooks/layoutVars.js";
 import { useRef, useState } from 'react'
 import { Dash } from './Brand.jsx'
 import { LEVELS } from '../data/content.js'
@@ -70,9 +71,9 @@ export default function Levels() {
     const last = centre(nodes[nodes.length - 1])
     const len = Math.max(0, last - first)
     const fill = Math.min(len, Math.max(0, trigger - first))
-    el.style.setProperty('--t0', `${first - top}px`)
-    el.style.setProperty('--len', `${len}px`)
-    el.style.setProperty('--fill', `${fill}px`)
+    setLayoutVars(el, { '--t0': `${first - top}px` });
+    setLayoutVars(el, { '--len': `${len}px` });
+    setLayoutVars(el, { '--fill': `${fill}px` });
     let a = -1
     nodes.forEach((n, i) => { if (centre(n) <= trigger) a = i })
     setActive((prev) => (prev === a ? prev : a))

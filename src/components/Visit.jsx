@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { CONTACT } from "../data/content.js";
 import { DatePicker, TimeSelect, toISO } from "./FormPickers.jsx";
-import visitBg from "../assets/img/visit-bg.webp";
 
 const WHO = [
   ["Myself", "Myself"],
@@ -246,9 +245,8 @@ export default function Visit({ mode, setMode, prefill }) {
 
   return (
     <section
-      className="visit grad on-grad sec"
+      className="visit grad on-grad sec ![background-image:url('../assets/img/visit-bg.webp')]"
       id="visit"
-      style={{ backgroundImage: `url(${visitBg})` }}
     >
       <div className="wrap visit-grid">
         <div>
@@ -268,7 +266,7 @@ export default function Visit({ mode, setMode, prefill }) {
           </div>
         </div>
 
-        <div className="rv" style={{ "--d": ".15s" }}>
+        <div className="rv ![--d:.15s]" >
           {sent ? (
             <div className="thanks">
               <span className="kicker">Received</span>
@@ -286,7 +284,7 @@ export default function Visit({ mode, setMode, prefill }) {
             </div>
           ) : (
             <form className="f" noValidate onSubmit={submit}>
-              <input
+              <input className="![position:absolute] ![left:-9999px] ![width:1px] ![height:1px] ![opacity:0]"
                 type="text"
                 name="company"
                 value={hp}
@@ -294,13 +292,7 @@ export default function Visit({ mode, setMode, prefill }) {
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  left: "-9999px",
-                  width: 1,
-                  height: 1,
-                  opacity: 0,
-                }}
+
               />
               <div className="seg" role="tablist" aria-label="Enquiry type">
                 <button
@@ -493,7 +485,7 @@ export default function Visit({ mode, setMode, prefill }) {
                   type="submit"
                   disabled={sending}
                   aria-busy={sending}
-                  style={sending ? { opacity: 0.7, cursor: "wait" } : undefined}
+                  data-sending={sending || undefined}
                 >
                   {sending
                     ? "Sending…"
@@ -504,7 +496,7 @@ export default function Visit({ mode, setMode, prefill }) {
                 </button>
               </div>
               {sendErr && (
-                <p className="err" role="alert" style={{ paddingLeft: 0 }}>
+                <p className="err ![padding-left:0]" role="alert" >
                   {sendErr}
                 </p>
               )}

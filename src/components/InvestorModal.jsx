@@ -130,19 +130,19 @@ function CategorySelect({ id, value, onChange, invalid }) {
         onClick={toggle}
         onKeyDown={onBtnKey}
       >
-        <span className="shown" style={{ paddingLeft: 0 }}>
+        <span className="shown ![padding-left:0]" >
           {value || "Select investor category"}
         </span>
         <IcoChevron className="chev" />
       </button>
       {open && (
         <ul
-          className="pop menu"
+          className="pop menu ![right:0]"
           role="listbox"
           aria-label="Investor category"
           ref={list}
           onKeyDown={onKey}
-          style={{ right: 0 }}
+
         >
           {CATEGORIES.map((v, i) => (
             <li
@@ -180,11 +180,11 @@ export default function InvestorModal({ open, onClose }) {
     if (!open) return;
     const prev = document.activeElement;
     const html = document.documentElement;
-    const oldOverflow = html.style.overflow;
-    html.style.overflow = "hidden";
+    const wasLocked = html.classList.contains("!overflow-hidden");
+    html.classList.add("!overflow-hidden");
     closeBtn.current?.focus({ preventScroll: true });
     return () => {
-      html.style.overflow = oldOverflow;
+      if (!wasLocked) html.classList.remove("!overflow-hidden");
       prev?.focus?.({ preventScroll: true });
     };
   }, [open]);
@@ -269,7 +269,7 @@ export default function InvestorModal({ open, onClose }) {
 
         {(
           <form className="imodal-form" noValidate onSubmit={submit}>
-            <input
+            <input className="![position:absolute] ![left:-9999px] ![width:1px] ![height:1px] ![opacity:0]"
               type="text"
               name="company"
               value={hp}
@@ -277,13 +277,7 @@ export default function InvestorModal({ open, onClose }) {
               tabIndex={-1}
               autoComplete="off"
               aria-hidden="true"
-              style={{
-                position: "absolute",
-                left: "-9999px",
-                width: 1,
-                height: 1,
-                opacity: 0,
-              }}
+
             />
             <div className="fr two">
               <div className="fld">
