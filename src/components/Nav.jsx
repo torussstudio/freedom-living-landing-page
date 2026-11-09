@@ -4,7 +4,7 @@ import { NAV } from '../data/content.js'
 import logoFull from '../assets/img/logo-full.webp'
 import { useScrollFrame, useScrollTo } from '../hooks/SmoothScroll.jsx'
 
-export default function Nav() {
+export default function Nav({ onBook }) {
   const [solid, setSolid] = useState(false)
   const [hide, setHide] = useState(false)
   const [mcta, setMcta] = useState(false)
@@ -23,6 +23,7 @@ export default function Nav() {
   })
 
   const go = (e, href) => { e.preventDefault(); scrollTo(href) }
+  const book = (e) => { e.preventDefault(); onBook ? onBook() : scrollTo('#visit') }
 
   return (
     <>
@@ -38,12 +39,12 @@ export default function Nav() {
               <li key={href}><a href={href} onClick={(e) => go(e, href)}>{label}</a></li>
             ))}
           </ul>
-          <a className="btn" href="#visit" onClick={(e) => go(e, '#visit')}>Book a visit <span className="arr">→</span></a>
+          <a className="btn" href="#visit" onClick={book}>Book a visit <span className="arr">→</span></a>
         </div>
       </header>
       <div className={`mcta${mcta ? ' show' : ''}`}>
         <a className="btn ghost" href="#plans" onClick={(e) => go(e, '#plans')}>Floor plans</a>
-        <a className="btn" href="#visit" onClick={(e) => go(e, '#visit')}>Book a visit</a>
+        <a className="btn" href="#visit" onClick={book}>Book a visit</a>
       </div>
     </>
   )

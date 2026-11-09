@@ -25,18 +25,20 @@ export const NAV = [
 ];
 
 export const PILLARS = [
-  { key: "home", title: "Your own home" },
   {
-    key: "ease",
-    title: "Everyday ease",
+    key: "care", // icon: person with wheelchair
+    title: "Accessibility & Mobility",
+    text: "Senior-friendly door openings, a passenger lift, and a stretcher lift with Automatic Rescue Devices (ARD).",
   },
   {
-    key: "community",
-    title: "Community",
+    key: "ease", // icon: house with shield
+    title: "Safety & Security",
+    text: "CCTV in selected common areas, internet & intercom connectivity to security, and firefighting provisions.",
   },
   {
-    key: "care",
-    title: "Care close by",
+    key: "home", // icon: building
+    title: "Building Infrastructure",
+    text: "Power backup, basement parking, EV-charging provision, sewage treatment, and waste management facilities.",
   },
 ];
 
@@ -136,20 +138,20 @@ export const LEVELS = [
 
 export const CARE = [
   [
-    "24×7 emergency support",
-    "Round-the-clock nursing, medical and emergency support from a team inside the building, for reassurance whenever help is needed.",
+    "Independent Living",
+    "Private studio apartments, attached bathrooms, kitchenettes, AC and internet provisions.",
   ],
   [
-    "Ambulance access",
-    "Emergency ambulance support at any hour, and a stretcher lift that reaches every floor.",
+    "Care & Reassurance",
+    "Palliative care unit, 24×7 emergency support, ambulance access, and medical and nursing care.",
   ],
   [
-    "Medical & palliative care",
-    "An on-site palliative care unit and nurse room, so changing health needs can be met without leaving a familiar home.",
+    "Community & Companionship",
+    "Dining and recreation spaces, reading areas, indoor games, rooftop exercise and wellness facilities.",
   ],
   [
-    "Power & safety",
-    "A 24-hour backup generator, firefighting to Kerala Fire & Rescue rules, CCTV in common areas, and an intercom to security from every home.",
+    "Everyday Comfort & Convenience",
+    "Community dining, separate veg and non-veg kitchens, reception facilities, relaxation spaces.",
   ],
 ];
 

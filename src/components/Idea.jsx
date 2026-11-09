@@ -1,5 +1,5 @@
 import { Dash, Kicker } from "./Brand.jsx";
-import renderSunset from "../assets/img/render-sunset.webp";
+import renderFacade from "../assets/img/render-facade.webp";
 import { PILLARS } from "../data/content.js";
 
 const ICONS = {
@@ -63,7 +63,7 @@ export default function Idea() {
             <em>and the freedom to live life your way.</em>
           </h2>
           <Dash />
-          <Kicker className="rv idea-sub">Four core advantages</Kicker>
+          <Kicker className="rv idea-sub">SENIOR-FRIENDLY FEATURES</Kicker>
           <div className="idea-pillars">
             {PILLARS.map((p) => (
               <article className="pillar rv" key={p.key}>
@@ -86,9 +86,9 @@ export default function Idea() {
         <div className="stick">
           <div className="idea-photo wipe">
             <img
-              src={renderSunset}
+              src={renderFacade}
               alt="Freedom Living building at sunset, architectural render"
-              style={{ objectPosition: "62% 50%" }}
+              style={{ objectPosition: "50% 82%" }}
             />
           </div>
         </div>

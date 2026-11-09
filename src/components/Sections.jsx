@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import InvestorModal from "./InvestorModal.jsx";
 import { Dash, Kicker, Logo } from "./Brand.jsx";
 import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ } from "../data/content.js";
 import mapImg from "../assets/img/map.webp";
@@ -13,9 +14,9 @@ export function Care() {
   return (
     <section className="sec" id="care">
       <div className="wrap">
-        <Kicker className="rv">Designed for senior living</Kicker>
+        <Kicker className="rv">Four core advantages</Kicker>
         <h2 className="h2 rv">
-          A home that considers <em>the years ahead.</em>
+          Thoughtfully planned around <em>your everyday needs.</em>
         </h2>
         <Dash />
         <div className="care-grid rv">
@@ -256,17 +257,60 @@ function FaqItem({ q, a }) {
   );
 }
 
+export function Investors() {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="sec inv" id="investors">
+      <div className="wrap">
+        <div className="inv-card rv">
+          <div className="inv-main">
+            <Kicker>Investors &amp; stakeholders</Kicker>
+            <h2 className="h2 inv-h">
+              Invest in a vision for <em>better senior living.</em>
+            </h2>
+            <p className="lead">
+              Palghat Senior Living Limited welcomes enquiries from prospective
+              investors interested in its long-term vision of developing senior
+              living communities across Kerala.
+            </p>
+          </div>
+          <div className="inv-side">
+            <p>
+              Learn more about the company, its expansion plans, and
+              shareholding opportunities.
+            </p>
+            <button
+              type="button"
+              className="btn"
+              aria-haspopup="dialog"
+              onClick={() => setOpen(true)}
+            >
+              Explore Investment Opportunities <span className="arr">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <InvestorModal open={open} onClose={() => setOpen(false)} />
+    </section>
+  );
+}
+
 export function FamiliesFaq() {
   return (
     <section className="sec" id="faq">
       <div className="wrap fam-grid">
         <div>
-          <Kicker className="rv">For sons and daughters, near and far</Kicker>
+          <Kicker className="rv">For sons &amp; daughters, near and far</Kicker>
           <h2 className="h2 rv">
-            In Bengaluru, Dubai or Boston?{" "}
-            <em>Your parents can still be home.</em>
+            Miles apart, but{" "}
+            <em>their comfort stays close to your heart.</em>
           </h2>
           <Dash />
+          <p className="lead rv fam-lead">
+            Whether you live in Palakkad or halfway across the world, explore a
+            senior living community designed around your parents' independence,
+            comfort, and wellbeing.
+          </p>
         </div>
         <div className="rv">
           {FAQ.map(([q, a]) => (

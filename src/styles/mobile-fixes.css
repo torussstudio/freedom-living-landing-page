@@ -56,18 +56,368 @@ form.f,
   }
 }
 
-/* ───────── "Why Freedom Living": no divider line above the top row of the 2×2 grid ─────────
-   (the lines between the rows and the one under the grid stay) */
+/* ───────── "Why Freedom Living": Senior-friendly features ─────────
+   Three rows (icon left, title + description right) instead of a 2×2 grid, with no divider
+   line above the first row; the lines between the rows and under the list stay. */
+.idea-pillars {
+  grid-template-columns: 1fr;
+}
+.pillar {
+  grid-template-columns: 48px minmax(0, 1fr);
+  column-gap: clamp(16px, 2.4vw, 28px);
+  row-gap: 6px;
+  align-items: start;
+}
 .pillar:first-child {
   border-top: 0;
 }
+.pillar svg {
+  grid-row: 1 / span 2;
+  width: clamp(40px, 5vw, 52px);
+  height: clamp(40px, 5vw, 52px);
+}
+.pillar h3 {
+  align-self: end;
+}
+.pillar p {
+  grid-column: 2;
+}
 @media (min-width: 520px) {
-  .pillar:nth-child(2) {
-    border-top: 0;
+  .pillar {
+    grid-template-columns: 56px minmax(0, 1fr);
   }
 }
 
 /* ───────── Hero: smaller "SENIOR LIVING APARTMENTS" kicker ───────── */
 .hero-head .kicker {
   font-size: clamp(0.66rem, 2.9vw, 0.98rem) !important;
+}
+
+/* ───────── FAQ ("For sons & daughters"): body font, plus the intro line under the heading ───────── */
+.faq-q {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.35;
+}
+.fam-lead {
+  margin-top: 28px;
+}
+
+/* ───────── Investors & stakeholders banner ───────── */
+.inv {
+  padding-block: clamp(32px, 4vw, 56px);
+}
+.inv-card {
+  display: grid;
+  gap: 32px;
+  padding: clamp(28px, 4vw, 56px) clamp(24px, 4vw, 56px);
+  background: var(--cream-2);
+  border-left: 8px solid var(--crimson-deep);
+  border-radius: 6px;
+}
+.inv-main {
+  min-width: 0;
+}
+.inv-h {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  margin-block: 0.4em 0.5em;
+}
+.inv-side {
+  display: grid;
+  gap: 24px;
+  align-content: center;
+  justify-items: start;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.inv-side p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 24em;
+}
+.inv-side .btn {
+  white-space: normal;
+  text-align: left;
+}
+@media (min-width: 900px) {
+  .inv-card {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+  }
+  .inv-side {
+    padding-top: 0;
+    border-top: 0;
+    padding-left: clamp(32px, 4vw, 56px);
+    border-left: 1px solid var(--line);
+  }
+}
+
+/* ───────── Investor enquiry modal (closes only with the X button) ───────── */
+.imodal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 32px);
+  background: rgba(46, 14, 22, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: imFade 0.3s ease both;
+}
+.imodal-panel {
+  --fbrown: #4a3a20;
+  --fline: rgba(54, 51, 42, 0.22);
+  position: relative;
+  width: min(720px, 100%);
+  margin: auto;
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 30px;
+  padding: clamp(24px, 3.4vw, 44px) clamp(20px, 3.6vw, 48px);
+  box-shadow: 0 40px 90px -30px rgba(60, 10, 30, 0.7);
+  display: grid;
+  gap: 22px;
+  animation: imRise 0.5s var(--ease) both;
+}
+.imodal-head {
+  display: grid;
+  gap: 10px;
+  padding-right: 52px;
+}
+.imodal-head h3 {
+  font: 400 clamp(1.9rem, 3.6vw, 2.7rem) / 1.08 var(--display);
+  color: var(--crimson);
+  margin: 0;
+}
+.imodal-head .kicker {
+  color: var(--ink-soft);
+}
+.inv-intro {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 36em;
+}
+.imodal-x {
+  position: absolute;
+  top: clamp(14px, 2vw, 22px);
+  right: clamp(14px, 2vw, 22px);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--fline);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.imodal-x:hover {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #fff8e6;
+}
+.imodal-x:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+}
+.imodal-form {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.imodal-form .go {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--fline);
+  padding-top: 20px;
+  margin-top: 6px;
+}
+.imodal-form .fine {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 22em;
+  margin: 0;
+}
+.imodal-form .fine svg {
+  flex: none;
+  color: var(--fbrown);
+}
+.imodal-form .go .btn {
+  padding: 1em 2.4em;
+}
+.imodal .fpick .pop {
+  left: 0;
+  right: 0;
+  padding: 8px;
+}
+@media (max-width: 520px) {
+  .imodal-form .go .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@keyframes imFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes imRise {
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imodal, .imodal-panel { animation: none; }
+}
+
+/* ───────── Lead modal ("Let's help you explore your options") ───────── */
+.lm {
+  width: min(820px, 100%);
+}
+.lm-head {
+  text-align: center;
+  justify-items: center;
+  padding-inline: 44px;
+}
+.lm-head h3 {
+  color: var(--ink);
+}
+.lm-head .inv-intro {
+  max-width: 34em;
+}
+.opt-note {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.lm .ctl.ico {
+  padding: 0 20px;
+}
+.lm .ctl .lead-ico {
+  color: var(--ink);
+}
+.lm .ctl input {
+  padding-left: 0;
+}
+.lm-radios {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 720px) {
+  .lm-radios {
+    grid-template-columns: repeat(4, auto);
+  }
+}
+.lm-radio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--fline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 500 0.95rem/1.1 var(--body);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+.lm-radio i {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--fbrown);
+  display: grid;
+  place-items: center;
+}
+.lm-radio:hover {
+  border-color: var(--fbrown);
+}
+.lm-radio[aria-checked="true"] {
+  border-color: var(--crimson);
+  background: #fce4e2;
+}
+.lm-radio[aria-checked="true"] i {
+  border-color: var(--crimson);
+}
+.lm-radio[aria-checked="true"] i::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--crimson);
+}
+.lm-radio:focus-visible,
+.lm-agree input:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 2px;
+}
+.lm-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.lm-agree input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--crimson);
+  cursor: pointer;
+}
+.lm-submit {
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
+  justify-content: center;
+  padding: 1.1em 2em;
+  font-size: 1.1rem;
+  background: var(--crimson-deep);
+  border-color: var(--crimson-deep);
+}
+.lm-submit:hover {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+
+/* Modals: only the headings use the display font, everything else is the body font */
+.imodal,
+.imodal button,
+.imodal input,
+.imodal textarea,
+.imodal select,
+.imodal .pop,
+.imodal .pop li {
+  font-family: var(--body);
+}
+.imodal h3 {
+  font-family: var(--display);
 }
