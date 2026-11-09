@@ -1,28 +1,35 @@
-import { useState } from 'react'
-import { SmoothScroll, useScrollTo } from './hooks/SmoothScroll.jsx'
-import { useReveal } from './hooks/useReveal.js'
-import Nav from './components/Nav.jsx'
-import Hero from './components/Hero.jsx'
-import Statement from './components/Statement.jsx'
-import Idea from './components/Idea.jsx'
-import Glance from './components/Glance.jsx'
-import Gallery from './components/Gallery.jsx'
-import Levels from './components/Levels.jsx'
-import FloorPlans from './components/FloorPlans.jsx'
-import Visit from './components/Visit.jsx'
-import { Care, Day, FamiliesFaq, Footer, LocationProgress, Vision } from './components/Sections.jsx'
+import { useState } from "react";
+import { SmoothScroll, useScrollTo } from "./hooks/SmoothScroll.jsx";
+import { useReveal } from "./hooks/useReveal.js";
+import Nav from "./components/Nav.jsx";
+import Hero from "./components/Hero.jsx";
+// import Statement from "./components/Statement.jsx";
+import Idea from "./components/Idea.jsx";
+import Glance from "./components/Glance.jsx";
+import Gallery from "./components/Gallery.jsx";
+// import Levels from "./components/Levels.jsx";
+import FloorPlans from "./components/FloorPlans.jsx";
+import Visit from "./components/Visit.jsx";
+import {
+  Care,
+  Day,
+  FamiliesFaq,
+  Footer,
+  LocationProgress,
+  Vision,
+} from "./components/Sections.jsx";
 
 function Page() {
-  useReveal()
-  const scrollTo = useScrollTo()
-  const [mode, setMode] = useState('visit')
-  const [prefill, setPrefill] = useState(null)
+  useReveal();
+  const scrollTo = useScrollTo();
+  const [mode, setMode] = useState("visit");
+  const [prefill, setPrefill] = useState(null);
 
   const askAbout = (label) => {
-    setMode('enquiry')
-    setPrefill(`I'd like to know more about ${label}.`)
-    scrollTo('#visit')
-  }
+    setMode("enquiry");
+    setPrefill(`I'd like to know more about ${label}.`);
+    scrollTo("#visit");
+  };
 
   return (
     <>
@@ -33,7 +40,6 @@ function Page() {
         <FloorPlans onAskAbout={askAbout} />
         <LocationProgress />
         <Gallery />
-        <Statement />
         <Idea />
         <Care />
         <Vision />
@@ -42,7 +48,7 @@ function Page() {
       </main>
       <Footer />
     </>
-  )
+  );
 }
 
 export default function App() {
@@ -50,5 +56,5 @@ export default function App() {
     <SmoothScroll>
       <Page />
     </SmoothScroll>
-  )
+  );
 }

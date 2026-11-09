@@ -26,6 +26,7 @@ export function Care() {
             </div>
           ))}
         </div>
+        {/* "Also built in" amenities: hidden for now. Uncomment to bring it back.
         <div className="amen">
           <h3 className="rv">Also built in</h3>
           <div className="chips rv">
@@ -34,6 +35,7 @@ export function Care() {
             ))}
           </div>
         </div>
+        */}
       </div>
     </section>
   );
@@ -85,13 +87,7 @@ const Tick = () => (
 
 export function LocationProgress() {
   return (
-    <section
-      className="sec loc"
-      style={{
-        paddingTop: "clamp(40px,6vw,80px)",
-        paddingBottom: "clamp(16px,2.5vw,40px)",
-      }}
-    >
+    <section className="sec loc">
       <div className="wrap loc-grid">
         <div>
           <Kicker className="rv">Location & connectivity</Kicker>
@@ -194,7 +190,7 @@ export function LocationProgress() {
 
 export function Vision() {
   return (
-    <section className="vision sec" style={{ paddingBottom: 0 }}>
+    <section className="vision sec">
       <div className="wrap vision-grid">
         <div className="vision-head">
           <Kicker className="rv">Led by experience and community trust</Kicker>
