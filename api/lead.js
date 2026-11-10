@@ -15,9 +15,14 @@ import nodemailer from 'nodemailer'
  * Environment variables (Vercel → Project → Settings → Environment Variables):
  *   LEADS_SHEET_WEBHOOK  URL of the deployed Apps Script web app (ends in /exec)
  *   LEADS_SHEET_SECRET   same value as the SECRET script property in that Apps Script project
- *   GMAIL_USER           pslfreedomliving@gmail.com
- *   GMAIL_APP_PASSWORD   16-character Google app password (not the normal password)
- *   LEAD_TO              optional, comma-separated team inboxes (defaults to GMAIL_USER)
+ *   Mail through your own mail server (SMTP):
+ *   SMTP_HOST            e.g. mail.toruss.studio (must have a valid TLS certificate)
+ *   SMTP_PORT            587 (STARTTLS, default) or 465 (SSL)
+ *   SMTP_USER            full mailbox address, e.g. leads@toruss.studio
+ *   SMTP_PASS            that mailbox's password
+ *   SMTP_FROM            optional sender address (defaults to SMTP_USER)
+ *   Or, instead of SMTP, Gmail: GMAIL_USER + GMAIL_APP_PASSWORD (16-character app password)
+ *   LEAD_TO              optional, comma-separated team inboxes (defaults to the sender address)
  */
 
 const BRAND = 'Freedom Living'
@@ -97,16 +102,29 @@ async function saveToSheet(type, lead, when, received) {
 
 /** Team notification + visitor confirmation. Resolves 'ok' | 'skipped' | 'failed'. */
 async function sendMails(type, lead, when, received) {
-  const { GMAIL_USER, GMAIL_APP_PASSWORD, LEAD_TO } = process.env
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) return 'skipped'
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, GMAIL_USER, GMAIL_APP_PASSWORD, LEAD_TO } = process.env
+  const useSmtp = !!(SMTP_HOST && SMTP_USER && SMTP_PASS)
+  if (!useSmtp && !(GMAIL_USER && GMAIL_APP_PASSWORD)) return 'skipped'
+  const FROM_ADDR = useSmtp ? (SMTP_FROM || SMTP_USER) : GMAIL_USER
 
   const first = lead.name.split(/\s+/)[0]
   const waLink = `https://wa.me/91${lead.phone.slice(-10)}`
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD.replace(/\s/g, '') },
-  })
+  const port = Number(SMTP_PORT) || 587
+  const transporter = useSmtp
+    ? nodemailer.createTransport({
+        host: SMTP_HOST,
+        port,
+        secure: port === 465, // 465 = SSL from the start, 587 = upgrades with STARTTLS
+        auth: { user: SMTP_USER, pass: SMTP_PASS },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 12000,
+      })
+    : nodemailer.createTransport({
+        service: 'gmail',
+        auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD.replace(/\s/g, '') },
+      })
 
   /* 1. team notification */
   const teamSubject = {
@@ -176,8 +194,8 @@ async function sendMails(type, lead, when, received) {
 
   try {
     await transporter.sendMail({
-      from: `"${BRAND} Website" <${GMAIL_USER}>`,
-      to: LEAD_TO || GMAIL_USER,
+      from: `"${BRAND} Website" <${FROM_ADDR}>`,
+      to: LEAD_TO || FROM_ADDR,
       replyTo: lead.email || undefined,
       subject: teamSubject,
       text: teamText,
@@ -192,9 +210,9 @@ async function sendMails(type, lead, when, received) {
   if (lead.email) {
     try {
       await transporter.sendMail({
-        from: `"${BRAND}" <${GMAIL_USER}>`,
+        from: `"${BRAND}" <${FROM_ADDR}>`,
         to: lead.email,
-        replyTo: GMAIL_USER,
+        replyTo: FROM_ADDR,
         subject: custSubject,
         text: custText,
         html: custHtml,
@@ -250,7 +268,7 @@ export default async function handler(req, res) {
 
   if (sheet === 'ok' || mail === 'ok') return res.status(200).json({ ok: true })
   if (sheet === 'skipped' && mail === 'skipped') {
-    console.error('lead: neither the Google Sheet nor Gmail is configured')
+    console.error('lead: neither the Google Sheet nor email is configured')
     return res.status(500).json({ ok: false, error: 'Leads are not configured' })
   }
   return res.status(502).json({ ok: false, error: 'Could not send right now.' })
