@@ -68,8 +68,10 @@ export default function Hero({ onBook }) {
       f = film.current,
       v = vid.current;
     if (!P || !S || !sl || !f) return;
+    // read everything first, write afterwards (avoids forcing layout between writes)
     const sr = S.getBoundingClientRect();
     const pb = P.getBoundingClientRect();
+    const pr = reduced.current ? null : sl.getBoundingClientRect();
     const W = sr.width,
       H = sr.height;
     const still = reduced.current;
@@ -89,7 +91,6 @@ export default function Hero({ onBook }) {
       document.documentElement.dataset.heroPin = pinned;
 
     if (!still) {
-      const pr = sl.getBoundingClientRect();
       const k = intro.current;
       const bw = pr.width * k,
         bh = pr.height * k;

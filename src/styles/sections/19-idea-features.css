@@ -1,0 +1,31 @@
+/* ───────── "Why Freedom Living": Senior-friendly features ─────────
+   Three rows (icon left, title + description right) instead of a 2×2 grid, with no divider
+   line above the first row; the lines between the rows and under the list stay. */
+.idea-pillars {
+  grid-template-columns: 1fr;
+}
+.pillar {
+  grid-template-columns: 48px minmax(0, 1fr);
+  column-gap: clamp(16px, 2.4vw, 28px);
+  row-gap: 6px;
+  align-items: start;
+}
+.pillar:first-child {
+  border-top: 0;
+}
+.pillar svg {
+  grid-row: 1 / span 2;
+  width: clamp(40px, 5vw, 52px);
+  height: clamp(40px, 5vw, 52px);
+}
+.pillar h3 {
+  align-self: end;
+}
+.pillar p {
+  grid-column: 2;
+}
+@media (min-width: 520px) {
+  .pillar {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+}

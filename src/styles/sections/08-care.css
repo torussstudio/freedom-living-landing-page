@@ -1,0 +1,117 @@
+/* ───────── CARE (deck slide 12) ───────── */
+.care-grid {
+  display: grid;
+  margin-top: 64px;
+}
+@media (min-width: 800px) {
+  .care-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.cg {
+  position: relative;
+  padding: 44px clamp(4px, 3vw, 48px) 52px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+.cg h3 {
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  color: var(--crimson);
+}
+.cg p {
+  color: var(--ink-soft);
+  max-width: 28em;
+}
+/* hover glow — rises from the card's inner corner (toward the grid centre) */
+.cg {
+  --glow-at: 0% 0%;
+  isolation: isolate;
+}
+.cg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient( 120% 120% at var(--glow-at), rgba(232, 92, 80, 0.22), transparent 45% );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+/* default: cards 1 & 4 glow; once any card is hovered, only that card glows */
+@media (min-width: 800px) {
+  .cg:nth-child(1)::before,
+  .cg:nth-child(4)::before {
+    opacity: 1;
+  }
+  .care-grid:has(.cg:hover) .cg::before,
+  .care-grid:has(.cg:focus-within) .cg::before {
+    opacity: 0;
+  }
+}
+.care-grid:has(.cg:hover) .cg:hover::before,
+.care-grid:has(.cg:focus-within) .cg:focus-within::before {
+  opacity: 1;
+}
+@media (min-width: 800px) {
+  .cg:nth-child(1) {
+    --glow-at: 100% 100%;
+  }
+  .cg:nth-child(2) {
+    --glow-at: 0% 100%;
+  }
+  .cg:nth-child(3) {
+    --glow-at: 100% 0%;
+  }
+  .cg:nth-child(4) {
+    --glow-at: 0% 0%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cg::before {
+    transition: none;
+  }
+}
+@media (min-width: 800px) {
+  .cg:nth-child(1) {
+    border-right: 1px solid rgba(213, 47, 58, 0.5);
+    border-bottom: 1px solid rgba(213, 47, 58, 0.5);
+  }
+  .cg:nth-child(2) {
+    border-bottom: 1px solid rgba(213, 47, 58, 0.5);
+  }
+  .cg:nth-child(3) {
+    border-right: 1px solid rgba(213, 47, 58, 0.5);
+  }
+  .cg:nth-child(odd) {
+    padding-left: 0;
+  }
+}
+@media (max-width: 799px) {
+  .cg {
+    border-top: 1px solid rgba(213, 47, 58, 0.4);
+    padding-inline: 0;
+  }
+}
+.amen {
+  margin-top: clamp(48px, 6vw, 80px);
+  display: grid;
+  gap: 30px;
+}
+@media (min-width: 1000px) {
+  .amen {
+    grid-template-columns: 4fr 8fr;
+    gap: 80px;
+    align-items: start;
+  }
+}
+.amen h3 {
+  font-size: var(--t-h3);
+}
+.amen .chips span {
+  background: transparent;
+  border-color: var(--sand-line);
+  font-weight: 600;
+  padding: 0.65em 1.15em;
+  font-size: 0.98rem;
+}

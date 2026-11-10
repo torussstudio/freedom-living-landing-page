@@ -1,0 +1,11 @@
+/* ───────── Floor plans: "Only homes with a balcony" toggle ─────────
+   Narrow boards: the toggle wraps onto its own row, flush left with the title and pill.
+   Wide boards (single header line): it sits at the right end. */
+.switch {
+  margin-left: 0;
+}
+@container (min-width:800px) {
+  .switch {
+    margin-left: auto;
+  }
+}

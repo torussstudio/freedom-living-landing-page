@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { CONTACT } from "../data/content.js";
 import { DatePicker, TimeSelect, toISO } from "./FormPickers.jsx";
+import { postLead } from "../lib/postLead.js";
+import { Req, Svg, useFormState } from "./formKit.jsx";
 
 const WHO = [
   ["Myself", "Myself"],
@@ -18,22 +20,6 @@ const EMPTY = {
 };
 
 /* ---------- icons (stroke = currentColor) ---------- */
-const Svg = ({ children, size = 20, ...p }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width={size}
-    height={size}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.7"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    {...p}
-  >
-    {children}
-  </svg>
-);
 const IcoCalendar = (p) => (
   <Svg {...p}>
     <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
@@ -105,12 +91,6 @@ const TOPICS = [
   ["other", "Something else", IcoQuestion],
 ];
 
-const Req = () => (
-  <span className="req" aria-hidden="true">
-    *
-  </span>
-);
-
 function CopyLine({ label, value }) {
   const [state, setState] = useState("Copy");
   const copy = async () => {
@@ -142,10 +122,9 @@ function CopyLine({ label, value }) {
  * team and sends the visitor a confirmation if they gave an email.
  */
 export default function Visit({ mode, setMode, prefill }) {
-  const [f, setF] = useState(EMPTY);
   const [who, setWho] = useState("Myself");
   const [topic, setTopic] = useState("pricing");
-  const [errors, setErrors] = useState({});
+  const { f, setF, errors, setErrors, set, setPhone } = useFormState(EMPTY);
   const [sent, setSent] = useState(null);
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
@@ -163,13 +142,6 @@ export default function Visit({ mode, setMode, prefill }) {
     setTopic("homes");
     if (!f.message) setF((v) => ({ ...v, message: prefill }));
   }
-
-  const set = (k) => (e) => setF((v) => ({ ...v, [k]: e.target.value }));
-  const setPhone = (e) =>
-    setF((v) => ({
-      ...v,
-      phone: e.target.value.replace(/\D/g, "").slice(0, 10),
-    }));
 
   const submit = async (e) => {
     e.preventDefault();
@@ -211,22 +183,10 @@ export default function Visit({ mode, setMode, prefill }) {
           };
     setSending(true);
     setSendErr("");
-    try {
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...lead, company: hp }),
-      });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok || !data.ok) throw new Error(data.error || "send failed");
-      setSent(lead);
-    } catch {
-      setSendErr(
-        `Sorry, we couldn't send that just now. Please try again, or call / WhatsApp us on ${CONTACT.phone}.`,
-      );
-    } finally {
-      setSending(false);
-    }
+    const r = await postLead(lead, hp);
+    if (r.ok) setSent(lead);
+    else setSendErr(r.message);
+    setSending(false);
   };
 
   const reset = () => {

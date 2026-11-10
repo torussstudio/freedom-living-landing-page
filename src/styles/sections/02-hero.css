@@ -1,0 +1,401 @@
+/* ───────── HERO ─────────
+   Editorial hero: the film lives inside the headline as a pill. While the hero is pinned,
+   scrolling grows the pill over the type until the film is full-bleed (see Hero.jsx).
+   .grad has overflow:hidden, which would break the pin, so the hero uses overflow:clip. */
+.hero {
+  --runway: 95vh;
+  --runway: 95svh;
+  padding: 0;
+  overflow: visible;
+  overflow: clip;
+}
+.hero-pin {
+  position: relative;
+  height: calc(100vh + var(--runway));
+  height: calc(100svh + var(--runway));
+}
+.hero-stage {
+  --t: 1;
+  --ui: 0;
+  --p: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  padding: calc(clamp(78px, 11svh, 104px) + env(safe-area-inset-top, 0px)) max(var(--gutr), min(64px, 4.4vw)) calc(clamp(20px, 4svh, 40px) + env(safe-area-inset-bottom, 0px)) max(var(--gut), min(64px, 4.4vw));
+}
+/* background image (src/assets/img/hero-bg.webp) replaces the gradient + bird watermark */
+.hero-stage {
+  background: var(--sunset-bg);
+}
+/* dot pattern over the photo; Hero.jsx moves it with the scroll (--dy) */
+.hero-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: -44px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image: radial-gradient( rgba(255, 240, 200, 0.35) 1.2px, transparent 1.6px );
+  background-size: 44px 44px;
+  transform: translate3d(0, var(--dy, 0px), 0);
+  will-change: transform;
+}
+.hero.rm .hero-dots {
+  transform: none;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: scale(1.08);
+  transition: transform 2.6s var(--ease);
+}
+.hero.go .hero-bg img {
+  transform: scale(1);
+}
+/* no dark scrim: the sunset gradient shows as-is */
+.hero-bg::after {
+  content: none;
+}
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: var(--t);
+  container-type: inline-size;
+}
+
+.hero-head {
+  margin: auto 0;
+}
+/* .hero-head .kicker{margin-bottom:clamp(14px,3svh,32px)} */
+
+/* One composition on every screen: line 1 "Live [film] free." starts flush left, line 2 "Age gracefully."
+   is indented 1.55em under it (a gentle stagger, not pushed to the far right). Measured with Recife Display,
+   line 2 (indent included) is 7.71em wide, so the block is sized at 100cqw / 7.85 and never wraps to a
+   third line. On short windows the height cap (19svh) wins and the whole block just shrinks.
+   If the headline font or wording changes, re-measure and update --h1-em. Tweak the stagger with --l2-indent. */
+.hero h1 {
+  --l2-indent: 1.55em;
+  --h1-em: 7.85;
+  margin: 0;
+  max-width: 100%;
+  font-size: min(calc(100cqw / var(--h1-em)), 19svh);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.hl {
+  display: block;
+  white-space: nowrap;
+}
+.hl.l2 {
+  padding-left: var(--l2-indent);
+  color: var(--sun);
+}
+.hw {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.06em 0.08em 0.18em 0;
+  margin: -0.06em -0.08em -0.18em 0;
+}
+.hw > span {
+  display: block;
+  transform: translateY(112%) rotate(5deg);
+  transform-origin: 0 100%;
+}
+.hero.go .hw > span {
+  animation: hrise 1.35s var(--ease) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes hrise {
+  from {
+    transform: translateY(112%) rotate(5deg);
+  }
+  to {
+    transform: none;
+  }
+}
+/* the pill the film sits in */
+/* --slot-nudge evens out the gaps: the "e" of "Live" sits tight to its edge while the "f" of "free."
+   has a wide left bearing, so the pill gets a touch of extra space on its left. Raise/lower to taste. */
+/* --slot-drop: optical vertical centring. Measured cap-height centre looks high because the words are
+   mostly lowercase ("ive", "ree"), so the pill sits a little lower, between the cap and x-height centres. */
+.slot {
+  --slot-nudge: 0.035em;
+  --slot-drop: 0.07em;
+  display: inline-block;
+  width: 1.9em;
+  height: 0.7em;
+  vertical-align: calc(0.02em - var(--slot-drop));
+  margin-left: var(--slot-nudge);
+  border: 1.5px solid rgba(255, 248, 230, 0.4);
+  border-radius: 999px;
+}
+
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: clamp(18px, 3.5svh, 36px);
+}
+.hero .lead {
+  margin: 0;
+  max-width: 35em;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: rgba(255, 248, 230, 0.9);
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(16px, 3svh, 28px);
+}
+.cue {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(96px, 8.4vw, 128px);
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  color: #fff8e6;
+  background: rgba(94, 26, 62, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform 0.6s var(--ease), background 0.4s, color 0.4s;
+}
+.cue:hover {
+  transform: scale(1.07);
+  background: #fff8e6;
+  color: var(--crimson-deep);
+}
+.cue-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: hspin 24s linear infinite;
+}
+.cue-arr {
+  animation: nudge 2s var(--ease) infinite;
+}
+@keyframes hspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* the film: sized by script (pill → full screen) */
+.film {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e9503f;
+  will-change: left, top, width, height;
+}
+.film video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.film::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--p);
+  background: linear-gradient( 180deg, rgba(40, 8, 24, 0.5), rgba(40, 8, 24, 0) 24%, rgba(40, 8, 24, 0) 68%, rgba(40, 8, 24, 0.5) );
+}
+.film-ui {
+  position: absolute;
+  z-index: 1;
+  right: max(var(--gutr), 24px);
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  gap: 10px;
+  opacity: var(--ui);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.hero-stage[data-ui="1"] .film-ui {
+  pointer-events: auto;
+}
+.fbtn {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--crimson-deep);
+  background: #fff8e6;
+  transition: transform 0.5s var(--ease), background 0.3s;
+}
+.fbtn:hover {
+  transform: scale(1.08);
+  background: var(--sun);
+}
+
+/* while the film is on screen, keep the mobile bottom bar out of its way */
+html[data-hero-pin="on"] .mcta.show {
+  transform: translateY(110%);
+}
+
+.hero-stats {
+  position: relative;
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 248, 230, 0.35);
+  background: rgba(94, 26, 62, 0.18);
+  backdrop-filter: blur(4px);
+}
+.hero-stats .wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.hero-stats .s {
+  padding: 35px 0;
+  display: grid;
+  gap: 2px;
+  text-align: center;
+}
+.hero-stats b {
+  font: 300 clamp(2rem, 3.4vw, 3rem)/1 var(--display);
+  letter-spacing: -0.02em;
+}
+.hero-stats span {
+  font-size: 0.92rem;
+  color: rgba(255, 248, 230, 0.85);
+}
+@media (min-width: 800px) {
+  .hero-stats .wrap {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .hero-stats .s + .s {
+    padding-left: 30px;
+    border-left: 1px solid rgba(255, 248, 230, 0.3);
+  }
+}
+@media (max-width: 799px) {
+  .hero-stats .s:nth-child(even) {
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 248, 230, 0.3);
+  }
+  .hero-stats .s:nth-child(n + 3) {
+    border-top: 1px solid rgba(255, 248, 230, 0.3);
+  }
+}
+
+/* short windows (laptops, small phones, phones in landscape): lose the paragraph,
+   keep the headline + buttons + film big so nothing is pushed off the screen */
+@media (max-height: 640px) {
+  .hero .lead {
+    display: none;
+  }
+  .hero-cta {
+    margin-top: 0;
+  }
+}
+/* very short windows (phones held sideways): tighter top gap and a smaller headline */
+@media (max-height: 520px) {
+  .hero-stage {
+    padding-top: calc(64px + env(safe-area-inset-top, 0px));
+  }
+  .hero h1 {
+    font-size: min(calc(100cqw / var(--h1-em)), 16svh);
+  }
+}
+/* phones */
+@media (max-width: 700px) {
+  .hero {
+    --runway: 80vh;
+    --runway: 80svh;
+  }
+  .hero-bottom {
+    display: block;
+  }
+  .cue {
+    display: none;
+  }
+}
+/* reduced motion: no pin, no autoplay. Headline, then the film as a normal framed video */
+.hero.rm .hero-pin {
+  height: auto;
+}
+.hero.rm .hero-stage {
+  position: relative;
+  height: auto;
+  overflow: visible;
+}
+.hero.rm .hero-copy {
+  height: auto;
+  opacity: 1;
+}
+.hero.rm .hw > span {
+  transform: none;
+  animation: none;
+}
+.hero.rm .slot {
+  display: none;
+}
+.hero.rm .film {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  border-radius: 28px;
+  margin-top: 40px;
+}
+.hero.rm .film::after {
+  display: none;
+}
+.hero.rm .hero-bg img {
+  transform: none;
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cue-ring,
+  .cue-arr {
+    animation: none;
+  }
+}

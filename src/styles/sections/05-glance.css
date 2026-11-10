@@ -1,0 +1,247 @@
+/* ───────── AT A GLANCE (deck slide 08) ───────── */
+.glance {
+  background: #fbf4e4;
+}
+.glance-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+}
+/* big screens: pill sits on the heading's row, centred on the text (small screens keep it below) */
+@media (min-width: 1000px) {
+  .glance-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 40px;
+    align-items: center;
+  }
+  .glance-head > div:first-child {
+    display: contents;
+  }
+  .glance-head .kicker {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .glance-head .h2 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .glance-head .dash {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .glance-head .pill-status {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 26px;
+    white-space: nowrap;
+  } /* margin matches .h2 so both centre on the same line */
+}
+.pill-status {
+  border: 1px solid var(--crimson);
+  border-radius: 999px;
+  padding: 0.7em 1.4em;
+  font-size: 1.02rem;
+  background: rgba(213, 47, 58, 0.06);
+}
+.pill-status b {
+  color: var(--crimson);
+}
+.glance-grid {
+  display: grid;
+  gap: 40px;
+  margin-top: 64px;
+  align-items: center;
+}
+@media (min-width: 1000px) {
+  .glance-grid {
+    grid-template-columns: 1fr minmax(320px, 440px) 1fr;
+    gap: 0;
+  }
+}
+.glance-img {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 440px);
+}
+/* the render has a slightly lighter backdrop than the section — feather its edges so no box shows */
+.glance-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
+  mask-composite: intersect;
+}
+.gstats {
+  --num: clamp(3rem, 5.4vw, 5.2rem);
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(48px, 8vw, 140px);
+}
+.gstat {
+  position: relative;
+  display: grid;
+}
+.gtext {
+  display: grid;
+  gap: 6px;
+}
+.gstat b {
+  font: 400 var(--num)/1 var(--display);
+  color: var(--crimson);
+  letter-spacing: -0.03em;
+}
+.gstat b small {
+  font: 500 0.36em var(--display);
+  letter-spacing: 0;
+  margin-left: 0.2em;
+}
+.gstat span {
+  font-weight: 700;
+  font-size: 1.06rem;
+}
+.gstat i {
+  font-style: normal;
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+}
+.gstat .conn {
+  display: none;
+}
+@media (min-width: 1000px) {
+  /* both columns are mirror images: the stats sit at the outer edges of the page and a ringed
+     connector stretches across the leftover space to the building, so the lines grow with the
+     screen instead of leaving blank space on the sides.
+     Each column is a 2-track grid (text | line); the stats share it via subgrid, so the two numbers
+     in a column stay aligned and their lines are the same length. */
+  /* --bal (set by Glance.jsx): the left stats are narrower than the right ones, which leaves more blank
+     space on the left. Slide the whole grid left by half the difference so both outer margins match. */
+  .glance-grid {
+    transform: translateX(calc(-1 * var(--bal, 0px)));
+  }
+  .gstats {
+    --gap: 20px;
+    --reach: 46px;
+    --min-line: 44px;
+    column-gap: 0;
+  }
+  .gstats.l {
+    grid-template-columns: var(--tw, max-content) minmax(var(--min-line), 1fr);
+  }
+  .gstats.r {
+    grid-template-columns: minmax(var(--min-line), 1fr) var(--tw, max-content);
+  }
+  .gstat {
+    grid-column: 1/-1;
+    grid-template-columns: subgrid;
+  }
+  .gtext {
+    width: max-content;
+  }
+  .gstat b {
+    white-space: nowrap;
+  }
+  .gstats.l .gtext {
+    grid-column: 1;
+    justify-self: end;
+    text-align: right;
+    justify-items: end;
+  }
+  .gstats.r .gtext {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .gstat .conn {
+    display: block;
+    position: relative;
+    grid-row: 1;
+    align-self: start;
+    margin-top: calc(var(--num) * 0.5);
+    height: 1.5px;
+    background: var(--crimson);
+    transform: scaleX(0);
+    transition: transform 1.2s var(--ease);
+  }
+  .gstats.l .gstat .conn {
+    grid-column: 2;
+    margin-left: var(--gap);
+    margin-right: calc(-1 * var(--reach));
+    transform-origin: left;
+  }
+  .gstats.r .gstat .conn {
+    grid-column: 1;
+    margin-right: var(--gap);
+    margin-left: calc(-1 * var(--reach));
+    transform-origin: right;
+  }
+  /* ring at the text end */
+  .gstat .conn::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1.5px solid var(--crimson);
+    background: #fbf4e4;
+  }
+  .gstats.l .conn::before {
+    left: -12px;
+  }
+  .gstats.r .conn::before {
+    right: -12px;
+  }
+  /* solid pin on the building end */
+  .gstat .conn::after {
+    content: "";
+    position: absolute;
+    top: -2.75px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--crimson);
+    opacity: 0;
+    transition: opacity 0.4s ease 1s;
+  }
+  .gstats.l .conn::after {
+    right: -3px;
+  }
+  .gstats.r .conn::after {
+    left: -3px;
+  }
+  .glance-grid.in .conn {
+    transform: scaleX(1);
+  }
+  .glance-grid.in .conn::after {
+    opacity: 1;
+  }
+}
+@media (max-width: 999px) {
+  .glance-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+    margin-top: 40px;
+  }
+  .glance-img {
+    grid-column: 1/-1;
+    order: -1;
+    margin-bottom: 28px;
+  }
+  .gstats {
+    display: contents;
+    --num: clamp(2.1rem, 8.4vw, 3.4rem);
+  }
+  .gstat {
+    padding-top: 18px;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .gstat b {
+    white-space: nowrap;
+  }
+}

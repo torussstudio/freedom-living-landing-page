@@ -188,11 +188,8 @@ export function useHeavyFx() {
         const setX = imgs.map((img) => gsap.quickSetter(img, 'x', 'px'))
         const drift = () => {
           const vw = window.innerWidth
-          imgs.forEach((img, i) => {
-            const r = img.parentElement.getBoundingClientRect()
-            const off = (r.left + r.width / 2 - vw / 2) / vw
-            setX[i](-off * r.width * 0.09)
-          })
+          const rects = imgs.map((img) => img.parentElement.getBoundingClientRect()) // read all
+          rects.forEach((r, i) => setX[i](-((r.left + r.width / 2 - vw / 2) / vw) * r.width * 0.09)) // then write
         }
         ScrollTrigger.create({
           trigger: '.hgal',

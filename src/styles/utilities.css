@@ -1,0 +1,3 @@
+/* Tailwind utilities used directly in JSX. Imported FIRST so they sit at the top of the cascade,
+   exactly like the original single-file stylesheet (section rules override them). */
+@tailwind utilities;

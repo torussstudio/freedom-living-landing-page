@@ -6,13 +6,55 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const LenisCtx = createContext(null)
+const BusCtx = createContext(null)
+
 export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/**
+ * One scroll bus for the whole page. Components subscribe with `useScrollFrame`; the bus owns
+ * the only scroll / resize / load listeners and runs every subscriber in a single pass, instead
+ * of each component attaching (and re-attaching) its own.
+ */
+function createBus() {
+  const subs = new Set()
+  const run = () => subs.forEach((fn) => fn())
+  let raf = 0
+  const onNativeScroll = () => {
+    if (raf) return
+    raf = requestAnimationFrame(() => { raf = 0; run() })
+  }
+  return {
+    subscribe(fn) {
+      subs.add(fn)
+      fn()
+      return () => subs.delete(fn)
+    },
+    /** Hook the bus up to Lenis when it exists, to plain scrolling otherwise. */
+    attach(lenis) {
+      if (lenis) lenis.on('scroll', run)
+      else window.addEventListener('scroll', onNativeScroll, { passive: true })
+      window.addEventListener('resize', run)
+      window.addEventListener('load', run)
+      run()
+      return () => {
+        if (lenis) lenis.off('scroll', run)
+        else window.removeEventListener('scroll', onNativeScroll)
+        window.removeEventListener('resize', run)
+        window.removeEventListener('load', run)
+        cancelAnimationFrame(raf)
+        raf = 0
+      }
+    },
+  }
+}
 
 /** Lenis smooth scrolling for the whole page. Skipped for reduced-motion users.
  *  Lenis is driven by the GSAP ticker so ScrollTrigger animations stay in sync with it. */
 export function SmoothScroll({ children }) {
   const [lenis, setLenis] = useState(null)
+  const bus = useRef(null)
+  if (!bus.current) bus.current = createBus()
 
   useEffect(() => {
     if (prefersReducedMotion()) return
@@ -30,7 +72,13 @@ export function SmoothScroll({ children }) {
     return () => { gsap.ticker.remove(tick); l.destroy(); setLenis(null) }
   }, [])
 
-  return <LenisCtx.Provider value={lenis}>{children}</LenisCtx.Provider>
+  useEffect(() => bus.current.attach(lenis), [lenis])
+
+  return (
+    <BusCtx.Provider value={bus.current}>
+      <LenisCtx.Provider value={lenis}>{children}</LenisCtx.Provider>
+    </BusCtx.Provider>
+  )
 }
 
 export const useLenis = () => useContext(LenisCtx)
@@ -46,29 +94,10 @@ export function useScrollTo() {
   }
 }
 
-/** Run `fn` on every scroll frame (Lenis-driven when available) and on resize. */
+/** Run `fn` on every scroll frame (Lenis-driven when available) and on resize / load. */
 export function useScrollFrame(fn) {
-  const lenis = useLenis()
+  const bus = useContext(BusCtx)
   const ref = useRef(fn)
   ref.current = fn
-  useEffect(() => {
-    let ticking = false
-    const run = () => ref.current()
-    const onScroll = () => {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => { run(); ticking = false })
-    }
-    if (lenis) lenis.on('scroll', run)
-    else window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', run)
-    window.addEventListener('load', run)
-    run()
-    return () => {
-      if (lenis) lenis.off('scroll', run)
-      else window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', run)
-      window.removeEventListener('load', run)
-    }
-  }, [lenis])
+  useEffect(() => bus.subscribe(() => ref.current()), [bus])
 }

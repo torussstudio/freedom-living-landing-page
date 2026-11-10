@@ -1,0 +1,85 @@
+/* ───────── THE IDEA ───────── */
+.idea-grid {
+  display: grid;
+  gap: 56px;
+}
+@media (min-width: 1000px) {
+  .idea-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.22fr);
+    gap: 80px;
+  }
+  .idea-grid .stick {
+    position: sticky;
+    top: 130px;
+    align-self: start;
+  }
+}
+/* long statement heading: smaller than the default .h2 */
+.idea-h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+  line-height: 1.1;
+}
+/* four pillars as a 2 x 2 grid */
+.idea-sub {
+  margin-top: clamp(64px, 6vw, 96px);
+}
+.idea-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 32px;
+  margin-top: 18px;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 520px) {
+  .idea-pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pillar {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 14px;
+  padding-block: 32px;
+  border-top: 1px solid var(--line);
+}
+.pillar svg {
+  width: 56px;
+  height: 56px;
+  color: var(--ink);
+}
+.pillar h3 {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.pillar p {
+  color: var(--ink-soft);
+  max-width: 32em;
+}
+.pillar p:empty {
+  display: none;
+}
+.idea-photo {
+  margin-top: 0;
+  border-radius: 28px 28px 28px 200px;
+  overflow: hidden;
+  aspect-ratio: 2/1;
+}
+@media (min-width: 1000px) {
+  .idea-photo {
+    aspect-ratio: 4/5;
+    width: 100%;
+    max-height: calc(100vh - 170px);
+    max-height: calc(100svh - 170px);
+  }
+}
+.idea-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}

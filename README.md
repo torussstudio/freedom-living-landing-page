@@ -6,27 +6,24 @@ npm run dev
 ```
 
 Production build: `npm run build`. The existing review build is available with
-`npm run build:single`.
+`npm run build:single`. `npm run format` runs Prettier over `src/`.
 
-## Tailwind styling
+## Leads
 
-- Tailwind CSS 3.4 is compiled through PostCSS; no CDN or runtime Tailwind compiler.
-- `src/styles/tailwind.css` is the single styling entry point. Component rules use
-  Tailwind `@apply`, with exact arbitrary values where the design needs them.
-- The original selectors, media/container queries, cascade order, font files,
-  keyframes, and design values are preserved. Preflight is disabled intentionally.
-- Former inline presentation styles are Tailwind classes in the components.
-- `src/hooks/layoutVars.js` supplies only runtime CSS variables for measured scroll
-  positions, gallery progress, plan zoom/pan, and hotspot/crop geometry. Tailwind
-  utilities consume those variables. Components do not write inline style attributes.
-  Modern browsers use a constructed stylesheet; older browsers use a runtime
-  variable stylesheet as a compatibility fallback.
-- Native `@font-face` descriptors remain because loading local fonts requires them.
-  Keyframe styling is expressed with Tailwind `@apply`.
+Every form (visit, question, call-back pop-up, investor enquiry) posts to `api/lead.js`
+(Vercel function), which adds a row to the **Landing Page Leads** tab of the Freedom Living
+Lead Sheet and emails the team. Setup: [`docs/lead-sheet-setup.md`](docs/lead-sheet-setup.md);
+variables: [`.env.example`](.env.example). `npm run dev` does not run `/api`; use `vercel dev`.
 
-Keep exact arbitrary values and source order when editing: rounding them to the
-default spacing scale, enabling Preflight, or reordering overlapping rules can
-change the design. Complete class names must be present in source for Tailwind's
-scanner; use runtime variables for continuous calculated values.
+## Code layout
 
-All images, videos, fonts, copy, content data, and the lead API are unchanged.
+- `src/components/`: one file per page section; `LeadModal`, `InvestorModal` and `FloorPlans` /
+  `Visit` are code-split (see `LazySection.jsx`). `formKit.jsx` and `hooks/useModal.js` hold the
+  form / modal pieces they share.
+- `src/hooks/`: `SmoothScroll.jsx` (Lenis + a single scroll bus, `useScrollFrame`),
+  `useHeavyFx.js` (GSAP text and scroll animations, selector based), `useReveal.js`,
+  `layoutVars.js` (runtime CSS variables set with `el.style.setProperty`).
+- `src/styles/`: `index.css` imports `sections/*.css` in order. Order matters: files 17 and up
+  are follow-up tweaks that deliberately override the sections before them. Tailwind's reset is
+  off and Tailwind is only used for the utility classes written directly in JSX (`utilities.css`).
+- `src/data/content.js`: copy and data.

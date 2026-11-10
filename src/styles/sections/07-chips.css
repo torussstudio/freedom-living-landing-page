@@ -1,0 +1,15 @@
+/* Shared "chips" pills (floor plans, care) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.chips span {
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: var(--cream-2);
+  border: 1px solid var(--line);
+}

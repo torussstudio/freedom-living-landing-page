@@ -1,5 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
+import { useModal } from "../hooks/useModal.js";
+import {
+  IcoClose,
+  isEmail,
+  Req,
+  Select,
+  useFormState,
+  useLeadSubmit,
+} from "./formKit.jsx";
 
 const CATEGORIES = [
   "Individual investor",
@@ -8,39 +17,7 @@ const CATEGORIES = [
   "Other",
 ];
 const EMPTY = { name: "", phone: "", email: "", category: "", message: "" };
-const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
-const Svg = ({ children, size = 20, ...p }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width={size}
-    height={size}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.7"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    {...p}
-  >
-    {children}
-  </svg>
-);
-const IcoClose = (p) => (
-  <Svg strokeWidth="2" {...p}>
-    <path d="M6 6l12 12M18 6 6 18" />
-  </Svg>
-);
-const IcoChevron = (p) => (
-  <Svg strokeWidth="2.2" {...p}>
-    <path d="m6.5 9.5 5.5 5.5 5.5-5.5" />
-  </Svg>
-);
-const IcoCheck = (p) => (
-  <Svg strokeWidth="2.4" {...p}>
-    <path d="m5 12.5 4.5 4.5L19 7.5" />
-  </Svg>
-);
 const IcoLock = (p) => (
   <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" {...p}>
     <path
@@ -60,146 +37,31 @@ const IcoLock = (p) => (
     />
   </svg>
 );
-const Req = () => (
-  <span className="req" aria-hidden="true">
-    *
-  </span>
-);
-
-/* dropdown that reuses the site's .fpick / .ctl / .pop menu styling */
-function CategorySelect({ id, value, onChange, invalid }) {
-  const wrap = useRef(null);
-  const btn = useRef(null);
-  const list = useRef(null);
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(0);
-
-  const close = (refocus) => {
-    setOpen(false);
-    if (refocus === true) btn.current?.focus();
-  };
-  useEffect(() => {
-    if (!open) return;
-    const down = (e) => {
-      if (!wrap.current?.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", down);
-    return () => document.removeEventListener("pointerdown", down);
-  }, [open]);
-  useEffect(() => {
-    if (open) list.current?.children[active]?.focus({ preventScroll: true });
-  }, [open, active]);
-
-  const toggle = () => {
-    if (!open) setActive(Math.max(0, CATEGORIES.indexOf(value)));
-    setOpen((o) => !o);
-  };
-  const pick = (v) => {
-    onChange(v);
-    close(true);
-  };
-  const onKey = (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActive((a) => (a + 1) % CATEGORIES.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActive((a) => (a - 1 + CATEGORIES.length) % CATEGORIES.length);
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      pick(CATEGORIES[active]);
-    } else if (e.key === "Tab") close();
-  };
-  const onBtnKey = (e) => {
-    if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !open) {
-      e.preventDefault();
-      toggle();
-    }
-  };
-
-  return (
-    <div className="fpick" ref={wrap}>
-      <button
-        ref={btn}
-        id={id}
-        type="button"
-        className={`ctl${value ? "" : " empty"}`}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-invalid={invalid}
-        onClick={toggle}
-        onKeyDown={onBtnKey}
-      >
-        <span className="shown ![padding-left:0]" >
-          {value || "Select investor category"}
-        </span>
-        <IcoChevron className="chev" />
-      </button>
-      {open && (
-        <ul
-          className="pop menu ![right:0]"
-          role="listbox"
-          aria-label="Investor category"
-          ref={list}
-          onKeyDown={onKey}
-
-        >
-          {CATEGORIES.map((v, i) => (
-            <li
-              key={v}
-              role="option"
-              tabIndex={-1}
-              aria-selected={v === value}
-              className={i === active ? "on" : ""}
-              onMouseEnter={() => setActive(i)}
-              onClick={() => pick(v)}
-            >
-              <span>{v}</span>{" "}
-              {v === value && <IcoCheck size={18} className="tick" />}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
 /**
  * Investor enquiry modal. It closes ONLY with the X button
- * (no backdrop click, no Escape key). Posts to /api/lead with type "investor".
+ * (no backdrop click, no Escape key). A valid submit posts an "investor" lead to /api/lead
+ * (Google Sheet + email) and shows a thank-you.
  */
 export default function InvestorModal({ open, onClose }) {
-  const [f, setF] = useState(EMPTY);
-  const [errors, setErrors] = useState({});
+  const { f, setF, errors, setErrors, set, setPhone, pick } = useFormState(EMPTY);
   const [hp, setHp] = useState("");
-  const panel = useRef(null);
-  const closeBtn = useRef(null);
-
-  // lock page scroll while open, move focus in, and give it back on close
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.activeElement;
-    const html = document.documentElement;
-    const wasLocked = html.classList.contains("!overflow-hidden");
-    html.classList.add("!overflow-hidden");
-    closeBtn.current?.focus({ preventScroll: true });
-    return () => {
-      if (!wasLocked) html.classList.remove("!overflow-hidden");
-      prev?.focus?.({ preventScroll: true });
-    };
-  }, [open]);
+  const { panel, closeBtn, trap } = useModal(open);
+  const { sending, sent, sendErr, send, reset } = useLeadSubmit();
 
   if (!open) return null;
 
-  const set = (k) => (e) => setF((v) => ({ ...v, [k]: e.target.value }));
-  const setPhone = (e) =>
-    setF((v) => ({
-      ...v,
-      phone: e.target.value.replace(/\D/g, "").slice(0, 10),
-    }));
+  // closing starts the next visit with a fresh form
+  const close = () => {
+    setF(EMPTY);
+    setErrors({});
+    setHp("");
+    reset();
+    onClose();
+  };
 
   const submit = (e) => {
     e.preventDefault();
+    if (sending) return;
     const err = {};
     if (!f.name.trim()) err.name = "Please tell us your name.";
     if (f.phone.length !== 10) err.phone = "Enter your 10-digit mobile number.";
@@ -211,28 +73,18 @@ export default function InvestorModal({ open, onClose }) {
       document.getElementById(`inv-${first}`)?.focus();
       return;
     }
-    // Dummy for now: nothing is sent and nothing is shown after a valid submit.
-    // (Wire this up to /api/lead later.)
-  };
-
-  // keep Tab inside the dialog
-  const trap = (e) => {
-    if (e.key !== "Tab") return;
-    const els = [
-      ...panel.current.querySelectorAll(
-        'button:not([disabled]), input:not([tabindex="-1"]), textarea, [tabindex="0"], [role="option"]',
-      ),
-    ].filter((el) => el.offsetParent !== null && el.getAttribute("role") !== "option");
-    if (!els.length) return;
-    const a = els[0];
-    const z = els[els.length - 1];
-    if (e.shiftKey && document.activeElement === a) {
-      e.preventDefault();
-      z.focus();
-    } else if (!e.shiftKey && document.activeElement === z) {
-      e.preventDefault();
-      a.focus();
-    }
+    send(
+      {
+        type: "investor",
+        name: f.name.trim(),
+        phone: `+91 ${f.phone}`,
+        email: f.email.trim(),
+        category: f.category,
+        message: f.message.trim(),
+        at: new Date().toISOString(),
+      },
+      hp,
+    );
   };
 
   const heading = (
@@ -261,13 +113,26 @@ export default function InvestorModal({ open, onClose }) {
           type="button"
           className="imodal-x"
           aria-label="Close"
-          onClick={onClose}
+          onClick={close}
         >
           <IcoClose size={22} />
         </button>
+        {sent ? (
+          <div className="imodal-done" role="status">
+            <span className="kicker">Received</span>
+            <h3 id="inv-title">Thank you, {sent.name.split(" ")[0]}.</h3>
+            <p>
+              Our team will contact you on {sent.phone} to discuss investment
+              and shareholding opportunities.
+            </p>
+            <button className="btn ghost" type="button" onClick={close}>
+              Close
+            </button>
+          </div>
+        ) : (
+          <>
         <div className="imodal-head">{heading}</div>
 
-        {(
           <form className="imodal-form" noValidate onSubmit={submit}>
             <input className="![position:absolute] ![left:-9999px] ![width:1px] ![height:1px] ![opacity:0]"
               type="text"
@@ -341,14 +206,16 @@ export default function InvestorModal({ open, onClose }) {
               <label htmlFor="inv-category">
                 Investor category <Req />
               </label>
-              <CategorySelect
+              <Select
                 id="inv-category"
+                label="Investor category"
+                options={CATEGORIES}
                 value={f.category}
+                placeholder="Select investor category"
+                shownClass="![padding-left:0]"
+                popClass="![right:0]"
                 invalid={!!errors.category}
-                onChange={(v) => {
-                  setF((x) => ({ ...x, category: v }));
-                  setErrors((er) => ({ ...er, category: undefined }));
-                }}
+                onChange={pick("category")}
               />
               {errors.category && (
                 <span className="err">{errors.category}</span>
@@ -375,11 +242,23 @@ export default function InvestorModal({ open, onClose }) {
                   investment opportunities.
                 </span>
               </p>
-              <button className="btn" type="submit">
-                Submit enquiry <span className="arr">→</span>
+              <button
+                className="btn"
+                type="submit"
+                disabled={sending}
+                aria-busy={sending}
+              >
+                {sending ? "Sending…" : "Submit enquiry"}{" "}
+                {!sending && <span className="arr">→</span>}
               </button>
             </div>
+            {sendErr && (
+              <p className="err imodal-err" role="alert">
+                {sendErr}
+              </p>
+            )}
           </form>
+          </>
         )}
       </div>
     </div>,

@@ -1,0 +1,43 @@
+/* ───────── Visit form stays centred on phones ─────────
+   The enquiry card is a grid item, and its widest content (the two "Book a visit / Ask a question"
+   buttons) set its minimum width to ~350px. On phones that pushed the card past the right gutter,
+   so it looked shifted left. min-width:0 lets it shrink to the column, and the tabs share the row. */
+.visit-grid > *,
+form.f,
+.thanks {
+  min-width: 0;
+}
+@media (max-width: 559px) {
+  form.f,
+  .thanks {
+    padding-inline: clamp(16px, 5vw, 22px);
+  }
+  .seg {
+    display: flex;
+    justify-self: stretch;
+    width: 100%;
+  }
+  .seg button {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 0.95em 0.5em;
+    gap: 0.45em;
+    font-size: clamp(0.82rem, 3.6vw, 0.95rem);
+  }
+}
+
+/* Inputs have an intrinsic width (~20 characters) that counts towards the form's minimum width,
+   which overflowed the card on the narrowest phones. width:0 + flex:1 lets them fill whatever is left. */
+.fr {
+  grid-template-columns: minmax(0, 1fr);
+}
+.fld .ctl input,
+.fld .ctl select {
+  width: 0;
+}
+@media (min-width: 640px) {
+  .fr.two {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}

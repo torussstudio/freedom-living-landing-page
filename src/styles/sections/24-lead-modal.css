@@ -1,0 +1,87 @@
+/* ───────── Lead modal ("Let's help you explore your options") ───────── */
+.lm {
+  width: min(820px, 100%);
+}
+.lm-head {
+  text-align: center;
+  justify-items: center;
+  padding-inline: 44px;
+}
+.lm-head h3 {
+  color: var(--ink);
+}
+.lm-head .inv-intro {
+  max-width: 34em;
+}
+.opt-note {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.lm .ctl.ico {
+  padding: 0 20px;
+}
+.lm .ctl .lead-ico {
+  color: var(--ink);
+}
+.lm .ctl input {
+  padding-left: 0;
+}
+.lm-agree input:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 2px;
+}
+.lm-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.lm-agree input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--crimson);
+  cursor: pointer;
+}
+.lm-submit {
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
+  justify-content: center;
+  padding: 1.1em 2em;
+  font-size: 1.1rem;
+  background: var(--crimson-deep);
+  border-color: var(--crimson-deep);
+}
+.lm-submit:hover {
+  background: var(--crimson);
+  border-color: var(--crimson);
+}
+
+/* Modals: only the headings use the display font, everything else is the body font */
+.imodal,
+.imodal button,
+.imodal input,
+.imodal textarea,
+.imodal select,
+.imodal .pop,
+.imodal .pop li {
+  font-family: var(--body);
+}
+.imodal h3 {
+  font-family: var(--display);
+}
+
+/* Existing form submission feedback, now expressed with Tailwind. */
+[data-sending="true"] {
+  cursor: wait !important;
+  opacity: 0.7 !important;
+}

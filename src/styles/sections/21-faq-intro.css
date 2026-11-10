@@ -1,0 +1,10 @@
+/* ───────── FAQ ("For sons & daughters"): body font, plus the intro line under the heading ───────── */
+.faq-q {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.35;
+}
+.fam-lead {
+  margin-top: 28px;
+}

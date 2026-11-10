@@ -1,0 +1,84 @@
+/* ───────── LOCATION (deck slide 13) ───────── */
+.loc-grid {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+@media (min-width: 1000px) {
+  .loc-grid {
+    grid-template-columns: 5fr 6fr;
+    gap: 80px;
+  }
+}
+.loc-big {
+  font: 400 clamp(1.7rem, 3vw, 2.7rem)/1.2 var(--display);
+  letter-spacing: -0.02em;
+  margin-top: 28px;
+}
+.loc-big em {
+  font-style: normal;
+  color: var(--crimson);
+}
+.loc address {
+  font-style: normal;
+  margin-top: 36px;
+  display: grid;
+  gap: 4px;
+  font-size: 1.1rem;
+}
+.loc address b {
+  font-weight: 700;
+}
+.map {
+  border-radius: 28px;
+  overflow: hidden;
+  background: #f7f4ea;
+  position: relative;
+}
+.map img {
+  width: 100%;
+}
+/* whole map opens Freedom Living on Google Maps */
+.map-link {
+  display: block;
+  cursor: pointer;
+}
+.map-link img {
+  transition: transform 1.2s var(--ease);
+}
+.map-link:hover img {
+  transform: scale(1.03);
+}
+.map .ping {
+  position: absolute;
+  left: 47.6%;
+  top: 44%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--crimson);
+  transform: translate(-50%, -50%);
+}
+.map .ping::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 2px solid var(--crimson);
+  animation: ping 2.4s var(--ease) infinite;
+}
+@keyframes ping {
+  from {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map .ping::after {
+    animation: none;
+  }
+}

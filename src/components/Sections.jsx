@@ -1,13 +1,14 @@
-import { layoutVars } from "../hooks/layoutVars.js";
-import { useId, useState } from "react";
-import InvestorModal from "./InvestorModal.jsx";
+import { lazy, Suspense, useId, useState } from "react";
 import { Dash, Kicker, Logo } from "./Brand.jsx";
-import { AMENITIES, CARE, CONTACT, CREDS, DAY, FAQ } from "../data/content.js";
+import { CARE, CONTACT, CREDS, FAQ } from "../data/content.js";
 import mapImg from "../assets/img/map.webp";
 import sketch from "../assets/img/sketch.webp";
 import md from "../assets/img/md.webp";
 import logoFull from "../assets/img/logo-full.webp";
 import { useScrollTo } from "../hooks/SmoothScroll.jsx";
+
+// loaded the first time someone opens it, so it is not part of the first page load
+const InvestorModal = lazy(() => import("./InvestorModal.jsx"));
 
 const pad = (n) => String(n).padStart(2, "0");
 
@@ -28,7 +29,8 @@ export function Care() {
             </div>
           ))}
         </div>
-        {/* "Also built in" amenities: hidden for now. Uncomment to bring it back.
+        {/* "Also built in" amenities: hidden for now. Uncomment to bring it back
+            (and add AMENITIES to the content.js import above).
         <div className="amen">
           <h3 className="rv">Also built in</h3>
           <div className="chips rv">
@@ -38,34 +40,6 @@ export function Care() {
           </div>
         </div>
         */}
-      </div>
-    </section>
-  );
-}
-
-export function Day() {
-  return (
-    <section className="day sec ![padding-top:0]" >
-      <div className="wrap">
-        <Kicker className="rv">A day, your way</Kicker>
-        <h2 className="h2 rv">
-          Fill it. <em>Or don't.</em>
-        </h2>
-        <Dash />
-        <div className="day-row">
-          {DAY.map(([t, h, p, w], i) => (
-            <div
-              className="moment rv"
-              ref={layoutVars({ "--d": `${i * 0.06}s` })}
-              key={t}
-            >
-              <span className="dot">{t}</span>
-              <h3>{h}</h3>
-              <p>{p}</p>
-              <span className="where">{w}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -266,6 +240,7 @@ function FaqItem({ q, a }) {
 
 export function Investors() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // load the modal code on first open
   return (
     <section className="sec inv" id="investors">
       <div className="wrap">
@@ -290,14 +265,21 @@ export function Investors() {
               type="button"
               className="btn"
               aria-haspopup="dialog"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setMounted(true);
+                setOpen(true);
+              }}
             >
               Explore Investment Opportunities <span className="arr">→</span>
             </button>
           </div>
         </div>
       </div>
-      <InvestorModal open={open} onClose={() => setOpen(false)} />
+      {mounted && (
+        <Suspense fallback={null}>
+          <InvestorModal open={open} onClose={() => setOpen(false)} />
+        </Suspense>
+      )}
     </section>
   );
 }

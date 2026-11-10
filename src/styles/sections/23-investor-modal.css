@@ -1,0 +1,139 @@
+/* ───────── Investor enquiry modal (closes only with the X button) ───────── */
+.imodal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 32px);
+  background: rgba(46, 14, 22, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: imFade 0.3s ease both;
+}
+.imodal-panel {
+  --fbrown: #4a3a20;
+  --fline: rgba(54, 51, 42, 0.22);
+  position: relative;
+  width: min(720px, 100%);
+  margin: auto;
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 30px;
+  padding: clamp(24px, 3.4vw, 44px) clamp(20px, 3.6vw, 48px);
+  box-shadow: 0 40px 90px -30px rgba(60, 10, 30, 0.7);
+  display: grid;
+  gap: 22px;
+  animation: imRise 0.5s var(--ease) both;
+}
+.imodal-head {
+  display: grid;
+  gap: 10px;
+  padding-right: 52px;
+}
+.imodal-head h3 {
+  font: 400 clamp(1.9rem, 3.6vw, 2.7rem) / 1.08 var(--display);
+  color: var(--crimson);
+  margin: 0;
+}
+.imodal-head .kicker {
+  color: var(--ink-soft);
+}
+.inv-intro {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 36em;
+}
+.imodal-x {
+  position: absolute;
+  top: clamp(14px, 2vw, 22px);
+  right: clamp(14px, 2vw, 22px);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--fline);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.imodal-x:hover {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #fff8e6;
+}
+.imodal-x:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+}
+.imodal-form {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.imodal-form .go {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--fline);
+  padding-top: 20px;
+  margin-top: 6px;
+}
+.imodal-form .fine {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 22em;
+  margin: 0;
+}
+.imodal-form .fine svg {
+  flex: none;
+  color: var(--fbrown);
+}
+.imodal-form .go .btn {
+  padding: 1em 2.4em;
+}
+.imodal .fpick .pop {
+  left: 0;
+  right: 0;
+  padding: 8px;
+}
+@media (max-width: 520px) {
+  .imodal-form .go .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@keyframes imFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes imRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imodal, .imodal-panel {
+    animation: none;
+  }
+}

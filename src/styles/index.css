@@ -1,0 +1,30 @@
+/* Site styles, split by section. Order matters: later files deliberately override earlier ones
+   (files 17-25 are follow-up tweaks to the sections above them). Tailwind's reset is disabled;
+   Tailwind is only used for the few utility classes written directly in JSX. */
+@import "./utilities.css";
+@import "./sections/00-base.css";
+@import "./sections/01-nav.css";
+@import "./sections/02-hero.css";
+@import "./sections/04-idea.css";
+@import "./sections/05-glance.css";
+@import "./sections/06-gallery.css";
+@import "./sections/07-chips.css";
+@import "./sections/08-care.css";
+@import "./sections/09-floor-plans.css";
+@import "./sections/11-location.css";
+@import "./sections/12-progress.css";
+@import "./sections/13-vision.css";
+@import "./sections/14-families-faq.css";
+@import "./sections/15-visit.css";
+@import "./sections/16-footer.css";
+@import "./sections/17-floor-plans-balcony-toggle.css";
+@import "./sections/18-visit-form-mobile.css";
+@import "./sections/19-idea-features.css";
+@import "./sections/20-hero-kicker.css";
+@import "./sections/21-faq-intro.css";
+@import "./sections/22-investors-banner.css";
+@import "./sections/23-investor-modal.css";
+@import "./sections/24-lead-modal.css";
+@import "./sections/25-modals-compact.css";
+@import "./sections/26-modal-status.css";
+@import "./fx.css";

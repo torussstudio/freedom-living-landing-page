@@ -1,0 +1,50 @@
+/* ───────── Investors & stakeholders banner ───────── */
+.inv {
+  padding-block: clamp(32px, 4vw, 56px);
+}
+.inv-card {
+  display: grid;
+  gap: 32px;
+  padding: clamp(28px, 4vw, 56px) clamp(24px, 4vw, 56px);
+  background: var(--cream-2);
+  border-left: 8px solid var(--crimson-deep);
+  border-radius: 6px;
+}
+.inv-main {
+  min-width: 0;
+}
+.inv-h {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  margin-block: 0.4em 0.5em;
+}
+.inv-side {
+  display: grid;
+  gap: 24px;
+  align-content: center;
+  justify-items: start;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.inv-side p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 24em;
+}
+.inv-side .btn {
+  white-space: normal;
+  text-align: left;
+}
+@media (min-width: 900px) {
+  .inv-card {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+  }
+  .inv-side {
+    padding-top: 0;
+    border-top: 0;
+    padding-left: clamp(32px, 4vw, 56px);
+    border-left: 1px solid var(--line);
+  }
+}

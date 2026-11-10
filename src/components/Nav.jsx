@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Logo } from './Brand.jsx'
 import { NAV } from '../data/content.js'
 import logoFull from '../assets/img/logo-full.webp'
@@ -9,14 +9,24 @@ export default function Nav({ onBook }) {
   const [hide, setHide] = useState(false)
   const [mcta, setMcta] = useState(false)
   const lastY = useRef(0)
+  const heroEnd = useRef(520)
   const scrollTo = useScrollTo()
+
+  // measure the hero once (and when it resizes) instead of on every scroll frame
+  useEffect(() => {
+    const hero = document.querySelector('.hero')
+    const measure = () => { heroEnd.current = (hero?.offsetHeight ?? 600) - 80 }
+    measure()
+    const ro = hero && typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null
+    ro?.observe(hero)
+    return () => ro?.disconnect()
+  }, [])
 
   useScrollFrame(() => {
     const y = window.scrollY
-    const hero = document.querySelector('.hero')
-    const heroEnd = (hero?.offsetHeight ?? 600) - 80
-    setSolid(y > heroEnd)
-    if (y > heroEnd + 200 && y > lastY.current + 4) setHide(true)
+    const end = heroEnd.current
+    setSolid(y > end)
+    if (y > end + 200 && y > lastY.current + 4) setHide(true)
     else if (y < lastY.current - 4) setHide(false)
     lastY.current = y
     setMcta(y > window.innerHeight * 0.9)

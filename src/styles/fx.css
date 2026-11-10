@@ -24,3 +24,8 @@ html.fx .hero.go .hw > span {
     margin-bottom: 0;
   }
 }
+
+/* stand-in for a lazily loaded section (see components/LazySection.jsx) */
+.lazy-ph {
+  min-height: 100vh;
+}
