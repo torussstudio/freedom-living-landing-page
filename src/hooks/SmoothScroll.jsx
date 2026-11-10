@@ -1,11 +1,16 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import Lenis from 'lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const LenisCtx = createContext(null)
 export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-/** Lenis smooth scrolling for the whole page. Skipped for reduced-motion users. */
+/** Lenis smooth scrolling for the whole page. Skipped for reduced-motion users.
+ *  Lenis is driven by the GSAP ticker so ScrollTrigger animations stay in sync with it. */
 export function SmoothScroll({ children }) {
   const [lenis, setLenis] = useState(null)
 
@@ -17,9 +22,12 @@ export function SmoothScroll({ children }) {
       wheelMultiplier: 0.95,
       touchMultiplier: 1.4,
     })
-    let id = requestAnimationFrame(function raf(t) { l.raf(t); id = requestAnimationFrame(raf) })
+    l.on('scroll', ScrollTrigger.update)
+    const tick = (time) => l.raf(time * 1000)
+    gsap.ticker.add(tick)
+    gsap.ticker.lagSmoothing(0)
     setLenis(l)
-    return () => { cancelAnimationFrame(id); l.destroy(); setLenis(null) }
+    return () => { gsap.ticker.remove(tick); l.destroy(); setLenis(null) }
   }, [])
 
   return <LenisCtx.Provider value={lenis}>{children}</LenisCtx.Provider>

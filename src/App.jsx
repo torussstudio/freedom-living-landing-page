@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { SmoothScroll, useScrollTo } from "./hooks/SmoothScroll.jsx";
 import { useReveal } from "./hooks/useReveal.js";
+import { useHeavyFx } from "./hooks/useHeavyFx.js";
 import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 // import Statement from "./components/Statement.jsx";
@@ -23,6 +24,7 @@ import {
 
 function Page() {
   useReveal();
+  useHeavyFx();
   const scrollTo = useScrollTo();
   const [mode, setMode] = useState("visit");
   const [prefill, setPrefill] = useState(null);

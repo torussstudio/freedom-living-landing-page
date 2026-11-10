@@ -1,0 +1,26 @@
+/* Heavy text / scroll animation helpers (driven by src/hooks/useHeavyFx.js) */
+
+/* SplitText line masks clip descenders on tight headings, so give them a little room */
+.fx-mask {
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+/* Hero headline: GSAP takes over from the old CSS keyframe (class "fx" is added by the hook) */
+html.fx .hero .hw > span,
+html.fx .hero.go .hw > span {
+  transform: none;
+  animation: none !important;
+}
+
+/* Gallery images are scaled up a little so they can drift inside their frame */
+.hgal .ph {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-mask {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}

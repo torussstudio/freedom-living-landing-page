@@ -141,7 +141,7 @@ export function LocationProgress() {
             <Dash />
             <p className="lead rv ![margin-top:30px]" >
               Construction is underway at Freedom Living, with the basement,
-              ground floor, and first floor completed.
+              ground, first, and second floors completed.
             </p>
           </div>
           <div className="prog-img wipe">
@@ -158,7 +158,13 @@ export function LocationProgress() {
             </li>
             <li className="todo">
               <span className="c" />
-              Floors 2 to 4
+              Floors 3 to 4
+            </li>
+            <li className="done">
+              <span className="c">
+                <Tick />
+              </span>
+              Second floor
             </li>
             <li className="done">
               <span className="c">
