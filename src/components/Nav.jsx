@@ -95,30 +95,32 @@ export default function Nav({ onBook }) {
         ref={panel}
         data-lenis-prevent
         onKeyDown={trap}
+        onClick={(e) => e.target === e.currentTarget && setOpen(false)}
       >
-        <div className="mnav-sun" aria-hidden="true" />
-        <span className="bird mnav-bird" aria-hidden="true" />
-        <div className="mnav-bar">
-          <Logo />
-          <button type="button" className="mnav-x" ref={closeBtn} aria-label="Close menu" onClick={() => setOpen(false)}>
-            <span aria-hidden="true"><i /><i /></span>
-          </button>
-        </div>
-        <ol className="mnav-list">
-          {NAV.map(([href, label], i) => (
-            <li key={href} style={{ '--i': i }} className={i === active ? 'on' : undefined}>
-              <a href={href} onClick={(e) => menuGo(e, href)}>
-                <small>{String(i + 1).padStart(2, '0')}</small>
-                <span>{label}</span>
+        <div className="mnav-card">
+          <div className="mnav-bar">
+            <Logo />
+            <button type="button" className="mnav-x" ref={closeBtn} aria-label="Close menu" onClick={() => setOpen(false)}>
+              <span aria-hidden="true"><i /><i /></span>
+            </button>
+          </div>
+          <ol className="mnav-list">
+            {NAV.map(([href, label], i) => (
+              <li key={href} style={{ '--i': i }} className={i === (active < 0 ? 0 : active) ? 'on' : undefined}>
+                <a href={href} onClick={(e) => menuGo(e, href)}>
+                  <small>{String(i + 1).padStart(2, '0')}</small>
+                  <span>{label}<b aria-hidden="true"> ↗</b></span>
+                </a>
+              </li>
+            ))}
+            <li style={{ '--i': NAV.length }} className="call">
+              <a href={`tel:${CONTACT.phone.replace(/\s/g, '')}`}>
+                <small>Call us</small>
+                <span>{CONTACT.phone.replace(/^(\+91) (\d{5}) (\d+)$/, '$1 $2\u00a0$3')}</span>
               </a>
             </li>
-          ))}
-        </ol>
-        <div className="mnav-foot" style={{ '--i': NAV.length }}>
-          <a className="mnav-book" href="#visit" onClick={menuBook}>Book a visit <span aria-hidden="true">→</span></a>
-          <a className="mnav-call" href={`tel:${CONTACT.phone.replace(/\s/g, '')}`} aria-label={`Call ${CONTACT.phone}`}>
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>
-          </a>
+          </ol>
+          <a className="mnav-book" href="#visit" style={{ '--i': NAV.length + 1 }} onClick={menuBook}>Book a visit <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div className={`mcta${mcta ? ' show' : ''}`}>
