@@ -226,7 +226,7 @@ export default function Visit({ mode, setMode, prefill }) {
           </div>
         </div>
 
-        <div className="rv ![--d:.15s]" >
+        <div className={`rv ![--d:.15s]${sent ? " visit-sent" : ""}`}>
           {sent ? (
             <div className="thanks">
               <span className="kicker">Received</span>

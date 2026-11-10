@@ -10,6 +10,13 @@
     gap: 80px;
     align-items: start;
   }
+  /* thank-you card: sit in the vertical middle of the right-hand column */
+  .visit-grid > .visit-sent {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 .visit h2 {
   font-size: clamp(3rem, 7vw, 6.4rem);
