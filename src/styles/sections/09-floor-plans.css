@@ -662,3 +662,144 @@ html.plan-full-open .mcta {
     animation: none;
   }
 }
+
+/* ───────── levels as an accordion (phones & tablets) ───────── */
+.facc {
+  display: grid;
+  gap: 10px;
+  margin-top: 30px;
+}
+.facc-item {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: clip;
+  scroll-margin-top: 84px;
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.facc-item.open {
+  border-color: rgba(213, 47, 58, 0.45);
+  box-shadow: 0 14px 34px -22px rgba(168, 31, 51, 0.5);
+}
+.facc-h {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 16px 12px 12px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.facc-th {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: #cfeae2;
+  color: var(--crimson);
+  overflow: hidden;
+}
+.facc-item:not(.open) .facc-th:not(:has(img)) {
+  background: var(--sand);
+}
+.facc-th img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.facc-t {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.facc-t b {
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+.facc-t small {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+.facc-item.open .facc-t b {
+  color: var(--crimson);
+}
+/* + / – */
+.facc-pm {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--sand);
+  transition: background 0.3s;
+}
+.facc-pm::before,
+.facc-pm::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  margin: -1px 0 0 -6px;
+  border-radius: 2px;
+  background: var(--crimson);
+  transition: transform 0.5s var(--ease);
+}
+.facc-pm::after {
+  transform: rotate(90deg);
+}
+.facc-item.open .facc-pm {
+  background: var(--crimson);
+}
+.facc-item.open .facc-pm::before,
+.facc-item.open .facc-pm::after {
+  background: #fff8e6;
+}
+.facc-item.open .facc-pm::after {
+  transform: rotate(0);
+}
+.facc-body {
+  padding: 0 10px 14px;
+  animation: faccIn 0.5s var(--ease) both;
+}
+@keyframes faccIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.facc-body .plans-grid {
+  margin-top: 0;
+  gap: 14px;
+}
+/* the open level already sits in a card: drop the second card around the drawing and details */
+.facc-body .plan-board,
+.facc-body .spec {
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+.facc-body .plan-board {
+  padding: 0 2px;
+}
+.facc-body .spec {
+  padding: 6px 6px 0;
+}
+.facc-body .pb-head {
+  padding: 4px 4px 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .facc-body {
+    animation: none;
+  }
+}

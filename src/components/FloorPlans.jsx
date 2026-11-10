@@ -269,12 +269,30 @@ function PlanCrop({ plan, box, label }) {
   );
 }
 
+/** true while the media query matches (client only, so the first render already has the right answer) */
+function useMedia(q) {
+  const [m, setM] = useState(() => typeof window !== "undefined" && window.matchMedia(q).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(q);
+    const on = () => setM(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, [q]);
+  return m;
+}
+
 export default function FloorPlans({ onAskAbout }) {
+  const lenis = useLenis();
   const [floorK, setFloorK] = useState("F");
   const [onlyBal, setOnlyBal] = useState(false);
   const [cur, setCur] = useState("01");
   const tabs = useRef(null);
   const firstTabScroll = useRef(true);
+  // phones & tablets: the levels are an accordion (one level open at a time) instead of a swipe strip
+  const acc = useMedia("(max-width: 1023px)");
+  const [openK, setOpenK] = useState("F");
+  const accScroll = useRef(null);
 
   // On phones/tablets the level tabs are a swipe strip that starts at "Basement". Bring the
   // selected tab into view (sideways only, the page itself never moves).
@@ -310,6 +328,29 @@ export default function FloorPlans({ onAskAbout }) {
     if (first) setCur(first.id);
   };
 
+  const toggleLevel = (k) => {
+    if (openK === k) {
+      setOpenK(null);
+      return;
+    }
+    pickFloor(k);
+    setOpenK(k);
+    accScroll.current = k;
+  };
+  // once the new level has opened (and the old one closed) bring its header just under the nav pill
+  useEffect(() => {
+    const k = accScroll.current;
+    if (!k || openK !== k) return;
+    accScroll.current = null;
+    const el = document.getElementById(`facc-${k}`);
+    if (!el) return;
+    const t = setTimeout(() => {
+      if (lenis) lenis.scrollTo(el, { offset: -84, duration: 0.9 });
+      else el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => clearTimeout(t);
+  }, [openK, lenis]);
+
   const isHome = floor.kind === "homes";
   const short = (u) => u.id; // label on the plan & chips
   const homeName = (u) => `Studio ${u.id}`;
@@ -322,22 +363,8 @@ export default function FloorPlans({ onAskAbout }) {
     onAskAbout(what);
   };
 
-  return (
-    <section className="plans sec" id="plans">
-      <div className="wrap">
-        <Kicker className="rv">INSIDE FREEDOM LIVING</Kicker>
-        <h2 className="h2 rv">
-          Explore Freedom Living,{" "}
-          <span className="hl-red">floor by floor.</span>
-        </h2>
-        <Dash />
-        <p className="lead rv ![margin-top:30px]" >
-          Freedom Living brings together 42 studio apartments, dining,
-          recreation, and dedicated care facilities. Select a floor to explore
-          its spaces, features, and apartment layouts.
-        </p>
+  const tabsEl = (
 
-        {/* level tabs */}
         <div
           className="ftabs rv"
           role="tablist"
@@ -363,7 +390,9 @@ export default function FloorPlans({ onAskAbout }) {
           ))}
         </div>
 
-        <div
+  );
+  const panel = (
+<div
           className="plans-grid"
           id="fpanel"
           role="tabpanel"
@@ -600,6 +629,58 @@ export default function FloorPlans({ onAskAbout }) {
             )}
           </aside>
         </div>
+  );
+
+  return (
+    <section className="plans sec" id="plans">
+      <div className="wrap">
+        <Kicker className="rv">INSIDE FREEDOM LIVING</Kicker>
+        <h2 className="h2 rv">
+          Explore Freedom Living,{" "}
+          <span className="hl-red">floor by floor.</span>
+        </h2>
+        <Dash />
+        <p className="lead rv ![margin-top:30px]" >
+          Freedom Living brings together 42 studio apartments, dining,
+          recreation, and dedicated care facilities. Select a floor to explore
+          its spaces, features, and apartment layouts.
+        </p>
+
+        {acc ? (
+          <div className="facc">
+            {[...FLOORS].reverse().map((f) => {
+              const open = openK === f.k;
+              const thumb = PLANS[f.k]?.src;
+              return (
+                <div key={f.k} className={`facc-item${open ? " open" : ""}`} id={`facc-${f.k}`}>
+                  <button
+                    type="button"
+                    id={`ftab-${f.k}`}
+                    className="facc-h"
+                    aria-expanded={open}
+                    aria-controls={open ? "fpanel" : undefined}
+                    onClick={() => toggleLevel(f.k)}
+                  >
+                    <span className="facc-th">
+                      {thumb ? <img src={thumb} alt="" loading="lazy" decoding="async" /> : ICONS[f.icon]}
+                    </span>
+                    <span className="facc-t">
+                      <b>{f.name}</b>
+                      <small>{f.sub}</small>
+                    </span>
+                    <i className="facc-pm" aria-hidden="true" />
+                  </button>
+                  {open && <div className="facc-body">{panel}</div>}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <>
+            {tabsEl}
+            {panel}
+          </>
+        )}
       </div>
     </section>
   );
