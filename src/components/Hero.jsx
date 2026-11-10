@@ -44,7 +44,7 @@ const PauseIcon = () => (
   </svg>
 );
 
-export default function Hero() {
+export default function Hero({ onBook }) {
   const lenis = useLenis();
   const scrollTo = useScrollTo();
   const pin = useRef(null);
@@ -281,7 +281,11 @@ export default function Hero() {
                   <a
                     className="btn cream"
                     href="#visit"
-                    onClick={(e) => go2(e, "#visit")}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (onBook) onBook();
+                      else scrollTo("#visit");
+                    }}
                   >
                     Book a visit <span className="arr">→</span>
                   </a>

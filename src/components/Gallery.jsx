@@ -151,7 +151,7 @@ export default function Gallery() {
   });
 
   return (
-    <section className="hgal ![height:var(--gallery-height,auto)]" ref={section} aria-label="Architectural renders">
+    <section id="amenities" className="hgal ![height:var(--gallery-height,auto)]" ref={section} aria-label="Architectural renders">
       <div className="hgal-sticky">
         <div className="wrap hgal-head">
           <div>

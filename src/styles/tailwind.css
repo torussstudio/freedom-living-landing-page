@@ -4159,3 +4159,216 @@ form.f,
 
 /* Existing form submission feedback, now expressed with Tailwind. */
 [data-sending="true"] { @apply opacity-[0.7] cursor-wait !important; }
+
+/* ───────── Modals: more compact (investor + lead) ───────── */
+.imodal {
+  padding: clamp(10px, 2vw, 20px);
+}
+.imodal-panel {
+  width: min(560px, 100%);
+  padding: clamp(18px, 2.4vw, 28px) clamp(18px, 2.6vw, 32px);
+  border-radius: 24px;
+  gap: 14px;
+}
+.imodal-panel.lm {
+  width: min(640px, 100%);
+}
+.imodal-head {
+  gap: 6px;
+  padding-right: 44px;
+}
+.imodal-head h3 {
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  line-height: 1.1;
+}
+.imodal-head .kicker {
+  font-size: 0.68rem;
+}
+.inv-intro {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.lm-head {
+  padding-inline: 40px;
+}
+.imodal-x {
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+}
+.imodal-x svg {
+  width: 18px;
+  height: 18px;
+}
+.imodal-form {
+  gap: 12px;
+}
+.imodal .fr {
+  gap: 12px;
+}
+.imodal .fld {
+  gap: 5px;
+}
+.imodal .fld label,
+.imodal .fld .lb {
+  font-size: 0.68rem;
+}
+.imodal .fld .ctl,
+.imodal .fpick .ctl {
+  min-height: 42px;
+  height: 42px;
+}
+.imodal .fld .ctl input,
+.imodal .fpick .ctl .shown {
+  font-size: 0.9rem;
+}
+.imodal textarea {
+  min-height: 64px;
+  max-height: 90px;
+  font-size: 0.9rem;
+}
+.imodal .err {
+  font-size: 0.78rem;
+}
+.imodal-form .go {
+  padding-top: 12px;
+  margin-top: 2px;
+}
+.imodal-form .fine {
+  font-size: 0.8rem;
+  gap: 10px;
+}
+.imodal-form .fine svg {
+  width: 18px;
+  height: 18px;
+}
+.imodal-form .go .btn {
+  padding: 0.75em 1.8em;
+  font-size: 0.95rem;
+}
+.lm-radios {
+  gap: 8px;
+}
+.lm-radio {
+  height: 38px;
+  padding: 0 12px;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+.lm-radio i {
+  width: 15px;
+  height: 15px;
+}
+.lm-agree {
+  font-size: 0.85rem !important;
+}
+.lm-submit {
+  max-width: 420px;
+  padding: 0.85em 1.6em;
+  font-size: 0.98rem;
+}
+.imodal .ctl .lead-ico {
+  width: 18px;
+  height: 18px;
+}
+
+/* Nav: 7 links, so tighten the spacing a little on narrower desktops */
+.nav ul {
+  gap: clamp(14px, 2vw, 34px);
+  font-size: clamp(0.84rem, 1.05vw, 0.98rem);
+  white-space: nowrap;
+}
+
+/* Lead modal: classic, evenly aligned two-column form */
+.lm-head {
+  padding-bottom: 14px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--fline);
+  position: relative;
+}
+.lm-head::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 44px;
+  height: 3px;
+  margin-left: -22px;
+  border-radius: 2px;
+  background: var(--crimson);
+}
+.lm .fr.two {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+@media (min-width: 560px) {
+  .lm .fr.two {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px 16px;
+  }
+}
+.lm .imodal-form,
+.lm.imodal-panel .imodal-form {
+  gap: 14px;
+}
+.lm .fld label {
+  display: block;
+  line-height: 1.3;
+}
+.lm .ctl.ico,
+.lm .fpick .ctl {
+  border-radius: 12px;
+}
+.lm-agree {
+  padding: 10px 14px;
+  border: 1px solid var(--fline);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.45);
+  align-items: center;
+}
+.lm-submit {
+  max-width: none;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+.lm .fpick .ctl .shown {
+  padding-left: 0;
+  margin-left: 0;
+  flex: 1;
+  text-align: left;
+}
+.lm-agree {
+  gap: 14px;
+}
+.lm-agree span {
+  padding-left: 0;
+}
+
+/* Lead modal consent row: tidy checkbox + text alignment */
+.imodal .lm-agree {
+  display: grid !important;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: center;
+  padding: 12px 16px;
+}
+.imodal .lm-agree input[type="checkbox"] {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: center;
+  accent-color: var(--crimson);
+  cursor: pointer;
+}
+.imodal .lm-agree span {
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.45;
+  font-size: 0.88rem;
+  text-align: left;
+}

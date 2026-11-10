@@ -16,6 +16,7 @@ import {
   Day,
   FamiliesFaq,
   Footer,
+  Investors,
   LocationProgress,
   Vision,
 } from "./components/Sections.jsx";
@@ -36,7 +37,7 @@ function Page() {
   }, []);
 
   const askAbout = (label) => {
-    setMode("enquiry");
+    setMode("visit");
     setPrefill(`I'd like to know more about ${label}.`);
     scrollTo("#visit");
   };
@@ -45,7 +46,7 @@ function Page() {
     <>
       <Nav onBook={() => setLeadOpen(true)} />
       <main id="top">
-        <Hero />
+        <Hero onBook={() => setLeadOpen(true)} />
         <Glance />
         <FloorPlans onAskAbout={askAbout} />
         <LocationProgress />
@@ -53,6 +54,7 @@ function Page() {
         <Idea />
         <Care />
         <Vision />
+        <Investors />
         <FamiliesFaq />
         <Visit mode={mode} setMode={setMode} prefill={prefill} />
       </main>

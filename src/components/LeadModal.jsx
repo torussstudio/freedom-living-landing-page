@@ -80,6 +80,13 @@ const IcoCalendar = (p) => (
     <path d="M3.5 10h17M8 3v4M16 3v4" />
   </Svg>
 );
+const IcoUsers = (p) => (
+  <Svg {...p}>
+    <circle cx="9" cy="8.5" r="3.2" />
+    <path d="M3 19.5c.6-3.4 3-5 6-5s5.4 1.6 6 5" />
+    <path d="M16 5.6a3.2 3.2 0 0 1 0 5.8M17.5 14.7c1.9.5 3.1 2 3.5 4.8" />
+  </Svg>
+);
 const IcoMegaphone = (p) => (
   <Svg {...p}>
     <path d="M4 10v4a1 1 0 0 0 1 1h2l8 4V5L7 9H5a1 1 0 0 0-1 1ZM18.5 9.5a4 4 0 0 1 0 5M7 15l1 4.5h2.5L10 16" />
@@ -332,60 +339,51 @@ export default function LeadModal({ open, onClose }) {
             </div>
           </div>
 
-          <div className="fld">
-            <label htmlFor="lm-email">
-              Email address <span className="opt-note">(optional)</span>
-            </label>
-            <div className="ctl ico">
-              <IcoMail size={22} className="lead-ico" />
-              <input
-                id="lm-email"
-                type="email"
-                autoComplete="email"
-                placeholder="you@example.com"
-                value={f.email}
-                onChange={set("email")}
-                aria-invalid={!!errors.email}
+          <div className="fr two">
+            <div className="fld">
+              <label htmlFor="lm-email">
+                Email address <span className="opt-note">(optional)</span>
+              </label>
+              <div className="ctl ico">
+                <IcoMail size={22} className="lead-ico" />
+                <input
+                  id="lm-email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  value={f.email}
+                  onChange={set("email")}
+                  aria-invalid={!!errors.email}
+                />
+              </div>
+              {errors.email && <span className="err">{errors.email}</span>}
+            </div>
+            <div className="fld">
+              <label htmlFor="lm-who">
+                Who is the home for? <Req />
+              </label>
+              <Select
+                id="lm-who"
+                label="Who are you exploring a home for"
+                Icon={IcoUsers}
+                options={WHO}
+                value={f.who}
+                placeholder="Select an option"
+                invalid={!!errors.who}
+                onChange={pickVal("who")}
               />
+              {errors.who && <span className="err">{errors.who}</span>}
             </div>
-            {errors.email && <span className="err">{errors.email}</span>}
-          </div>
-
-          <div className="fld">
-            <span className="lb" id="lm-who-l">
-              Who are you exploring a home for? <Req />
-            </span>
-            <div
-              className="lm-radios"
-              role="radiogroup"
-              aria-labelledby="lm-who-l"
-            >
-              {WHO.map((v, i) => (
-                <button
-                  key={v}
-                  id={i === 0 ? "lm-who" : undefined}
-                  type="button"
-                  className="lm-radio"
-                  role="radio"
-                  aria-checked={f.who === v}
-                  onClick={() => pickVal("who")(v)}
-                >
-                  <i aria-hidden="true" />
-                  <span>{v}</span>
-                </button>
-              ))}
-            </div>
-            {errors.who && <span className="err">{errors.who}</span>}
           </div>
 
           <div className="fr two">
             <div className="fld">
               <label htmlFor="lm-timeline">
-                When are you considering moving? <Req />
+                Planning to move <Req />
               </label>
               <Select
                 id="lm-timeline"
-                label="Timeline"
+                label="When are you considering moving"
                 Icon={IcoCalendar}
                 options={TIMELINE}
                 value={f.timeline}

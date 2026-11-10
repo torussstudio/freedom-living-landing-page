@@ -89,7 +89,7 @@ const Tick = () => (
 
 export function LocationProgress() {
   return (
-    <section className="sec loc">
+    <section className="sec loc" id="location">
       <div className="wrap loc-grid">
         <div>
           <Kicker className="rv">Location & connectivity</Kicker>
