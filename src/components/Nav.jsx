@@ -99,6 +99,7 @@ export default function Nav({ onBook }) {
         onKeyDown={trap}
         onClick={(e) => e.target === e.currentTarget && setOpen(false)}
       >
+        <div className="mnav-shell">
         <div className="mnav-card">
           <div className="mnav-bar">
             <img className="mnav-logo" src={logoFull} alt="Freedom Living" width="900" height="245" decoding="async" />
@@ -123,6 +124,7 @@ export default function Nav({ onBook }) {
             </li>
           </ol>
           <a className="mnav-book" href="#visit" style={{ '--i': NAV.length + 1 }} onClick={menuBook}>Book a visit <span aria-hidden="true">→</span></a>
+        </div>
         </div>
       </div>
       <div className={`mcta${mcta ? ' show' : ''}`}>

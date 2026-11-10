@@ -206,28 +206,30 @@
     -webkit-backdrop-filter: blur(7px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.45s var(--ease), visibility 0s linear 0.45s;
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 10px calc(14px + env(safe-area-inset-bottom, 0px));
+    transition: opacity 0.5s ease, visibility 0s linear 0.6s;
+    /* same box as the nav pill, so the card appears to grow out of it */
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 12px calc(14px + env(safe-area-inset-bottom, 0px));
   }
   .mnav.open {
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.4s var(--ease), visibility 0s;
+    transition: opacity 0.45s ease, visibility 0s;
+  }
+  .mnav-shell {
+    filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.32));
   }
   .mnav-card {
     position: relative;
     padding: 8px 8px 10px;
-    border-radius: 34px;
     background: var(--cream);
     color: var(--ink);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
-    transform-origin: 100% 0;
-    transform: translateY(-14px) scale(0.94);
-    transition: transform 0.55s var(--ease);
+    /* closed: only the pill-high top strip shows; open: the whole card unrolls downwards */
+    clip-path: inset(0 0 calc(100% - 62px) 0 round 31px);
+    transition: clip-path 0.6s cubic-bezier(0.65, 0, 0.35, 1);
   }
   .mnav.open .mnav-card {
-    transform: none;
-    transition: transform 0.8s var(--ease);
+    clip-path: inset(0 0 0 0 round 34px);
+    transition: clip-path 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mnav-bar {
     display: flex;
@@ -252,17 +254,21 @@
     padding: 0;
     border: 0;
     border-radius: 50%;
-    background: var(--ink);
+    background: var(--crimson);
     color: #fff8e6;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transform: rotate(-90deg);
-    transition: transform 0.7s var(--ease) 0.1s;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), background 0.3s;
   }
   .mnav.open .mnav-x {
     transform: none;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, background 0.3s;
+  }
+  .mnav-x:active {
+    background: var(--crimson-deep);
   }
   .mnav-x span i:nth-child(1) {
     top: 6px;
@@ -283,15 +289,15 @@
   .mnav-list li,
   .mnav-book {
     opacity: 0;
-    transform: translateY(18px) scale(0.96);
-    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    transform: translateY(16px);
+    transition: opacity 0.2s ease, transform 0.25s ease;
   }
   .mnav.open .mnav-list li,
   .mnav.open .mnav-book {
     opacity: 1;
     transform: none;
-    transition: opacity 0.6s var(--ease), transform 0.8s var(--ease);
-    transition-delay: calc(0.12s + var(--i) * 0.05s);
+    transition: opacity 0.55s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(0.2s + var(--i) * 0.045s);
   }
   .mnav-list li a {
     display: flex;
