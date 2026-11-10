@@ -235,10 +235,15 @@
     justify-content: space-between;
     padding: 0 0 0 12px;
   }
-  .mnav-bar .logo {
+  .mnav-bar .mnav-logo {
+    display: block;
     height: 33px;
-    width: 124px;
-    color: var(--ink);
+    width: auto;
+  }
+  @media (max-width: 420px) {
+    .mnav-bar .mnav-logo {
+      height: 31px;
+    }
   }
   .mnav-x {
     flex: none;

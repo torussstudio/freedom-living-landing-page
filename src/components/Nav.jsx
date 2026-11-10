@@ -101,7 +101,7 @@ export default function Nav({ onBook }) {
       >
         <div className="mnav-card">
           <div className="mnav-bar">
-            <Logo />
+            <img className="mnav-logo" src={logoFull} alt="Freedom Living" width="900" height="245" decoding="async" />
             <button type="button" className="mnav-x" ref={closeBtn} aria-label="Close menu" onClick={() => setOpen(false)}>
               <span aria-hidden="true"><i /><i /></span>
             </button>
