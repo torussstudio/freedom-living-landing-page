@@ -8,6 +8,7 @@ import { useModal } from '../hooks/useModal.js'
 export default function Nav({ onBook }) {
   const [solid, setSolid] = useState(false)
   const [hide, setHide] = useState(false)
+  const [away, setAway] = useState(false)
   const [mcta, setMcta] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(-1)
@@ -30,6 +31,7 @@ export default function Nav({ onBook }) {
     const y = window.scrollY
     const end = heroEnd.current
     setSolid(y > end)
+    setAway(y > 24)
     if (y > end + 200 && y > lastY.current + 4) setHide(true)
     else if (y < lastY.current - 4) setHide(false)
     lastY.current = y
@@ -66,7 +68,7 @@ export default function Nav({ onBook }) {
 
   return (
     <>
-      <header className={`nav${solid ? ' solid' : ''}${hide ? ' hide' : ''}`}>
+      <header className={`nav${solid ? ' solid' : ''}${hide ? ' hide' : ''}${away ? ' away' : ''}`}>
         <div className="wrap">
           <a className="nav-brand" href="#top" aria-label="Freedom Living, back to top" onClick={(e) => go(e, '#top')}>
             <Logo />
