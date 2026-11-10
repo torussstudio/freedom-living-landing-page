@@ -58,6 +58,12 @@
   user-select: all;
   word-break: break-word;
 }
+@media (max-width: 400px) {
+  /* keep the e-mail address on one line on small phones */
+  .cl .v {
+    font-size: 1.12rem;
+  }
+}
 .copy {
   font: 700 0.76rem var(--body);
   letter-spacing: 0.12em;

@@ -303,7 +303,7 @@ export default function Visit({ mode, setMode, prefill }) {
                       type="tel"
                       inputMode="numeric"
                       autoComplete="tel-national"
-                      placeholder="10-digit mobile number"
+                      placeholder="Mobile number"
                       value={f.phone}
                       onChange={setPhone}
                       aria-invalid={!!errors.phone}

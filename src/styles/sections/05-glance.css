@@ -1,5 +1,6 @@
 /* ───────── AT A GLANCE (deck slide 08) ───────── */
 .glance {
+  overflow-x: clip; /* stat text starts off to the side for its slide-in */
   background: #fbf4e4;
 }
 .glance-head {

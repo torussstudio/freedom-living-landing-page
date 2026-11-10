@@ -33,6 +33,12 @@ footer.ft {
   position: relative;
   overflow: hidden;
 } /* top band removed */
+@media (max-width: 979px) {
+  /* room for the fixed Floor plans / Book a visit bar so the last line is readable */
+  footer.ft {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
+}
 .ft .wrap {
   position: relative;
   z-index: 1;
