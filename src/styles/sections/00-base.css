@@ -77,6 +77,19 @@
   box-sizing: border-box;
   margin: 0;
 }
+/* no grey/blue flash when a button or link is tapped on a phone (the buttons already have their own pressed styles) */
+a,
+button,
+[role="button"],
+[role="tab"],
+[role="switch"],
+summary,
+label,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
 html {
   -webkit-text-size-adjust: 100%;
   overflow-x: clip;
