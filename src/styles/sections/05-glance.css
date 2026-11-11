@@ -72,9 +72,13 @@
   display: block;
   width: 100%;
   height: auto;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
+  mask-image:
+    linear-gradient(to right, transparent, #000 14%, #000 86%, transparent),
+    linear-gradient(to bottom, transparent, #000 7%, #000 88%, transparent);
   mask-composite: intersect;
 }
 .gstats {
@@ -227,7 +231,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 0 20px;
     margin-top: 40px;
-    align-items: start; /* stats of different heights must share the same top line */
   }
   .glance-img {
     grid-column: 1/-1;
@@ -239,6 +242,7 @@
     --num: clamp(2.1rem, 8.4vw, 3.4rem);
   }
   .gstat {
+    height: 150px;
     padding-top: 18px;
     margin-bottom: 28px;
     border-top: 1px solid var(--line);

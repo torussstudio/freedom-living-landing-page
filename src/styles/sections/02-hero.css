@@ -23,7 +23,10 @@
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  padding: calc(clamp(78px, 11svh, 104px) + env(safe-area-inset-top, 0px)) max(var(--gutr), min(64px, 4.4vw)) calc(clamp(20px, 4svh, 40px) + env(safe-area-inset-bottom, 0px)) max(var(--gut), min(64px, 4.4vw));
+  padding: calc(clamp(78px, 11svh, 104px) + env(safe-area-inset-top, 0px))
+    max(var(--gutr), min(64px, 4.4vw))
+    calc(clamp(20px, 4svh, 40px) + env(safe-area-inset-bottom, 0px))
+    max(var(--gut), min(64px, 4.4vw));
 }
 /* background image (src/assets/img/hero-bg.webp) replaces the gradient + bird watermark */
 .hero-stage {
@@ -39,7 +42,7 @@
   z-index: 0;
   pointer-events: none;
   opacity: 0.55;
-  background-image: radial-gradient( rgba(255, 240, 200, 0.35) 1.2px, transparent 1.6px );
+  background-image: radial-gradient(rgba(255, 240, 200, 0.35) 1.2px, transparent 1.6px);
   background-size: 44px 44px;
   transform: translate3d(0, var(--dy, 0px), 0);
   will-change: transform;
@@ -185,7 +188,10 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
-  transition: transform 0.6s var(--ease), background 0.4s, color 0.4s;
+  transition:
+    transform 0.6s var(--ease),
+    background 0.4s,
+    color 0.4s;
 }
 .cue:hover {
   transform: scale(1.07);
@@ -244,7 +250,13 @@
   inset: 0;
   pointer-events: none;
   opacity: var(--p);
-  background: linear-gradient( 180deg, rgba(40, 8, 24, 0.5), rgba(40, 8, 24, 0) 24%, rgba(40, 8, 24, 0) 68%, rgba(40, 8, 24, 0.5) );
+  background: linear-gradient(
+    180deg,
+    rgba(40, 8, 24, 0.5),
+    rgba(40, 8, 24, 0) 24%,
+    rgba(40, 8, 24, 0) 68%,
+    rgba(40, 8, 24, 0.5)
+  );
 }
 .film-ui {
   position: absolute;
@@ -270,7 +282,9 @@
   cursor: pointer;
   color: var(--crimson-deep);
   background: #fff8e6;
-  transition: transform 0.5s var(--ease), background 0.3s;
+  transition:
+    transform 0.5s var(--ease),
+    background 0.3s;
 }
 .fbtn:hover {
   transform: scale(1.08);
@@ -356,6 +370,15 @@ html[data-hero-pin="on"] .mcta.show {
   }
   .cue {
     display: none;
+  }
+
+  /* phones: keep text left-aligned, but centre the whole group (kicker + headline + paragraph + buttons)
+     vertically in the hero, so it sits in the middle of the screen from top to bottom */
+  .hero-copy {
+    justify-content: center;
+  }
+  .hero-head {
+    margin: 0;
   }
 }
 /* reduced motion: no pin, no autoplay. Headline, then the film as a normal framed video */

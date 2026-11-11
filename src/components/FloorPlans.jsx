@@ -55,22 +55,12 @@ const ICONS = {
 };
 const IconPlus = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-    <path
-      d="M8 3v10M3 8h10"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
+    <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
 const IconMinus = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-    <path
-      d="M3 8h10"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
+    <path d="M3 8h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
 const IconFull = ({ on }) => (
@@ -187,7 +177,11 @@ function PlanViewer({ plan, items, selId, onPick, labelOf, nameOf }) {
       >
         <div
           className="pv-stage ![aspect-ratio:var(--layout-aspect-ratio)] ![transform:var(--layout-transform)]"
-          ref={layoutVars({ "--s": z.s, "--layout-aspect-ratio": plan.ar, "--layout-transform": `translate(${z.x}px,${z.y}px) scale(${z.s})` })}
+          ref={layoutVars({
+            "--s": z.s,
+            "--layout-aspect-ratio": plan.ar,
+            "--layout-transform": `translate(${z.x}px,${z.y}px) scale(${z.s})`,
+          })}
         >
           <img src={plan.src} alt={plan.alt} draggable="false" />
           {items.map((it) => {
@@ -196,10 +190,18 @@ function PlanViewer({ plan, items, selId, onPick, labelOf, nameOf }) {
               <button
                 key={it.id}
                 type="button"
-                className={(`hs${it.id === selId ? " on" : ""}`) + " ![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"}
+                className={
+                  `hs${it.id === selId ? " on" : ""}` +
+                  " ![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"
+                }
                 aria-label={nameOf(it)}
                 aria-pressed={it.id === selId}
-                ref={layoutVars({ "--layout-left": `${l}%`, "--layout-top": `${t}%`, "--layout-width": `${w}%`, "--layout-height": `${h}%` })}
+                ref={layoutVars({
+                  "--layout-left": `${l}%`,
+                  "--layout-top": `${t}%`,
+                  "--layout-width": `${w}%`,
+                  "--layout-height": `${h}%`,
+                })}
                 onClick={() => pick(it.id)}
               >
                 <span>{labelOf(it)}</span>
@@ -209,12 +211,7 @@ function PlanViewer({ plan, items, selId, onPick, labelOf, nameOf }) {
         </div>
       </div>
       <div className="pv-ctl" role="group" aria-label="Plan controls">
-        <button
-          type="button"
-          onClick={() => zoom(STEP)}
-          disabled={z.s >= MAX}
-          aria-label="Zoom in"
-        >
+        <button type="button" onClick={() => zoom(STEP)} disabled={z.s >= MAX} aria-label="Zoom in">
           <IconPlus />
         </button>
         <button
@@ -258,10 +255,19 @@ function PlanCrop({ plan, box, label }) {
   };
   return (
     <figure className="crop">
-      <div className="crop-img ![width:var(--layout-width)] ![left:var(--layout-left)] ![top:var(--layout-top)]" ref={layoutVars(cropVars)}>
+      <div
+        className="crop-img ![width:var(--layout-width)] ![left:var(--layout-left)] ![top:var(--layout-top)]"
+        ref={layoutVars(cropVars)}
+      >
         <img src={plan.src} alt="" />
-        <i className="![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"
-          ref={layoutVars({ "--layout-left": `${l}%`, "--layout-top": `${t}%`, "--layout-width": `${w}%`, "--layout-height": `${h}%` })}
+        <i
+          className="![left:var(--layout-left)] ![top:var(--layout-top)] ![width:var(--layout-width)] ![height:var(--layout-height)]"
+          ref={layoutVars({
+            "--layout-left": `${l}%`,
+            "--layout-top": `${t}%`,
+            "--layout-width": `${w}%`,
+            "--layout-height": `${h}%`,
+          })}
         />
       </div>
       <figcaption>{label} · from the architect's plan</figcaption>
@@ -281,6 +287,9 @@ function useMedia(q) {
   }, [q]);
   return m;
 }
+
+// phones & tablets (accordion): Floors 1–3 first, then Ground, Fourth, Rooftop, and Basement last
+const MOBILE_ORDER = ["F", "G", "4", "R", "B"];
 
 export default function FloorPlans({ onAskAbout }) {
   const lenis = useLenis();
@@ -323,8 +332,7 @@ export default function FloorPlans({ onAskAbout }) {
     setFloorK(k);
     setOnlyBal(false);
     const f = FLOORS.find((x) => x.k === k);
-    const first =
-      f.kind === "spaces" ? SPACES[0] : UNITS.find((u) => u.floor === k);
+    const first = f.kind === "spaces" ? SPACES[0] : UNITS.find((u) => u.floor === k);
     if (first) setCur(first.id);
   };
 
@@ -354,8 +362,7 @@ export default function FloorPlans({ onAskAbout }) {
   const isHome = floor.kind === "homes";
   const short = (u) => u.id; // label on the plan & chips
   const homeName = (u) => `Studio ${u.id}`;
-  const nameOf = (it) =>
-    isHome ? `${homeName(it)}, ${it.carpet} sq ft carpet area` : it.name;
+  const nameOf = (it) => (isHome ? `${homeName(it)}, ${it.carpet} sq ft carpet area` : it.name);
   const badge = floorK === "F" ? "Floors 1 – 3" : floor.name;
 
   const ask = (e, what) => {
@@ -364,271 +371,239 @@ export default function FloorPlans({ onAskAbout }) {
   };
 
   const tabsEl = (
-
-        <div
-          className="ftabs rv"
-          role="tablist"
-          aria-label="Choose a level"
-          ref={tabs}
+    <div className="ftabs rv" role="tablist" aria-label="Choose a level" ref={tabs}>
+      {FLOORS.map((f) => (
+        <button
+          key={f.k}
+          role="tab"
+          id={`ftab-${f.k}`}
+          aria-controls="fpanel"
+          aria-selected={f.k === floorK}
+          className="ftab"
+          onClick={() => pickFloor(f.k)}
         >
-          {FLOORS.map((f) => (
-            <button
-              key={f.k}
-              role="tab"
-              id={`ftab-${f.k}`}
-              aria-controls="fpanel"
-              aria-selected={f.k === floorK}
-              className="ftab"
-              onClick={() => pickFloor(f.k)}
-            >
-              <span className="ftab-i">{ICONS[f.icon]}</span>
-              <span className="ftab-t">
-                <b>{f.name}</b>
-                <small>{f.sub}</small>
-              </span>
-            </button>
-          ))}
-        </div>
-
+          <span className="ftab-i">{ICONS[f.icon]}</span>
+          <span className="ftab-t">
+            <b>{f.name}</b>
+            <small>{f.sub}</small>
+          </span>
+        </button>
+      ))}
+    </div>
   );
   const panel = (
-<div
-          className="plans-grid"
-          id="fpanel"
-          role="tabpanel"
-          aria-labelledby={`ftab-${floorK}`}
-        >
-          {/* left: the drawing */}
-          <div className="plan-board">
-            <div className="pb-head">
-              <h3>{floor.title}</h3>
-              <span className="pb-pill">{floor.pill}</span>
-              {floorK === "F" && (
-                <button
-                  type="button"
-                  className="switch"
-                  role="switch"
-                  aria-checked={onlyBal}
-                  onClick={() => setOnlyBal((v) => !v)}
-                >
-                  Only homes with a balcony <i aria-hidden="true" />
-                </button>
-              )}
-            </div>
+    <div className="plans-grid" id="fpanel" role="tabpanel" aria-labelledby={`ftab-${floorK}`}>
+      {/* left: the drawing */}
+      <div className="plan-board">
+        <div className="pb-head">
+          <h3>{floor.title}</h3>
+          <span className="pb-pill">{floor.pill}</span>
+          {floorK === "F" && (
+            <button
+              type="button"
+              className="switch"
+              role="switch"
+              aria-checked={onlyBal}
+              onClick={() => setOnlyBal((v) => !v)}
+            >
+              Only homes with a balcony <i aria-hidden="true" />
+            </button>
+          )}
+        </div>
 
-            {plan ? (
-              <>
-                <PlanViewer
-                  key={floorK}
-                  plan={plan}
-                  items={items}
-                  selId={sel?.id}
-                  onPick={setCur}
-                  labelOf={(it) =>
-                    isHome
-                      ? short(it)
-                      : String(SPACES.indexOf(it) + 1).padStart(2, "0")
-                  }
-                  nameOf={nameOf}
-                />
-                <p className="plan-cap">
-                  <span>{plan.cap}</span>
-                  <span>
-                    {floor.kind === "info"
-                      ? "Layout is indicative"
-                      : "Highlights are indicative"}
-                  </span>
-                </p>
-                {floor.kind !== "info" && (
-                  <div className="pick">
-                    <span className="pick-l">
-                      {isHome ? "Select a home" : "Select a space"}
-                    </span>
-                    <div className={`pick-list${isHome ? "" : " wide"}`}>
-                      {items.map((it, i) => (
-                        <button
-                          key={it.id}
-                          type="button"
-                          aria-pressed={it.id === sel?.id}
-                          aria-label={nameOf(it)}
-                          onClick={() => setCur(it.id)}
-                        >
-                          {isHome ? (
-                            short(it)
-                          ) : (
-                            <>
-                              <em>{String(i + 1).padStart(2, "0")}</em>
-                              {it.name}
-                            </>
-                          )}
-                        </button>
-                      ))}
-                      {isHome && items.length === 0 && (
-                        <span className="pick-none">
-                          No homes match this filter.
-                        </span>
+        {plan ? (
+          <>
+            <PlanViewer
+              key={floorK}
+              plan={plan}
+              items={items}
+              selId={sel?.id}
+              onPick={setCur}
+              labelOf={(it) =>
+                isHome ? short(it) : String(SPACES.indexOf(it) + 1).padStart(2, "0")
+              }
+              nameOf={nameOf}
+            />
+            <p className="plan-cap">
+              <span>{plan.cap}</span>
+              <span>
+                {floor.kind === "info" ? "Layout is indicative" : "Highlights are indicative"}
+              </span>
+            </p>
+            {floor.kind !== "info" && (
+              <div className="pick">
+                <span className="pick-l">{isHome ? "Select a home" : "Select a space"}</span>
+                <div className={`pick-list${isHome ? "" : " wide"}`}>
+                  {items.map((it, i) => (
+                    <button
+                      key={it.id}
+                      type="button"
+                      aria-pressed={it.id === sel?.id}
+                      aria-label={nameOf(it)}
+                      onClick={() => setCur(it.id)}
+                    >
+                      {isHome ? (
+                        short(it)
+                      ) : (
+                        <>
+                          <em>{String(i + 1).padStart(2, "0")}</em>
+                          {it.name}
+                        </>
                       )}
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="plan-soon">
-                <div className="soon-art" aria-hidden="true">
-                  {ICONS[floor.icon]}
-                </div>
-                <div className="soon-copy">
-                  <b>Detailed plan shared on your visit</b>
-                  <p>{floor.text}</p>
-                  <div className="chips">
-                    {floor.chips.map((c) => {
-                      const t = Array.isArray(c) ? c[0] : c
-                      return <span key={t}>{t}</span>
-                    })}
-                  </div>
+                    </button>
+                  ))}
+                  {isHome && items.length === 0 && (
+                    <span className="pick-none">No homes match this filter.</span>
+                  )}
                 </div>
               </div>
             )}
+          </>
+        ) : (
+          <div className="plan-soon">
+            <div className="soon-art" aria-hidden="true">
+              {ICONS[floor.icon]}
+            </div>
+            <div className="soon-copy">
+              <b>Detailed plan shared on your visit</b>
+              <p>{floor.text}</p>
+              <div className="chips">
+                {floor.chips.map((c) => {
+                  const t = Array.isArray(c) ? c[0] : c;
+                  return <span key={t}>{t}</span>;
+                })}
+              </div>
+            </div>
           </div>
+        )}
+      </div>
 
-          {/* right: details */}
-          <aside className="spec" aria-live="polite">
-            {isHome && sel && (
-              <>
-                <div className="k">
-                  <h3>{homeName(sel)}</h3>
-                  <span className="fbadge">
-                    {ICONS.layers}
-                    {badge}
-                  </span>
-                </div>
-                <p className="spec-lead">
-                  A well-planned studio with an attached toilet, kitchenette
-                  {sel.bal ? " and its own balcony." : " and AC provision."}
-                  <small>
-                    {sel.floor === "G"
-                      ? "One home on the ground floor."
-                      : "Three homes, one on each of floors 1, 2 and 3."}
-                  </small>
-                </p>
-                <dl>
-                  <div>
-                    <dt>Carpet area (RERA)</dt>
-                    <dd>
-                      {sel.carpet} <small>sq ft</small>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Super built-up area</dt>
-                    <dd>
-                      {sel.sba.toLocaleString("en-IN")} <small>sq ft</small>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Studio size</dt>
-                    <dd>{sel.size}</dd>
-                  </div>
-                  <div>
-                    <dt>Balcony</dt>
-                    <dd>{sel.bal || <span className="muted">None</span>}</dd>
-                  </div>
-                </dl>
-                <PlanCrop
-                  key={`${floorK}-${sel.id}`}
-                  plan={plan}
-                  box={sel.box}
-                  label={homeName(sel)}
-                />
-                <a
-                  className="btn spec-cta"
-                  href="#visit"
-                  onClick={(e) => ask(e, `home ${unitLabel(sel)}`)}
-                >
-                  Enquire about {homeName(sel)} <span className="arr">→</span>
-                </a>
-              </>
-            )}
+      {/* right: details */}
+      <aside className="spec" aria-live="polite">
+        {isHome && sel && (
+          <>
+            <div className="k">
+              <h3>{homeName(sel)}</h3>
+              <span className="fbadge">
+                {ICONS.layers}
+                {badge}
+              </span>
+            </div>
+            <p className="spec-lead">
+              A well-planned studio with an attached toilet, kitchenette
+              {sel.bal ? " and its own balcony." : " and AC provision."}
+              <small>
+                {sel.floor === "G"
+                  ? "One home on the ground floor."
+                  : "Three homes, one on each of floors 1, 2 and 3."}
+              </small>
+            </p>
+            <dl>
+              <div>
+                <dt>Carpet area (RERA)</dt>
+                <dd>
+                  {sel.carpet} <small>sq ft</small>
+                </dd>
+              </div>
+              <div>
+                <dt>Super built-up area</dt>
+                <dd>
+                  {sel.sba.toLocaleString("en-IN")} <small>sq ft</small>
+                </dd>
+              </div>
+              <div>
+                <dt>Studio size</dt>
+                <dd>{sel.size}</dd>
+              </div>
+              <div>
+                <dt>Balcony</dt>
+                <dd>{sel.bal || <span className="muted">None</span>}</dd>
+              </div>
+            </dl>
+            <PlanCrop key={`${floorK}-${sel.id}`} plan={plan} box={sel.box} label={homeName(sel)} />
+            <a
+              className="btn spec-cta"
+              href="#visit"
+              onClick={(e) => ask(e, `home ${unitLabel(sel)}`)}
+            >
+              Enquire about {homeName(sel)} <span className="arr">→</span>
+            </a>
+          </>
+        )}
 
-            {floor.kind === "spaces" && sel && (
-              <>
-                <div className="k">
-                  <h3>{sel.name}</h3>
-                  <span className="fbadge">
-                    {ICONS.dine}
-                    {badge}
-                  </span>
-                </div>
-                <p className="spec-lead">{sel.text}</p>
-                <dl>
-                  <div>
-                    <dt>Where</dt>
-                    <dd>{sel.where}</dd>
-                  </div>
-                  <div>
-                    <dt>As drawn</dt>
-                    <dd>{sel.drawn}</dd>
-                  </div>
-                  <div>
-                    <dt>Level</dt>
-                    <dd>Fourth floor</dd>
-                  </div>
-                  <div>
-                    <dt>Lift access</dt>
-                    <dd>Both lifts</dd>
-                  </div>
-                </dl>
-                <PlanCrop
-                  key={`${floorK}-${sel.id}`}
-                  plan={plan}
-                  box={sel.box}
-                  label={sel.name}
-                />
-                <a
-                  className="btn spec-cta"
-                  href="#visit"
-                  onClick={(e) =>
-                    ask(e, `the fourth floor (${sel.name.toLowerCase()})`)
-                  }
-                >
-                  Enquire about the fourth floor <span className="arr">→</span>
-                </a>
-              </>
-            )}
+        {floor.kind === "spaces" && sel && (
+          <>
+            <div className="k">
+              <h3>{sel.name}</h3>
+              <span className="fbadge">
+                {ICONS.dine}
+                {badge}
+              </span>
+            </div>
+            <p className="spec-lead">{sel.text}</p>
+            <dl>
+              <div>
+                <dt>Where</dt>
+                <dd>{sel.where}</dd>
+              </div>
+              <div>
+                <dt>As drawn</dt>
+                <dd>{sel.drawn}</dd>
+              </div>
+              <div>
+                <dt>Level</dt>
+                <dd>Fourth floor</dd>
+              </div>
+              <div>
+                <dt>Lift access</dt>
+                <dd>Both lifts</dd>
+              </div>
+            </dl>
+            <PlanCrop key={`${floorK}-${sel.id}`} plan={plan} box={sel.box} label={sel.name} />
+            <a
+              className="btn spec-cta"
+              href="#visit"
+              onClick={(e) => ask(e, `the fourth floor (${sel.name.toLowerCase()})`)}
+            >
+              Enquire about the fourth floor <span className="arr">→</span>
+            </a>
+          </>
+        )}
 
-            {floor.kind === "info" && (
-              <>
-                <div className="k">
-                  <h3>{floor.name}</h3>
-                  <span className="fbadge">
-                    {ICONS[floor.icon]}
-                    {floor.pill}
-                  </span>
-                </div>
-                <p className="spec-lead">{floor.text}</p>
-                <ul className="spec-list">
-                  {floor.chips.map((c) =>
-                    Array.isArray(c) ? (
-                      <li key={c[0]} className="two">{c[0]}<small>{c[1]}</small></li>
-                    ) : (
-                      <li key={c}>{c}</li>
-                    ),
-                  )}
-                </ul>
-                <p className="note">
-                  We'll walk you through this level in person when you visit.
-                </p>
-                <a
-                  className="btn spec-cta"
-                  href="#visit"
-                  onClick={(e) => ask(e, `the ${floor.name.toLowerCase()}`)}
-                >
-                  Enquire about the {floor.name.toLowerCase()}{" "}
-                  <span className="arr">→</span>
-                </a>
-              </>
-            )}
-          </aside>
-        </div>
+        {floor.kind === "info" && (
+          <>
+            <div className="k">
+              <h3>{floor.name}</h3>
+              <span className="fbadge">
+                {ICONS[floor.icon]}
+                {floor.pill}
+              </span>
+            </div>
+            <p className="spec-lead">{floor.text}</p>
+            <ul className="spec-list">
+              {floor.chips.map((c) =>
+                Array.isArray(c) ? (
+                  <li key={c[0]} className="two">
+                    {c[0]}
+                    <small>{c[1]}</small>
+                  </li>
+                ) : (
+                  <li key={c}>{c}</li>
+                ),
+              )}
+            </ul>
+            <p className="note">We'll walk you through this level in person when you visit.</p>
+            <a
+              className="btn spec-cta"
+              href="#visit"
+              onClick={(e) => ask(e, `the ${floor.name.toLowerCase()}`)}
+            >
+              Enquire about the {floor.name.toLowerCase()} <span className="arr">→</span>
+            </a>
+          </>
+        )}
+      </aside>
+    </div>
   );
 
   return (
@@ -636,19 +611,17 @@ export default function FloorPlans({ onAskAbout }) {
       <div className="wrap">
         <Kicker className="rv">INSIDE FREEDOM LIVING</Kicker>
         <h2 className="h2 rv">
-          Explore Freedom Living,{" "}
-          <span className="hl-red">floor by floor.</span>
+          Explore Freedom Living, <span className="hl-red">floor by floor.</span>
         </h2>
         <Dash />
-        <p className="lead rv ![margin-top:30px]" >
-          Freedom Living brings together 42 studio apartments, dining,
-          recreation, and dedicated care facilities. Select a floor to explore
-          its spaces, features, and apartment layouts.
+        <p className="lead rv ![margin-top:30px]">
+          Freedom Living brings together 42 studio apartments, dining, recreation, and dedicated
+          care facilities. Select a floor to explore its spaces, features, and apartment layouts.
         </p>
 
         {acc ? (
           <div className="facc">
-            {[...FLOORS].reverse().map((f) => {
+            {MOBILE_ORDER.map((k) => FLOORS.find((x) => x.k === k)).map((f) => {
               const open = openK === f.k;
               const thumb = PLANS[f.k]?.src;
               return (
@@ -662,7 +635,11 @@ export default function FloorPlans({ onAskAbout }) {
                     onClick={() => toggleLevel(f.k)}
                   >
                     <span className="facc-th">
-                      {thumb ? <img src={thumb} alt="" loading="lazy" decoding="async" /> : ICONS[f.icon]}
+                      {thumb ? (
+                        <img src={thumb} alt="" loading="lazy" decoding="async" />
+                      ) : (
+                        ICONS[f.icon]
+                      )}
                     </span>
                     <span className="facc-t">
                       <b>{f.name}</b>

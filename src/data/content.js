@@ -85,14 +85,7 @@ export const LEVELS = [
     k: "R",
     name: "Rooftop",
     text: "Open sky and room to move. Planned for the rooftop and added in phases.",
-    chips: [
-      "Walkway",
-      "Exercise area",
-      "Shuttle court",
-      "Table tennis",
-      "Juice bar",
-      "Spa",
-    ],
+    chips: ["Walkway", "Exercise area", "Shuttle court", "Table tennis", "Juice bar", "Spa"],
   },
   {
     k: "4",
@@ -110,12 +103,7 @@ export const LEVELS = [
     k: "1–3",
     name: "Floors one to three",
     text: "Thirty-six private homes, twelve on each floor, with identical layouts. Several have their own balcony.",
-    chips: [
-      "36 studio homes",
-      "Attached toilet",
-      "Kitchenette",
-      "Open terrace access",
-    ],
+    chips: ["36 studio homes", "Attached toilet", "Kitchenette", "Open terrace access"],
   },
   {
     k: "G",
@@ -174,42 +162,12 @@ export const AMENITIES = [
 ];
 
 export const DAY = [
-  [
-    "Early",
-    "A sunrise walk",
-    "Round the rooftop walkway before the day warms up.",
-    "Rooftop",
-  ],
-  [
-    "8 am",
-    "Breakfast, served",
-    "Or make your own tea in your kitchenette.",
-    "4th floor",
-  ],
-  [
-    "11 am",
-    "Paper and a game",
-    "Reading corners and indoor games with friends.",
-    "4th floor",
-  ],
-  [
-    "2 pm",
-    "Your door, closed",
-    "A nap, a call to the grandchildren, a quiet hour.",
-    "Your studio",
-  ],
-  [
-    "5 pm",
-    "A rally, a juice",
-    "Table tennis, shuttle, or the juice bar instead.",
-    "Rooftop",
-  ],
-  [
-    "Night",
-    "Sleep easy",
-    "The nurse room is staffed through the night.",
-    "Always on",
-  ],
+  ["Early", "A sunrise walk", "Round the rooftop walkway before the day warms up.", "Rooftop"],
+  ["8 am", "Breakfast, served", "Or make your own tea in your kitchenette.", "4th floor"],
+  ["11 am", "Paper and a game", "Reading corners and indoor games with friends.", "4th floor"],
+  ["2 pm", "Your door, closed", "A nap, a call to the grandchildren, a quiet hour.", "Your studio"],
+  ["5 pm", "A rally, a juice", "Table tennis, shuttle, or the juice bar instead.", "Rooftop"],
+  ["Night", "Sleep easy", "The nurse room is staffed through the night.", "Always on"],
 ];
 
 export const CREDS = [
@@ -230,10 +188,7 @@ export const STEPS = [
     "Your parents visit, with or without you",
     "We'll show them the site, the care unit and the homes at their own pace.",
   ],
-  [
-    "Decide together",
-    "Plans, pricing and terms are shared with the whole family, one to one.",
-  ],
+  ["Decide together", "Plans, pricing and terms are shared with the whole family, one to one."],
 ];
 
 export const FAQ = [
@@ -316,10 +271,7 @@ export const FLOORS = [
       "Driver's cabin",
       "EV charging",
       "Both lifts start here",
-      [
-        "2 lifts: passenger & stretcher",
-        "Both equipped with Automatic Rescue Devices (ARD).",
-      ],
+      ["2 lifts: passenger & stretcher", "Both equipped with Automatic Rescue Devices (ARD)."],
     ],
   },
   {
@@ -368,14 +320,7 @@ export const FLOORS = [
     pill: "Added in phases",
     kind: "info",
     text: "Open sky and room to move. Planned for the rooftop and added in phases.",
-    chips: [
-      "Walkway",
-      "Exercise area",
-      "Shuttle court",
-      "Table tennis",
-      "Juice bar",
-      "Spa",
-    ],
+    chips: ["Walkway", "Exercise area", "Shuttle court", "Table tennis", "Juice bar", "Spa"],
   },
 ];
 
