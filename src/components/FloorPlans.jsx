@@ -288,6 +288,9 @@ function useMedia(q) {
   return m;
 }
 
+// unit price = super built-up area (sq ft) x this rate (Rs per sq ft)
+const RATE_PER_SQFT = 6500;
+
 // phones & tablets (accordion): Floors 1–3 first, then Ground, Fourth, Rooftop, and Basement last
 const MOBILE_ORDER = ["F", "G", "4", "R", "B"];
 
@@ -516,8 +519,8 @@ export default function FloorPlans({ onAskAbout }) {
                 <dd>{sel.size}</dd>
               </div>
               <div>
-                <dt>Balcony</dt>
-                <dd>{sel.bal || <span className="muted">None</span>}</dd>
+                <dt>Unit price</dt>
+                <dd>₹{(sel.sba * RATE_PER_SQFT).toLocaleString("en-IN")}</dd>
               </div>
             </dl>
             <PlanCrop key={`${floorK}-${sel.id}`} plan={plan} box={sel.box} label={homeName(sel)} />

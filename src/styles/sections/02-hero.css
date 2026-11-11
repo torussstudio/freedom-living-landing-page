@@ -170,7 +170,7 @@
 .hero-cta {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 3svh;
   margin-top: clamp(16px, 3svh, 28px);
 }
 .cue {
@@ -361,6 +361,9 @@ html[data-hero-pin="on"] .mcta.show {
 }
 /* phones */
 @media (max-width: 700px) {
+  .hero-head .kicker {
+    margin-bottom: 15px;
+  }
   .hero {
     --runway: 80vh;
     --runway: 80svh;
